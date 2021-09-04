@@ -18,6 +18,17 @@ async def stream(client, m: Message):
             await m.reply("`Reply to some Video or Give Some Live Stream Url!`")
         else:
             video = m.text.split(None, 1)[1]
+            msg = await m.reply("`Starting Live Stream...`")
+            chat_id = m.chat.id
+            await asyncio.sleep(1)
+            try:
+                group_call = group_call_factory.get_group_call()
+                await group_call.join(chat_id)
+                await group_call.start_video(video)
+                VIDEO_CALL[chat_id] = group_call
+                await msg.edit(f"**▶️ Started [Live Streaming](video) !**")
+            except Exception as e:
+                await msg.edit(f"**Error** -- `{e}`")
     elif replied.video or replied.document:
         msg = await m.reply("`Downloading...`")
         video = await client.download_media(m.reply_to_message)
