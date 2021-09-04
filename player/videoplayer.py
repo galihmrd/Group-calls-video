@@ -14,7 +14,10 @@ VIDEO_CALL = {}
 async def stream(client, m: Message):
     replied = m.reply_to_message
     if not replied:
-        await m.reply("`Reply to some Video!`")
+        if len(m.command) < 2:
+            await m.reply("`Reply to some Video or Give Some Live Stream Url!`")
+        else:
+            video = m.text.split(None, 1)[1]
     elif replied.video or replied.document:
         msg = await m.reply("`Downloading...`")
         video = await client.download_media(m.reply_to_message)
