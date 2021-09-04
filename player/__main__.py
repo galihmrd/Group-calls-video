@@ -1,3 +1,4 @@
+import asyncio
 from pyrogram import Client, idle
 from config import API_ID, API_HASH, BOT_TOKEN
 from player.videoplayer import app
@@ -10,6 +11,6 @@ bot = Client(
     plugins=dict(root="player"),
 )
 
-bot.start()
-app.start()
-idle()
+await bot.start()
+await app.start()
+await idle()
