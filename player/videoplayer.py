@@ -17,6 +17,7 @@ async def stream(client, m: Message):
         await m.reply("`Reply to some Video!`")
     elif replied.video or replied.document:
         msg = await m.reply("`Downloading...`")
+        video = await client.download_media(m.reply_to_message)
         chat_id = m.chat.id
         await asyncio.sleep(2)
         try:
