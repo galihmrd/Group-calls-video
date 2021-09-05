@@ -2,7 +2,7 @@ import os
 import asyncio
 from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from lib.config import API_ID, API_HASH, SESSION_NAME, USERNAME_BOT
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
@@ -26,7 +26,23 @@ async def stream(client, m: Message):
                 await group_call.join(chat_id)
                 await group_call.start_video(livelink)
                 VIDEO_CALL[chat_id] = group_call
-                await msg.edit(f"**▶️ Started [Live Streaming](livelink) !**")
+                await msg.delete()
+                keyboard = InlineKeyboardMarkup(
+
+                    [
+                        [
+                            InlineKeyboardButton(
+                                '📣 Channel support', url='https://t.me/feyystatus',
+                            ),
+                        ],
+                    ],
+                )
+                await m.reply_photo(
+                    photo="./etc/banner.png",
+                    caption=f"**Started [Live Streaming](livelink) !**",
+                    reply_markup=keyboard,
+                )
+
             except Exception as e:
                 await msg.edit(f"**Error** -- `{e}`")
     elif replied.video or replied.document:
@@ -39,7 +55,22 @@ async def stream(client, m: Message):
             await group_call.join(chat_id)
             await group_call.start_video(video)
             VIDEO_CALL[chat_id] = group_call
-            await msg.edit("**▶️ Started Streaming!**")
+            await msg.delete()
+            keyboard = InlineKeyboardMarkup(
+
+                [
+                    [
+                        InlineKeyboardButton(
+                            '📣 Channel support', url='https://t.me/feyystatus',
+                        ),
+                    ],
+                 ],
+             )
+            await m.reply_photo(
+                photo="./etc/banner.png",
+                caption=f"**Streamed video from telegram files**",
+                reply_markup=keyboard,
+            )
         except Exception as e:
             await msg.edit(f"**Error** -- `{e}`")
     else:
