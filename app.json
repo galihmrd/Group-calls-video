@@ -26,7 +26,11 @@
         "SESSION_NAME": {
             "description": "Pyrogram String Session",
             "required": true
-        }
+        },
+	"USERNAME_BOT": {
+	    "description": "Your username bot",
+	    "required": true
+	}
     },
     "addons": [],
     "buildpacks": [

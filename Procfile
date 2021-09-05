@@ -1,1 +1,1 @@
-worker: python3 -m player
+worker: python3 -m lib

@@ -10,4 +10,4 @@ WORKDIR /innexia
 RUN pip3 install --upgrade pip
 RUN pip3 install -U -r requirements.txt
 
-CMD python3 -m player
+CMD python3 -m lib
