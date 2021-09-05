@@ -22,3 +22,12 @@ async def ytstream(client, message):
         VIDEO_CALL[chat_id] = group_call
         await message.reply("**Streamed!**")
         await txt.delete()
+
+@Client.on_message(filters.command("ytstop"))
+async def ytstop(client, message):
+    chat_id = message.chat.id
+    try:
+        await VIDEO_CALL[chat_id].stop()
+        await message.reply("**Stoped!**")
+    except Exception as e:
+        await message.reply("error")
