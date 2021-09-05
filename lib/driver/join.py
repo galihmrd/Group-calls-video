@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import UserAlreadyParticipant
 from lib.driver.stream import app as USER
-from lib.config import USERNAME_BOT, UBOT_ID
+from lib.config import USERNAME_BOT
 
 
 @Client.on_message(filters.command(["join", "join@{USERNAME_BOT}"]))
@@ -14,7 +14,6 @@ async def join(client, message):
         await message.reply("**Error:**\nAdd me as admin of your group!")
         return
     try:
-        await client.unban_chat_member(chat_id, int(UBOT_ID))
         await USER.join_chat(link)
     except UserAlreadyParticipant:
         pass

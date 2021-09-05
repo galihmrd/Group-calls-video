@@ -30,10 +30,6 @@
 	"USERNAME_BOT": {
 	    "description": "Your username bot",
 	    "required": true
-	},
-	"UBOT_ID": {
-	    "description": "Your Userbot ID",
-	    "required": true
 	}
     },
     "addons": [],
