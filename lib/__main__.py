@@ -1,6 +1,6 @@
 from pyrogram import Client, idle
 from lib.config import API_ID, API_HASH, BOT_TOKEN
-from lib.videoplayer import app
+from lib.driver.stream import app
 
 bot = Client(
     ":memory:",
