@@ -1,7 +1,7 @@
 import pafy
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from lib.driver.stream import VIDEO_CALL, group_call_factory
+from lib.driver.stream import VIDEO_CALL, CHANNEL_VIDEO, group_call_factory
 
 
 @Client.on_message(filters.command("ytstream"))
@@ -27,7 +27,6 @@ async def cstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention
     chat_id = message.chat.title
-    replied = message.reply_to_message
     video = pafy.new(query)
     text = await message.reply(f"```Converting url...```\nUrl: ```{query}```")
     source = video.getbest().url
@@ -37,5 +36,5 @@ async def cstream(client, message):
         group_call = group_call_factory.get_group_call()
         await group_call.join(int(chat_id))
         await group_call.start_video(source)
-        VIDEO_CALL[chat_id] = group_call
+        CHANNEL_VIDEO[chat_id] = group_call
         await text.edit(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /stop")
