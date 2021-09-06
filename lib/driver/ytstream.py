@@ -1,6 +1,6 @@
 import pafy
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from lib.driver.stream import group_call_factory
 from lib.driver.misc import VIDEO_CALL, CHANNEL_VIDEO
 
@@ -10,9 +10,12 @@ async def ytstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention
     chat_id = message.chat.id
-    video = pafy.new(query)
     txt = await message.reply(f"```Converting url...```\nUrl: ```{query}```")
-    final_source = video.getbest().url
+    try:
+        video = pafy.new(query)
+        final_source = video.getbest().url
+    except Exception as e:
+        await message.reply(f"**Error:** {str(e)}")
     if len(message.command) < 2:
         await message.reply("Give some youtube video url")
     else:
@@ -20,17 +23,33 @@ async def ytstream(client, message):
         await group_call.join(chat_id)
         await group_call.start_video(final_source)
         VIDEO_CALL[chat_id] = group_call
-        await message.reply(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /stop")
         await txt.delete()
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        '📣 Channel support', url='https://t.me/feyystatus',
+                    ),
+                ],
+            ],
+        )
+        await message.reply_photo(
+              caption = f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
+              photo = "./etc/banner.png",
+              reply_markup = keyboard,
+        )
 
 @Client.on_message(filters.command("ytcstream"))
 async def cstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention
     chat_id = message.chat.title
-    video = pafy.new(query)
     text = await message.reply(f"```Converting url...```\nUrl: ```{query}```")
-    source = video.getbest().url
+    try:
+        video = pafy.new(query)
+        source = video.getbest().url
+    except Exception as e:
+        await message.reply(f"**Error:** {str(e)}")
     if len(message.command) < 2:
         await message.reply("Give some youtube url")
     else:
@@ -38,4 +57,18 @@ async def cstream(client, message):
         await group_call.join(int(chat_id))
         await group_call.start_video(source)
         CHANNEL_VIDEO[chat_id] = group_call
-        await text.edit(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /cstop")
+        await text.delete()
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        '📣 Channel support', url='https://t.me/feyystatus',
+                    ),
+                ],
+            ],
+        )
+        await message.reply_photo(
+              caption = f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
+              photo = "./etc/banner.png",
+              reply_markup = keyboard,
+        )
