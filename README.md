@@ -1,4 +1,4 @@
-# VC Video Player
+# tg-stream-video
 
 ![logo](https://telegra.ph/file/824cba85b5b820fcd7dcd.jpg)
 ## Deploy

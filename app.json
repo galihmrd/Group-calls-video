@@ -1,15 +1,15 @@
 {
-    "name": "VC Video Player",
-    "description": "A VCVideoPlayer Bot for Telegram made with 💞 By @ProErrorXD",
+    "name": "tg-stream-video",
+    "description": "Streaming video in telegram via bot",
     "logo": "https://telegra.ph/file/e1be1a6fcb7f0e37c297f.jpg",
     "keywords": [
         "pytgcalls",
         "Telegram Bot",
-        "Vidio Vc Steramer"
+        "tg-stream-video"
     ],
-    "website": "https://t.me/DeeCodeBots",
-    "repository": "https://github.com/Sammy-XD/VcVideoPlayer",
-    "success_url": "https://t.me/DeeCodeBots",
+    "website": "https://t.me/feyystatus",
+    "repository": "https://github.com/Imszy17/tg-stream-video",
+    "success_url": "https://t.me/feyystatus",
     "env": {
         "API_ID": {
             "description": "Your APP_ID from my.telegram.org",
