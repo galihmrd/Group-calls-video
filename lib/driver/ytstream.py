@@ -1,10 +1,10 @@
 import pafy
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from lib.driver.stream import group_call_factory
+from lib.driver.stream import VIDEO_CALL, group_call_factory
 
 
-VIDEO_CALL = {}
+
 
 @Client.on_message(filters.command("ytstream"))
 async def ytstream(client, message):
@@ -21,14 +21,5 @@ async def ytstream(client, message):
         await group_call.join(chat_id)
         await group_call.start_video(final_source)
         VIDEO_CALL[chat_id] = group_call
-        await message.reply(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /ytstop")
+        await message.reply(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /stop")
         await txt.delete()
-
-@Client.on_message(filters.command(["ytstop", "ytstop@{USERNAME_BOT}"]))
-async def ytstop(client, message):
-    chat_id = message.chat.id
-    try:
-        await VIDEO_CALL[chat_id].stop()
-        await message.reply("**Stopped!**")
-    except Exception as e:
-        await message.reply("error")

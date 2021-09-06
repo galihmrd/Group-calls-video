@@ -79,8 +79,9 @@ async def stream(client, m: Message):
 @Client.on_message(filters.command(["stop", "stop@{USERNAME_BOT}"]))
 async def stopvideo(client, m: Message):
     chat_id = m.chat.id
+    user = m.from_user.mention
     try:
         await VIDEO_CALL[chat_id].stop()
-        await m.reply("**⏹️ Stopped Streaming!**")
+        await m.reply(f"**Stopped by {user}!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
