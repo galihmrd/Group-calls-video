@@ -78,7 +78,7 @@ async def stream(client, m: Message):
         await m.reply("`Reply to some Video!`")
 
 @Client.on_message(filters.command(["cstream", "cstream@{USERNAME_BOT}"]))
-async def stream(client, m: Message):
+async def cstream(client, m: Message):
     replied = m.reply_to_message
     if not replied:
         if len(m.command) < 2:
