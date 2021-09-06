@@ -1,8 +1,9 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message
 from pyrogram.errors import UserAlreadyParticipant
-from lib.driver.stream import app as USER
+from pyrogram.types import Message
+
 from lib.config import USERNAME_BOT
+from lib.driver.stream import app as USER
 
 
 @Client.on_message(filters.command(["join", "join@{USERNAME_BOT}"]))

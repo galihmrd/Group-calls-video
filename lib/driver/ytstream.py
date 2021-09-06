@@ -1,8 +1,9 @@
 import pafy
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
 from lib.driver.stream import group_call_factory
-from lib.driver.misc import VIDEO_CALL, CHANNEL_VIDEO
 
 
 @Client.on_message(filters.command("ytstream"))
@@ -15,7 +16,7 @@ async def ytstream(client, message):
         video = pafy.new(query)
         final_source = video.getbest().url
     except Exception as e:
-        await message.reply(f"**Error:** {str(e)}")
+        await message.reply(f'**Error:** {e}')
     if len(message.command) < 2:
         await message.reply("Give some youtube video url")
     else:
@@ -34,10 +35,11 @@ async def ytstream(client, message):
             ],
         )
         await message.reply_photo(
-              caption = f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
-              photo = "./etc/banner.png",
-              reply_markup = keyboard,
+            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
+            photo="./etc/banner.png",
+            reply_markup=keyboard,
         )
+
 
 @Client.on_message(filters.command("ytcstream"))
 async def cstream(client, message):
@@ -49,7 +51,7 @@ async def cstream(client, message):
         video = pafy.new(query)
         source = video.getbest().url
     except Exception as e:
-        await message.reply(f"**Error:** {str(e)}")
+        await message.reply(f'**Error:** {e}')
     if len(message.command) < 2:
         await message.reply("Give some youtube url")
     else:
@@ -68,7 +70,7 @@ async def cstream(client, message):
             ],
         )
         await message.reply_photo(
-              caption = f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
-              photo = "./etc/banner.png",
-              reply_markup = keyboard,
+            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
+            photo="./etc/banner.png",
+            reply_markup=keyboard,
         )
