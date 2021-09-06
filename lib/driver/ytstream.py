@@ -1,7 +1,8 @@
 import pafy
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from lib.driver.stream import VIDEO_CALL, CHANNEL_VIDEO, group_call_factory
+from lib.driver.stream import group_call_factory
+from lib.driver.misc import VIDEO_CALL, CHANNEL_VIDEO
 
 
 @Client.on_message(filters.command("ytstream"))
@@ -37,4 +38,4 @@ async def cstream(client, message):
         await group_call.join(int(chat_id))
         await group_call.start_video(source)
         CHANNEL_VIDEO[chat_id] = group_call
-        await text.edit(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /stop")
+        await text.edit(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /cstop")
