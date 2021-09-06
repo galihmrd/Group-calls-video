@@ -24,7 +24,7 @@ async def stream(client, m: Message):
             try:
                 group_call = group_call_factory.get_group_call()
                 await group_call.join(chat_id)
-                await group_call.start_video(livelink, repeat=False)
+                await group_call.start_video(livelink)
                 VIDEO_CALL[chat_id] = group_call
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
@@ -53,7 +53,7 @@ async def stream(client, m: Message):
         try:
             group_call = group_call_factory.get_group_call()
             await group_call.join(chat_id)
-            await group_call.start_video(video, repeat=False)
+            await group_call.start_video(video)
             VIDEO_CALL[chat_id] = group_call
             await msg.delete()
             keyboard = InlineKeyboardMarkup(

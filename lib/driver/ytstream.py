@@ -19,7 +19,7 @@ async def ytstream(client, message):
     else:
         group_call = group_call_factory.get_group_call()
         await group_call.join(chat_id)
-        await group_call.start_video(final_source, repeat=False)
+        await group_call.start_video(final_source)
         VIDEO_CALL[chat_id] = group_call
         await message.reply(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /stop")
         await txt.delete()
