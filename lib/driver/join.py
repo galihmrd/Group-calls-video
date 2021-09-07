@@ -1,7 +1,10 @@
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.types import Message
+from pyrogram.raw.types import InputGroupCall
+from pyrogram.raw.functions.phone import CreateGroupCall
 
+from random import randint
 from lib.config import USERNAME_BOT
 from lib.driver.stream import app as USER
 
@@ -18,3 +21,19 @@ async def join(client, message):
         await USER.join_chat(link)
     except UserAlreadyParticipant:
         pass
+
+
+@Client.on_message(filters.command(["opengc"]))
+async def opengc(client, message):
+    chat_id = message.chat.id
+    try:
+        await USER.send(CreateGroupCall(
+              peer=(await USER.resolve_peer(chat_id)),
+                   random_id=randint(10000, 999999999)
+              )
+        )
+        await message.reply("**Voice chat started!**")
+    except Exception:
+        await message.reply(
+           "**Error:** Add userbot as admin of your group with permission **Can manage voice chat**"
+        )
