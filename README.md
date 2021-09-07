@@ -8,6 +8,9 @@ $ cd tg-stream-video
 $ pip install -r requirements.txt
 $ python -m lib
 ```
+# How To Host 
+[![Deploy+on+Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/Imszy17/tg-stream-video&envs=API_ID,API_HASH,BOT_TOKEN,SESSION_NAME,USERNAME_BOT)
+
 ## Heroku Deploy
 The easiest way to deploy this Bot is via Heroku.
 
