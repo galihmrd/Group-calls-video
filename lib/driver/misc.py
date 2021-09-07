@@ -19,7 +19,7 @@ async def stopvideo(client, m: Message):
     except Exception as e:
         await m.reply(f"**Error:** {str(e)}")
 
-@Client.on_message(filters.command(["ctop", "ctop@{USERNAME_BOT"]))
+@Client.on_message(filters.command(["cstop", "cstop@{USERNAME_BOT"]))
 async def cstop(client, message):
     chat_id = message.chat.title
     user = message.from_user.mention
