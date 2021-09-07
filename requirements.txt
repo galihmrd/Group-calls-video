@@ -1,7 +1,7 @@
 ffmpeg-python
 git+https://github.com/pyrogram/pyrogram@master
 pafy
-pytgcalls==3.0.0.dev15
+pytgcalls==3.0.0.dev16
 TgCrypto
 youtube-dl
 youtube_search_python
