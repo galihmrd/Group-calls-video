@@ -1,10 +1,10 @@
-from pyrogram import Client, filters
-from pyrogram.errors import UserAlreadyParticipant
+from random import randint
 from pyrogram.types import Message
+from pyrogram import Client, filters
 from pyrogram.raw.types import InputGroupCall
+from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.raw.functions.phone import CreateGroupCall
 
-from random import randint
 from lib.config import USERNAME_BOT
 from lib.driver.stream import app as USER
 
@@ -21,7 +21,6 @@ async def join(client, message):
         await USER.join_chat(link)
     except UserAlreadyParticipant:
         pass
-
 
 @Client.on_message(filters.command(["opengc"]))
 async def opengc(client, message):
