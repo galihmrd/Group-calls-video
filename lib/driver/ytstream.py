@@ -1,9 +1,12 @@
 import pafy
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-
-from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
+from pyrogram.types import (
+     InlineKeyboardButton,
+     InlineKeyboardMarkup,
+     Message,
+)
 from lib.driver.stream import group_call_factory
+from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
 
 
 @Client.on_message(filters.command("ytstream"))
@@ -39,7 +42,6 @@ async def ytstream(client, message):
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
-
 
 @Client.on_message(filters.command("ytcstream"))
 async def cstream(client, message):

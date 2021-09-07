@@ -1,7 +1,6 @@
-from pyrogram import Client, idle
-
-from lib.config import API_HASH, API_ID, BOT_TOKEN
 from lib.driver.stream import app
+from pyrogram import Client, idle
+from lib.config import API_HASH, API_ID, BOT_TOKEN
 
 bot = Client(
     ":memory:",
