@@ -72,7 +72,7 @@ async def cstream(client, message):
             ],
         )
         await message.reply_photo(
-            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
+            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
