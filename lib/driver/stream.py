@@ -145,7 +145,7 @@ async def cstream(client, m: Message):
             )
             await m.reply_photo(
                 photo="./etc/banner.png",
-                caption=f"**Streamed video from telegram files**\n**Requested by:** {user}\n**To stop:** /cstop",
+                caption=f"**Streamed video from telegram files**\n**Requested by:** {user}\n**To stop:** /stop",
                 reply_markup=keyboard,
             )
         except Exception as e:
