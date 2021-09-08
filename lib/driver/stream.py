@@ -61,7 +61,7 @@ async def stream(client, m: Message):
         try:
             group_call = group_call_factory.get_group_call()
             await group_call.join(chat_id)
-            await group_call.start_video(video)
+            await group_call.start_video(video, enable_experimental_lip_sync=True)
             VIDEO_CALL[chat_id] = group_call
             await msg.delete()
             keyboard = InlineKeyboardMarkup(
@@ -130,7 +130,7 @@ async def cstream(client, m: Message):
         try:
             group_call = group_call_factory.get_group_call()
             await group_call.join(int(chat_id))
-            await group_call.start_video(video)
+            await group_call.start_video(video, enable_experimental_lip_sync=True)
             CHANNEL_VIDEO[chat_id] = group_call
             await msg.delete()
             keyboard = InlineKeyboardMarkup(

@@ -24,7 +24,7 @@ async def ytstream(client, message):
         await message.reply("Give some youtube video url")
     else:
         group_call = group_call_factory.get_group_call()
-        await group_call.join(chat_id)
+        await group_call.join(chat_id, enable_experimental_lip_sync=True)
         await group_call.start_video(final_source)
         VIDEO_CALL[chat_id] = group_call
         await txt.delete()
@@ -59,7 +59,7 @@ async def cstream(client, message):
     else:
         group_call = group_call_factory.get_group_call()
         await group_call.join(int(chat_id))
-        await group_call.start_video(source)
+        await group_call.start_video(source, enable_experimental_lip_sync=True)
         CHANNEL_VIDEO[chat_id] = group_call
         await text.delete()
         keyboard = InlineKeyboardMarkup(
