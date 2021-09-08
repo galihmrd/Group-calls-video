@@ -24,8 +24,8 @@ async def ytstream(client, message):
         await message.reply("Give some youtube video url")
     else:
         group_call = group_call_factory.get_group_call()
-        await group_call.join(chat_id, enable_experimental_lip_sync=True)
-        await group_call.start_video(final_source)
+        await group_call.join(chat_id)
+        await group_call.start_video(final_source, enable_experimental_lip_sync=True)
         VIDEO_CALL[chat_id] = group_call
         await txt.delete()
         keyboard = InlineKeyboardMarkup(
