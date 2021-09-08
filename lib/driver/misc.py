@@ -48,6 +48,11 @@ async def repo(client, message):
 @Client.on_message(filters.command(["schedule",
                                     "schedule@{USERNAME_BOT}"]) & public_filters)
 async def sch(client, message):
+    if len(message.command) >= 2:
+        pass
+    else:
+        await message.reply("Please enter value in seconds")
+        return
     chat_id = message.chat.id
     chid = message.chat.title
     user = message.from_user.mention
@@ -57,6 +62,9 @@ async def sch(client, message):
     try:
         await txt.edit(f"**Stopped by {user}!**")
         await VIDEO_CALL[chat_id].stop()
+    except Exception:
+        return
+    try:
         await CHANNEL_VIDEO[chid].stop()
-    except Exception as e:
+    except Exception:
         pass
