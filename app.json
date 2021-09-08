@@ -30,7 +30,11 @@
 	"USERNAME_BOT": {
 	    "description": "Your username bot",
 	    "required": true
-	}
+	},
+        "COMMAND_PREFIXES": {
+            "description": "Custom command prefixes"
+            "required": false
+        }
     },
     "addons": [],
     "buildpacks": [

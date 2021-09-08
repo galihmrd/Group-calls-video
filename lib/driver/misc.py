@@ -4,12 +4,14 @@ from pyrogram.types import Message
 from pyrogram import Client, filters
 
 from lib.config import USERNAME_BOT
+from lib.helpers.filters import private_filters, public_filters
 
 VIDEO_CALL = {}
 CHANNEL_VIDEO = {}
 
 
-@Client.on_message(filters.command(["stop", "stop@{USERNAME_BOT}"]))
+@Client.on_message(filters.command(["stop",
+                                    "stop@{USERNAME_BOT}"]) & public_filters)
 async def stopvideo(client, m: Message):
     chat_id = m.chat.id
     user = m.from_user.mention
@@ -19,7 +21,8 @@ async def stopvideo(client, m: Message):
     except Exception as e:
         await m.reply(f"**Error:** {str(e)}")
 
-@Client.on_message(filters.command(["cstop", "cstop@{USERNAME_BOT"]))
+@Client.on_message(filters.command(["cstop",
+                                    "cstop@{USERNAME_BOT"]) & public_filters)
 async def cstop(client, message):
     chat_id = message.chat.title
     user = message.from_user.mention
@@ -42,7 +45,8 @@ async def repo(client, message):
     repo = "https://github.com/Imszy17/tg-stream-video"
     await message.reply(f"**Source code:** [Here]({repo})")
 
-@Client.on_message(filters.command("schedule"))
+@Client.on_message(filters.command(["schedule",
+                                    "schedule@{USERNAME_BOT}"]) & public_filters)
 async def sch(client, message):
     chat_id = message.chat.id
     chid = message.chat.title

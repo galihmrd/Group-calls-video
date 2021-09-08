@@ -9,6 +9,7 @@ from pyrogram.types import (
      Message,
 )
 from lib.config import API_HASH, API_ID, SESSION_NAME, USERNAME_BOT
+from lib.helpers.filters import private_filters, public_filters
 from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
@@ -16,7 +17,8 @@ group_call_factory = GroupCallFactory(
     app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
 
 
-@Client.on_message(filters.command(["stream", "stream@{USERNAME_BOT}"]))
+@Client.on_message(filters.command(["stream",
+                                    "stream@{USERNAME_BOT}"]) & public_filters)
 async def stream(client, m: Message):
     replied = m.reply_to_message
     if not replied:
@@ -85,7 +87,8 @@ async def stream(client, m: Message):
         await m.reply("`Reply to some Video!`")
 
 
-@Client.on_message(filters.command(["cstream", "cstream@{USERNAME_BOT}"]))
+@Client.on_message(filters.command(["cstream",
+                                    "cstream@{USERNAME_BOT}"]) & public_filters)
 async def cstream(client, m: Message):
     replied = m.reply_to_message
     if not replied:

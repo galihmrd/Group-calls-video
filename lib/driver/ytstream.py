@@ -5,11 +5,14 @@ from pyrogram.types import (
      InlineKeyboardMarkup,
      Message,
 )
+from lib.config import USERNAME_BOT
 from lib.driver.stream import group_call_factory
 from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
+from lib.helpers.filters import private_filters, public_filters
 
 
-@Client.on_message(filters.command("ytstream"))
+@Client.on_message(filters.command(["ytstream",
+                                    "ytstream@{USERNAME_BOT}"]) & public_filters)
 async def ytstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention
@@ -43,7 +46,8 @@ async def ytstream(client, message):
             reply_markup=keyboard,
         )
 
-@Client.on_message(filters.command("ytcstream"))
+@Client.on_message(filters.command(["ytcstream",
+                                    "ytstream@{USERNAME_BOT}"]) & public_filters)
 async def cstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention
