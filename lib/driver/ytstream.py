@@ -20,6 +20,8 @@ async def ytstream(client, message):
     txt = await message.reply(f"```Converting url...```\nUrl: ```{query}```")
     try:
         video = pafy.new(query)
+        title = video.title
+        duration = video.duration
         final_source = video.getbest().url
     except Exception as e:
         await message.reply(f'**Error:** {e}')
@@ -41,7 +43,7 @@ async def ytstream(client, message):
             ],
         )
         await message.reply_photo(
-            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
+            caption=f"**Streaming [{title}]({query})**\n**Duration:** {duration}\n**Requested by:** {rby}\n**To stop:** /stop",
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
@@ -55,6 +57,8 @@ async def cstream(client, message):
     text = await message.reply(f"```Converting url...```\nUrl: ```{query}```")
     try:
         video = pafy.new(query)
+        title = video.title
+        duration = video.duration
         source = video.getbest().url
     except Exception as e:
         await message.reply(f'**Error:** {e}')
@@ -76,7 +80,7 @@ async def cstream(client, message):
             ],
         )
         await message.reply_photo(
-            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
+            caption=f"**Streaming [{title}]({query})**\n**Duration:** {duration}\n**Requested by:** {rby}\n**To stop:** /cstop",
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
