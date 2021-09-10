@@ -103,4 +103,4 @@ async def cstream(client, message):
             reply_markup=keyboard,
         )
         await asyncio.sleep(int(time_to_seconds(duration)))
-        await VIDEO_CALL[chat_id].stop()
+        await CHANNEL_VIDEO[chat_id].stop()
