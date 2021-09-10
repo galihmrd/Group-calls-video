@@ -14,6 +14,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 import pafy
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import (
      InlineKeyboardButton,
@@ -22,7 +23,7 @@ from pyrogram.types import (
 )
 from lib.config import USERNAME_BOT
 from lib.driver.stream import group_call_factory
-from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
+from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL, time_to_seconds
 from lib.helpers.filters import private_filters, public_filters
 
 
@@ -62,6 +63,8 @@ async def ytstream(client, message):
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
+    await asyncio.sleep(int(time_to_seconds(duration)))
+    await VIDEO_CALL[chat_id].stop()
 
 @Client.on_message(filters.command(["ytcstream",
                                     "ytstream@{USERNAME_BOT}"]) & public_filters)
@@ -99,3 +102,5 @@ async def cstream(client, message):
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
+        await asyncio.sleep(int(time_to_seconds(duration)))
+        await VIDEO_CALL[chat_id].stop()
