@@ -17,19 +17,16 @@ import os
 import asyncio
 
 from pyrogram import Client, filters
-from pytgcalls import GroupCallFactory
 from pyrogram.types import (
      InlineKeyboardButton,
      InlineKeyboardMarkup,
      Message,
 )
-from lib.config import API_HASH, API_ID, SESSION_NAME, USERNAME_BOT
+from lib.tg_stream import group_call_factory
+from lib.config import USERNAME_BOT
 from lib.helpers.filters import private_filters, public_filters
 from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
 
-app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call_factory = GroupCallFactory(
-    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
 
 
 @Client.on_message(filters.command(["stream",

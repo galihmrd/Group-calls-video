@@ -21,7 +21,7 @@ from pyrogram.types import (
      Message,
 )
 from lib.config import USERNAME_BOT
-from lib.driver.stream import group_call_factory
+from lib.tg_stream import group_call_factory
 from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
 from lib.helpers.filters import private_filters, public_filters
 

@@ -21,7 +21,7 @@ from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.raw.functions.phone import CreateGroupCall
 
 from lib.config import USERNAME_BOT
-from lib.driver.stream import app as USER
+from lib.tg_stream import app as USER
 from lib.helpers.filters import private_filters, public_filters
 
 

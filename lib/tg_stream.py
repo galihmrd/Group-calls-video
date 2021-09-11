@@ -12,19 +12,10 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
+from pyrogram import Client
+from pytgcalls import GroupCallFactory
+from lib.config import API_HASH, API_ID, SESSION_NAME
 
-from lib.tg_stream import app
-from pyrogram import Client, idle
-from lib.config import API_HASH, API_ID, BOT_TOKEN
-
-bot = Client(
-    ":memory:",
-    API_ID,
-    API_HASH,
-    bot_token=BOT_TOKEN,
-    plugins=dict(root="lib.driver"),
-)
-
-bot.start()
-app.start()
-idle()
+app = Client(SESSION_NAME, API_ID, API_HASH)
+group_call_factory = GroupCallFactory(
+    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
