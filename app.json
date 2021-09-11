@@ -32,7 +32,7 @@
 	    "required": true
 	},
         "COMMAND_PREFIXES": {
-            "description": "Custom command prefixes"
+            "description": "Custom command prefixes",
             "required": false
         }
     },
