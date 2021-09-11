@@ -25,7 +25,7 @@ from pyrogram.types import (
 from lib.tg_stream import group_call_factory
 from lib.config import USERNAME_BOT
 from lib.helpers.filters import private_filters, public_filters
-from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
+from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL, PAUSE, RESUME
 
 
 
@@ -47,6 +47,8 @@ async def stream(client, m: Message):
                 await group_call.join(chat_id)
                 await group_call.start_video(livelink)
                 VIDEO_CALL[chat_id] = group_call
+                PAUSE[chat_id] = group_call
+                RESUME[chat_id] = group_call
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
 
@@ -77,6 +79,8 @@ async def stream(client, m: Message):
             await group_call.join(chat_id)
             await group_call.start_video(video, enable_experimental_lip_sync=True)
             VIDEO_CALL[chat_id] = group_call
+            PAUSE[chat_id] = group_call
+            RESUME[chat_id] = group_call
             await msg.delete()
             keyboard = InlineKeyboardMarkup(
 
