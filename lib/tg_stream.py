@@ -12,10 +12,10 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
+
 from pyrogram import Client
-from pytgcalls import GroupCallFactory
-from lib.config import API_HASH, API_ID, SESSION_NAME
+from pytgcalls import PyTgCalls
+from lib.config import SESSION_NAME, API_ID, API_HASH
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call_factory = GroupCallFactory(
-    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+call_py = PyTgCalls(app)
