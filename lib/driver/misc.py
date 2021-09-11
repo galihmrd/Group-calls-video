@@ -24,7 +24,8 @@ from lib.tg_stream import group_call_factory
 
 VIDEO_CALL = {}
 CHANNEL_VIDEO = {}
-
+PAUSE = {}
+RESUME = {}
 
 @Client.on_message(filters.command(["stop",
                                     "stop@{USERNAME_BOT}"]) & public_filters)
@@ -84,3 +85,21 @@ async def sch(client, message):
         await CHANNEL_VIDEO[chid].stop()
     except Exception:
         pass
+
+@Client.on_message(filters.command(["pause", "pause@{USERNAME_BOT}"]))
+async def pause(client, message):
+    chat_id = message.chat.id
+    try:
+        await PAUSE[chat_id].set_pause(True)
+        await message.reply("**Pause stream!**")
+    except Exception as e:
+        await message.reply(f"{str(e)}")
+
+@Client.on_message(filters.command(["resume", "resume@{USERNAME_BOT}"]))
+async def resume(client, message):
+    chat_id = message.chat.id
+    try:
+       await RESUME[chat_id].set_pause(False)
+       await message.reply("**Resume stream!**")
+    except Exception as e:
+       await message.reply(f"{str(e)}")

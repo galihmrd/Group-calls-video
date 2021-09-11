@@ -22,7 +22,7 @@ from pyrogram.types import (
 )
 from lib.config import USERNAME_BOT
 from lib.tg_stream import group_call_factory
-from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
+from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL, PAUSE, RESUME
 from lib.helpers.filters import private_filters, public_filters
 
 
@@ -47,6 +47,8 @@ async def ytstream(client, message):
         await group_call.join(chat_id)
         await group_call.start_video(final_source, enable_experimental_lip_sync=True)
         VIDEO_CALL[chat_id] = group_call
+        PAUSE[chat_id] = group_call
+        RESUME[chat_id] = group_call
         await txt.delete()
         keyboard = InlineKeyboardMarkup(
             [
