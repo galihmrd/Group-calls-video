@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 from datetime import datetime
 from pyrogram.types import Message
 from pyrogram import Client, filters
-
+from lib.tg_stream import call_py
 from lib.config import USERNAME_BOT
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
@@ -32,3 +32,14 @@ async def repo(client, message):
     repo = "https://github.com/Imszy17/tg-stream-video"
     await message.reply(f"**Source code:** [Here]({repo})")
 
+@Client.on_message(filters.command("pause"))
+async def pause(client, message):
+    chat_id = message.chat.id
+    await call_py.pause_stream(chat_id)
+    await message.reply("**Paused!**")
+
+@Client.on_message(filters.command("resume"))
+async def resume(client, message):
+    chat_id = message.chat.id
+    await call_py.resume_stream(chat_id)
+    await message.reply("**Resume!**")
