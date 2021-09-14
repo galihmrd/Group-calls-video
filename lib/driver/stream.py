@@ -4,6 +4,7 @@ import subprocess
 from pytgcalls import idle
 from pytgcalls import PyTgCalls
 from pytgcalls import StreamType
+from pytgcalls.types import Update
 from pytgcalls.types.input_stream import (
                         AudioParameters,
                         InputAudioStream,
@@ -18,6 +19,8 @@ from yt_dlp.utils import ExtractorError
 from lib.tg_stream import call_py, app
 
 SIGINT: int = 2
+
+end_stream = {}
 
 FFMPEG_PROCESS = {}
 
@@ -129,6 +132,7 @@ async def startvideo(client, m: Message):
                 stream_type=StreamType().local_stream,
             )
             await msg.edit("**Video streaming started!**\n\n» **join to video chat on the top to watch the video.**")
+            end_stream[chat_id] = chat_id
         except Exception as e:
             await msg.edit(f"🚫 **Error** | `{e}`")
             await idle()
@@ -151,3 +155,8 @@ async def stopvideo(client, m: Message):
         await m.reply("**Stopped!**")
     except Exception as e:
         await m.reply(f"🚫 **Error** | `{e}`")
+
+@call_py.on_stream_end()
+async def end(cl, update):
+    print("stream ended in " + str(update.chat_id))
+    await call_py.leave_group_call(update.chat_id)
