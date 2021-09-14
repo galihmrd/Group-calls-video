@@ -20,8 +20,6 @@ from lib.tg_stream import call_py, app
 
 SIGINT: int = 2
 
-end_stream = {}
-
 FFMPEG_PROCESS = {}
 
 def raw_converter(dl, song, video):
@@ -94,7 +92,7 @@ async def startvideo(client, m: Message):
                             frame_rate=20,
                         ),
                     ),
-                    stream_type=StreamType().local_stream,
+                    stream_type=StreamType().live_stream,
                 )
                 await msg.edit("💡 **Video streaming started!**\n\n» **join to video chat on the top to watch the video.**")
                 await idle()
@@ -132,7 +130,6 @@ async def startvideo(client, m: Message):
                 stream_type=StreamType().local_stream,
             )
             await msg.edit("**Video streaming started!**\n\n» **join to video chat on the top to watch the video.**")
-            end_stream[chat_id] = chat_id
         except Exception as e:
             await msg.edit(f"🚫 **Error** | `{e}`")
             await idle()
