@@ -91,7 +91,7 @@ async def cstartvideo(client, m: Message):
                             frame_rate=20,
                         ),
                     ),
-                    stream_type=StreamType().local_stream,
+                    stream_type=StreamType().live_stream,
                 )
                 await msg.edit("💡 **Video streaming started!**\n\n» **join to video chat on the top to watch the video.**")
                 await idle()
