@@ -1,7 +1,7 @@
 ffmpeg-python
 git+https://github.com/pyrogram/pyrogram@master
 pafy
-py-tgcalls==0.8.0
+py-tgcalls==0.8.1b8
 TgCrypto
 yt-dlp
 youtube_search_python
