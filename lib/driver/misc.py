@@ -18,6 +18,8 @@ from pyrogram.types import Message
 from pyrogram import Client, filters
 from lib.tg_stream import call_py
 from lib.config import USERNAME_BOT
+from pytgcalls.exceptions import GroupCallNotFound
+
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
 async def ping_(client: Client, message: Message):
@@ -35,11 +37,35 @@ async def repo(client, message):
 @Client.on_message(filters.command("pause"))
 async def pause(client, message):
     chat_id = message.chat.id
-    await call_py.pause_stream(chat_id)
-    await message.reply("**Paused!**")
+    channel_id = message.chat.title
+    query = " ".join(message.command[1:])
+    if query == "channel":
+         try:
+             await call_py.pause_stream(int(channel_id))
+             await message.reply("**Channel Stream Paused!**")
+         except GroupCallNotFound:
+             await message.reply(f"**Error:** GroupCall not found!")
+    else:
+         try:
+             await call_py.pause_stream(chat_id)
+             await message.reply("**Paused!**")
+         except GroupCallNotFound:
+             await message.reply(f"**Error:** GroupCall not found!")
 
 @Client.on_message(filters.command("resume"))
 async def resume(client, message):
     chat_id = message.chat.id
-    await call_py.resume_stream(chat_id)
-    await message.reply("**Resume!**")
+    channel_id = message.chat.title
+    query = " ".join(message.command[1:])
+    if query == "channel":
+         try:
+             await call_py.resume_stream(int(channel_id))
+             await message.reply("**Resume channel stream!**")
+         except GroupCallNotFound:
+             await message.reply("**Error:** GroupCall not found!")
+    else:
+         try:
+             await call_py.resume_stream(chat_id)
+             await message.reply("**Resume!**")
+         except GroupCallNotFound:
+             await message.reply("**Error:** GroupCall not found!")
