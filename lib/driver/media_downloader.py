@@ -18,7 +18,7 @@ ydl_opts = {
 
 @Client.on_message(filters.command("video"))
 async def video(client, message):
-    query = message.command[1]
+    query = " ".join(message.command[1:])
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
@@ -56,7 +56,7 @@ async def video(client, message):
 
 @Client.on_message(filters.command("music"))
 async def music(client, message):
-    input = message.command[1]
+    input = " ".join(message.command[1:])
     try:
         ydl_opts = {"format": "bestaudio[ext=m4a]"}
         results = YoutubeSearch(input, max_results=1).to_dict()
