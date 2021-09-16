@@ -44,6 +44,7 @@ async def video(client, message):
         caption=ytdl_data['title'])
     try:
         os.remove(file_name)
+        os.remove(preview)
         await msg.delete()
     except Exception as e:
         print(e)
@@ -75,6 +76,7 @@ async def music(client, message):
         caption=info_dict['title'])
     try:
         os.remove(audio_file)
+        os.remove(preview)
         await msg.delete()
     except Exception as e:
         print(e)
