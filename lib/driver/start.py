@@ -21,16 +21,22 @@ from lib.config import USERNAME_BOT
 
 HELP_TEXT = """**List Command:**
 
-**/stream** -> [reply to file/put streaming url]
-**/cstream** -> [stream in channel]
+**• /stream** -> [reply to file/put streaming url]
+**• /cstream** -> [stream in channel]
 
-**/ytstream** -> [put youtube url]
-**/ytcstream** -> [stream in channel]
+**• /ytstream** -> [put youtube url]
+**• /ytcstream** -> [stream in channel]
 
-**/stop** -> [for group]
-**/cstop** -> [for channel]
+**• /pause** -> [pause group stream]
+**• /pause channel** -> [pause channel stream]
 
-**/schedule** {value} -> [stop scheduler]
+**• /resume** -> [resume group stream]
+**• /resume channel** -> [resume channel stream]
+
+**• /stop** -> [for group]
+**• /stop channel** -> [for channel]
+
+**• /schedule** {value} -> [stop scheduler]
 """
 
 @Client.on_message(filters.command(["start", "start@{USERNAME_BOT}"]))
