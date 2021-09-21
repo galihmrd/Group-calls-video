@@ -28,17 +28,35 @@ async def get_youtube_stream(input: str):
 
 @Client.on_message(filters.command("play"))
 async def play_video(client, message):
-    msg = await message.reply("```Processing...```")
-    chat_id = message.chat.id
-    input = " ".join(message.command[1:])
-    file = await get_youtube_stream(input)
-    await msg.edit("```Streamed```")
-    await call_py.join_group_call(
-        chat_id,
-        AudioVideoPiped(
-            file,
-            MediumQualityAudio(),
-            MediumQualityVideo()
-        ),
-        stream_type=StreamType().live_stream
-    )
+    replied = message.reply_to_message
+    if not replied:
+        msg = await message.reply("```Processing...```")
+        chat_id = message.chat.id
+        input = " ".join(message.command[1:])
+        file = await get_youtube_stream(input)
+        await msg.edit("```Streamed```")
+        await call_py.join_group_call(
+            chat_id,
+            AudioVideoPiped(
+                file,
+                MediumQualityAudio(),
+                MediumQualityVideo()
+            ),
+            stream_type=StreamType().live_stream
+        )
+    elif replied.video or replied.document:
+        msg = await message.reply("```Downloading from telegram...```")
+        chat_id = message.chat.id
+        file = await client.download_media(replied)
+        await call_py.join_group_call(
+            chat_id,
+            AudioVideoPiped(
+                file,
+                MediumQualityAudio(),
+                MediumQualityVideo()
+            ),
+            stream_type=StreamType().live_stream
+        )
+    else:
+        await message.reply("```Please reply to video or video file to stream```")
+
