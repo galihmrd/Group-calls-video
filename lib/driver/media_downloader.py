@@ -34,7 +34,7 @@ async def video(client, message):
             ytdl_data = ytdl.extract_info(link, download=True)
             file_name = ytdl.prepare_filename(ytdl_data)
     except Exception as e:
-        return await msg.edit(f"**Error:** {str(e)}")
+        return await msg.edit(f'**Error:** {e}')
     preview = wget.download(thumbnail)
     await msg.edit("```Uploading to telegram server...```")
     await message.reply_video(
