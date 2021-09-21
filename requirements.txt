@@ -4,4 +4,5 @@ pafy
 py-tgcalls==0.8.1b14
 TgCrypto
 yt-dlp
+youtube_search
 youtube_search_python
