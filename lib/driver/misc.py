@@ -69,3 +69,21 @@ async def resume(client, message):
              await message.reply("**Resume!**")
          except GroupCallNotFound:
              await message.reply("**Error:** GroupCall not found!")
+
+@Client.on_message(filters.command("stop"))
+async def stopped(client, message):
+    chat_id = message.chat.id
+    channel_id = message.chat.title
+    query = " ".join(message.command[1:])
+    if query == "channel":
+         try:
+             await call_py.leave_group_call(int(channel_id))
+             await message.reply("**Channel stream stopped!**")
+         except GroupCallNotFound:
+             await message.reply("**Error:** GroupCall not found")
+    else:
+         try:
+             await call_py.leave_group_call(chat_id)
+             await message.reply("**Stopped!**")
+         except GroupCallNotFound:
+             await message.reply("**Error:** GroupCall not found")
