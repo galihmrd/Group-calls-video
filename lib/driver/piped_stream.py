@@ -48,6 +48,7 @@ async def play_video(client, message):
         msg = await message.reply("```Downloading from telegram...```")
         chat_id = message.chat.id
         file = await client.download_media(replied)
+        await msg.edit(```Streamed```)
         await call_py.join_group_call(
             chat_id,
             AudioVideoPiped(
