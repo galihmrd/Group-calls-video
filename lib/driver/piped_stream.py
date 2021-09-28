@@ -15,6 +15,7 @@ from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
 @Client.on_message(filters.command("play"))
 async def play_video(client, message):
+    flags = " ".join(message.command[1:])
     replied = message.reply_to_message
     if not replied:
         msg = await message.reply("```Processing...```")
@@ -33,8 +34,11 @@ async def play_video(client, message):
             stream_type=StreamType().live_stream
         )
     elif replied.video or replied.document:
+        if flags == "channel":
+             chat_id = int(message.chat.title)
+        else:
+             chat_id = message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
-        chat_id = message.chat.id
         file = await client.download_media(replied)
         await msg.edit("```Streamed```")
         await call_py.join_group_call(
