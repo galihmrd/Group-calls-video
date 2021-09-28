@@ -2,8 +2,9 @@ import asyncio
 import pafy
 
 from pyrogram import Client, filters
-from lib.tg_stream import call_py
 from youtube_search import YoutubeSearch
+from lib.tg_stream import call_py
+from lib.helpers.filters import private_filters, public_filters
 
 from pytgcalls import idle
 from pytgcalls import StreamType
@@ -13,7 +14,7 @@ from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
 
 
-@Client.on_message(filters.command("play"))
+@Client.on_message(filters.command("play") & public_filters)
 async def play_video(client, message):
     flags = " ".join(message.command[1:])
     replied = message.reply_to_message
