@@ -49,3 +49,7 @@ async def play_video(client, message):
     else:
         await message.reply("```Please reply to video or video file to stream```")
 
+@call_py.on_stream_end()
+async def end(cl, update):
+    print("stream ended in " + str(update.chat_id))
+    await call_py.leave_group_call(update.chat_id)
