@@ -19,11 +19,15 @@ async def play_video(client, message):
     flags = " ".join(message.command[1:])
     replied = message.reply_to_message
     if not replied:
-        msg = await message.reply("```Processing...```")
-        chat_id = message.chat.id
-        input = " ".join(message.command[1:])
-        video = pafy.new(input)
-        file = video.getbest().url
+        try:
+            msg = await message.reply("```Processing...```")
+            chat_id = message.chat.id
+            input = " ".join(message.command[1:])
+            video = pafy.new(input)
+            file = video.getbest().url
+        except Exception as e:
+            await msg.edit(f"**Error:** {e}")
+            return False
         await msg.edit("```Streamed```")
         await call_py.join_group_call(
             chat_id,
