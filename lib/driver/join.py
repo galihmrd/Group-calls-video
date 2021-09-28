@@ -42,15 +42,25 @@ async def join(client, message):
 @Client.on_message(filters.command(["opengc",
                                     "opengc@{USERNAME_BOT"]) & public_filters)
 async def opengc(client, message):
+    flags = " ".join(message.command[1:])
+    channel_id = message.chat.title
     chat_id = message.chat.id
     try:
-        await USER.send(CreateGroupCall(
-              peer=(await USER.resolve_peer(chat_id)),
-                   random_id=randint(10000, 999999999)
-              )
-        )
-        await message.reply("**Voice chat started!**")
+        if flags == "channel":
+             await USER.send(CreateGroupCall(
+                   peer=(await USER.resolve_peer(int(channel_id))),
+                        random_id=randint(10000, 999999999)
+                   )
+             )
+             await message.reply("**Voice chat started!**")
+        else:
+             await USER.send(CreateGroupCall(
+                   peer=(await USER.resolve_peer(chat_id)),
+                        random_id=randint(10000, 999999999)
+                   )
+             )
+             await message.reply("**Voice chat channel started!**")
     except Exception:
         await message.reply(
-           "**Error:** Add userbot as admin of your group with permission **Can manage voice chat**"
+           "**Error:** Add userbot as admin of your group/channel with permission **Can manage voice chat**"
         )
