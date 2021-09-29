@@ -18,11 +18,17 @@ from pytgcalls.types.input_stream.quality import MediumQualityVideo
 async def play_video(client, message):
     flags = " ".join(message.command[1:])
     replied = message.reply_to_message
+    text = message.text.split(None, 2)[1:]
+    query = text[0]
+    if query == "channel":
+        chat_id = int(message.chat.title)
+    else:
+        chat_id = message.chat.id
+        return
     if not replied:
         try:
             msg = await message.reply("```Processing...```")
-            chat_id = message.chat.id
-            input = " ".join(message.command[1:])
+            input = text[1]
             video = pafy.new(input)
             file = video.getbest().url
         except Exception as e:
