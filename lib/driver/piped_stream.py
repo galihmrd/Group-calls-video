@@ -19,16 +19,21 @@ async def play_video(client, message):
     flags = " ".join(message.command[1:])
     replied = message.reply_to_message
     text = message.text.split(None, 2)[1:]
-    query = text[0]
-    if query == "channel":
-        chat_id = int(message.chat.title)
-    else:
-        chat_id = message.chat.id
-        return
+    try:
+        if text[0] == "channel":
+            chat_id = int(message.chat.title)
+            try:
+                input = text[1]
+            except Exception:
+                pass
+        else:
+            chat_id = message.chat.id
+            input = text[0]
+    except Exception:
+        pass
     if not replied:
         try:
             msg = await message.reply("```Processing...```")
-            input = text[1]
             video = pafy.new(input)
             file = video.getbest().url
         except Exception as e:
@@ -45,6 +50,7 @@ async def play_video(client, message):
             stream_type=StreamType().live_stream
         )
     elif replied.video or replied.document:
+        flags = " ".join(message.command[1:])
         if flags == "channel":
              chat_id = int(message.chat.title)
         else:
