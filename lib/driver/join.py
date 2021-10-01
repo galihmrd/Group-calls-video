@@ -36,8 +36,9 @@ async def join(client, message):
         return
     try:
         await USER.join_chat(link)
+        await message.reply("**Userbot Joined**")
     except UserAlreadyParticipant:
-        pass
+        await message.reply("**Userbot Already Participant**")
 
 @Client.on_message(filters.command(["opengc",
                                     "opengc@{USERNAME_BOT"]) & public_filters)
