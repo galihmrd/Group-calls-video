@@ -47,7 +47,7 @@ async def pause(client, message):
         await call_py.pause_stream(chat_id)
         await message.reply(f"**{type} stream paused!**")
     except GroupCallNotFound:
-        await message.reply(f"**Error:** GroupCall not found!")
+        await message.reply('**Error:** GroupCall not found!')
 
 @Client.on_message(filters.command("resume"))
 async def resume(client, message):
@@ -68,18 +68,18 @@ async def resume(client, message):
 async def stopped(client, message):
     query = " ".join(message.command[1:])
     user_id = message.from_user.id
-    if not user_id == SUDO_USERS:
-         await message.reply("**Warning:** Only sudo user can be stopped stream")
-         return False
+    if user_id != SUDO_USERS:
+        await message.reply("**Warning:** Only sudo user can be stopped stream")
+        return False
     else:
-         if query == "channel":
-              chat_id = int(message.chat.title)
-              type = "Channel"
-         else:
-              chat_id = message.chat.id
-              type = "Group"
-         try:
-             await call_py.leave_group_call(chat_id)
-             await message.reply(f"**{type} stream stopped!**")
-         except GroupCallNotFound:
-             await message.reply("**Error:** GroupCall not found")
+        if query == "channel":
+             chat_id = int(message.chat.title)
+             type = "Channel"
+        else:
+             chat_id = message.chat.id
+             type = "Group"
+        try:
+            await call_py.leave_group_call(chat_id)
+            await message.reply(f"**{type} stream stopped!**")
+        except GroupCallNotFound:
+            await message.reply("**Error:** GroupCall not found")
