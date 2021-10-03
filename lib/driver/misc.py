@@ -31,8 +31,9 @@ async def ping_(client: Client, message: Message):
 
 @Client.on_message(filters.command(["repo", "repo@{USERNAME_BOT}"]))
 async def repo(client, message):
-    repo = "https://github.com/Imszy17/tg-stream-video"
-    await message.reply(f"**Source code:** [Here]({repo})")
+    repo = "https://github.com/galihmrd/Group-calls-video"
+    license = "https://github.com/galihmrd/Group-calls-video/blob/stream/beta/LICENSE"
+    await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})")
 
 @Client.on_message(filters.command("pause"))
 async def pause(client, message):
