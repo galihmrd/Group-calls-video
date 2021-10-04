@@ -14,35 +14,86 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton
 from pyrogram import Client, filters
 
 from lib.config import USERNAME_BOT
 
 
-HELP_TEXT = """**List Command:**
+HELP_PLAY = """**[HELP MESSAGE]**
+**>> Description:** ```to streaming video in video chat group/channel```
 
-**• /stream** -> [reply to file/put streaming url]
-**• /cstream** -> [stream in channel]
+**[GUIDE]**
+**>> Group:** ```/play [reply to video/audio/give youtube url]```
+**>> Channel:** ```/play [channel] [reply to video/audio/give youtube url]```
 
-**• /ytstream** -> [put youtube url]
-**• /ytcstream** -> [stream in channel]
-
-**• /pause** -> [pause group stream]
-**• /pause channel** -> [pause channel stream]
-
-**• /resume** -> [resume group stream]
-**• /resume channel** -> [resume channel stream]
-
-**• /stop** -> [for group]
-**• /stop channel** -> [for channel]
-
-**• /schedule** {value} -> [stop scheduler]
+**>> Note:** ```To stream in channel stream you must replace chat title to Channel ID```
 """
 
-@Client.on_message(filters.command(["start", "start@{USERNAME_BOT}"]))
-async def start(client, message):
-    await message.reply("**👋 I'm alive**")
+HELP_PAUSE = """**[HELP MESSAGE]**
+**>> Description:** ```To pause stream in video chat grouo/channel```
 
-@Client.on_message(filters.command(["help", "help@{USERNAME_BOT}"]))
+**[GUIDE]**
+**>> Group:** ```/pause```
+**>> Channel:** ```/pause [channel]```
+
+**>> Note:** ```Replace chat title to pause channel stream```
+"""
+
+HELP_RESUME = """**[HELP MESSAGE]**
+**>> Description:** ```To resume stream in video chat grouo/channel```
+
+**[GUIDE]**
+**>> Group:** ```/resume```
+**>> Channel:** ```/resume [channel]```
+
+**>> Note:** ```Replace chat title to resume channel stream```
+"""
+
+HELP_STOP = """**[HELP MESSAGE]**
+**>> Description:** ```To stop stream in video chat grouo/channel```
+
+**[GUIDE]**
+**>> Group:** ```/stop```
+**>> Channel:** ```/stop [channel]```
+
+**>> Note:** ```Replace chat title to stop channel stream```
+"""
+
+START_MESSAGE = """ **I'M ALIVE**
+"""
+
+
+@Client.on_callback_query(filters.regex(pattern=r"^(play|pause|resume|stop)$"))
+async def callback(b, cb):
+    help_type = cb.matches[0].group(1)
+    if help_type == "play":
+        await cb.message.edit(HELP_PLAY)
+    elif help_type == "pause":
+        await cb.message.edit(HELP_PAUSE)
+    elif help_type == "resume":
+        await cb.message.edit(HELP_RESUME)
+    elif help_type == "stop":
+        await cb.message.edit(HELP_STOP)
+
+@Client.on_message(filters.command("help"))
 async def help(client, message):
-    await message.reply(HELP_TEXT)
+    marr = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("PLAY HELP", "play"),
+                InlineKeyboardButton("PAUSE HELP", "pause"),
+                InlineKeyboardButton("RESUME HELP", "resume"),
+            ],
+            [InlineKeyboardButton("STOP HELP", "stop")],
+        ]
+    )
+    await message.reply(
+         "**Command help with description**",
+         reply_markup=marr
+    )
+
+@Client.on_message(filters.command("start"))
+async def start(client, message):
+    await message.reply(START_MESSAGE)
