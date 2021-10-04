@@ -76,8 +76,6 @@ async def callback(b, cb):
         await cb.message.edit(HELP_RESUME)
     elif help_type == "stop":
         await cb.message.edit(HELP_STOP)
-    else:
-        pass
 
 @Client.on_message(filters.command("help"))
 async def help(client, message):
