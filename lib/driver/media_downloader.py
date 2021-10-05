@@ -8,13 +8,14 @@ from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
 
 ydl_opts = {
-        'format':'best',
-        'keepvideo':True,
-        'prefer_ffmpeg':False,
-        'geo_bypass':True,
-        'outtmpl':'%(title)s.%(ext)s',
-        'quite':True
+    'format': 'best',
+    'keepvideo': True,
+    'prefer_ffmpeg': False,
+    'geo_bypass': True,
+    'outtmpl': '%(title)s.%(ext)s',
+    'quite': True
 }
+
 
 @Client.on_message(filters.command("video"))
 async def video(client, message):
@@ -48,6 +49,7 @@ async def video(client, message):
         await msg.delete()
     except Exception as e:
         print(e)
+
 
 @Client.on_message(filters.command("music"))
 async def music(client, message):

@@ -14,7 +14,6 @@ from pytgcalls.types.input_stream.quality import MediumQualityAudio
 from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
 
-
 @Client.on_message(filters.command("play") & public_filters)
 async def play_video(client, message):
     flags = " ".join(message.command[1:])
@@ -53,9 +52,9 @@ async def play_video(client, message):
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
         if flags == "channel":
-             chat_id = int(message.chat.title)
+            chat_id = int(message.chat.title)
         else:
-             chat_id = message.chat.id
+            chat_id = message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         file = await client.download_media(replied)
         await msg.edit("```Streamed```")
@@ -69,11 +68,11 @@ async def play_video(client, message):
             stream_type=StreamType().live_stream
         )
     elif replied.audio:
-        flags =  " ".join(message.command[1:])
+        flags = " ".join(message.command[1:])
         if flags == "channel":
-             chat_id = message.chat.title
+            chat_id = message.chat.title
         else:
-             chat_id = message.chat.id
+            chat_id = message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         input_file = await client.download_media(replied)
         await msg.edit("```Streamed```")
@@ -88,6 +87,7 @@ async def play_video(client, message):
         )
     else:
         await message.reply("```Please reply to video or video file to stream```")
+
 
 @call_py.on_stream_end()
 async def end(cl, update):

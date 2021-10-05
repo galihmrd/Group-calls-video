@@ -77,6 +77,7 @@ async def callback(b, cb):
     elif help_type == "stop":
         await cb.message.edit(HELP_STOP)
 
+
 @Client.on_message(filters.command("help"))
 async def help(client, message):
     marr = InlineKeyboardMarkup(
@@ -90,9 +91,10 @@ async def help(client, message):
         ]
     )
     await message.reply(
-         "**Command help with description**",
-         reply_markup=marr
+        "**Command help with description**",
+        reply_markup=marr
     )
+
 
 @Client.on_message(filters.command("start"))
 async def start(client, message):

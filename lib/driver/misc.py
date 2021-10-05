@@ -29,41 +29,45 @@ async def ping_(client: Client, message: Message):
     latency = (end - start).microseconds / 1000
     await msg.edit(f"**Latency:** `{latency} ms`")
 
+
 @Client.on_message(filters.command(["repo", "repo@{USERNAME_BOT}"]))
 async def repo(client, message):
     repo = "https://github.com/galihmrd/Group-calls-video"
     license = "https://github.com/galihmrd/Group-calls-video/blob/stream/beta/LICENSE"
     await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})")
 
+
 @Client.on_message(filters.command("pause"))
 async def pause(client, message):
     query = " ".join(message.command[1:])
     if query == "channel":
-         chat_id = int(message.chat.title)
-         type = "Channel"
+        chat_id = int(message.chat.title)
+        type = "Channel"
     else:
-         chat_id = message.chat.id
-         type = "Group"
+        chat_id = message.chat.id
+        type = "Group"
     try:
         await call_py.pause_stream(chat_id)
         await message.reply(f"**{type} stream paused!**")
     except GroupCallNotFound:
         await message.reply('**Error:** GroupCall not found!')
 
+
 @Client.on_message(filters.command("resume"))
 async def resume(client, message):
     query = " ".join(message.command[1:])
     if query == "channel":
-         chat_id = int(message.chat.title)
-         type = "Channel"
+        chat_id = int(message.chat.title)
+        type = "Channel"
     else:
-         chat_id = message.chat.id
-         type = "Group"
+        chat_id = message.chat.id
+        type = "Group"
     try:
         await call_py.resume_stream(chat_id)
         await message.reply(f"**{type} stream resumed!**")
     except GroupCallNotFound:
         await message.reply("**Error:** GroupCall not found!")
+
 
 @Client.on_message(filters.command("stop"))
 async def stopped(client, message):
@@ -74,15 +78,13 @@ async def stopped(client, message):
         return False
     else:
         if query == "channel":
-             chat_id = int(message.chat.title)
-             type = "Channel"
+            chat_id = int(message.chat.title)
+            type = "Channel"
         else:
-             chat_id = message.chat.id
-             type = "Group"
+            chat_id = message.chat.id
+            type = "Group"
         try:
             await call_py.leave_group_call(chat_id)
             await message.reply(f"**{type} stream stopped!**")
         except GroupCallNotFound:
             await message.reply("**Error:** GroupCall not found")
-
-
