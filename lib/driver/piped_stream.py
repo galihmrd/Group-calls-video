@@ -51,10 +51,7 @@ async def play_video(client, message):
         )
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
-        if flags == "channel":
-            chat_id = int(message.chat.title)
-        else:
-            chat_id = message.chat.id
+        chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         file = await client.download_media(replied)
         await msg.edit("```Streamed```")
