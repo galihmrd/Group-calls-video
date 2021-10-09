@@ -19,6 +19,7 @@ async def play_video(client, message):
     flags = " ".join(message.command[1:])
     replied = message.reply_to_message
     text = message.text.split(None, 2)[1:]
+    user = message.from_user.mention
     try:
         if text[0] == "channel":
             chat_id = int(message.chat.title)
@@ -36,10 +37,11 @@ async def play_video(client, message):
             msg = await message.reply("```Processing...```")
             video = pafy.new(input)
             file = video.getbest().url
+            title = video.title
         except Exception as e:
             await msg.edit(f"**Error:** {e}")
             return False
-        await msg.edit("```Streamed```")
+        await msg.edit(f"**Streamed by: {user}**\n**Title:** ```{title}```")
         await call_py.join_group_call(
             chat_id,
             AudioVideoPiped(
@@ -54,7 +56,7 @@ async def play_video(client, message):
         chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         file = await client.download_media(replied)
-        await msg.edit("```Streamed```")
+        await msg.edit(f"**Streamed by: {user}**")
         await call_py.join_group_call(
             chat_id,
             AudioVideoPiped(
@@ -72,7 +74,7 @@ async def play_video(client, message):
             chat_id = message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         input_file = await client.download_media(replied)
-        await msg.edit("```Streamed```")
+        await msg.edit(f"**Streamed by: {user}**")
         await call_py.join_group_call(
             chat_id,
             AudioImagePiped(
