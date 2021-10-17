@@ -14,9 +14,8 @@
             "required": true
         },
         "USERNAME_BOT": {
-            "description": "Fill woth your blt username without @",
-            "required": true,
-            "value": "feritapibot"
+            "description": "Your bot username without @",
+            "required": true
         },
         "API_ID": {
             "description": "APP ID from my.telegram.org",
@@ -27,7 +26,7 @@
             "required": true
         },
         "SUDO_USERS": {
-            "description": "Fill with ID who you made a admin for bot (separate with space).",
+            "description": "Your telegram User ID",
             "required": true
         }
     },
