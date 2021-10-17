@@ -12,6 +12,7 @@ from pytgcalls.types.input_stream import AudioVideoPiped
 from pytgcalls.types.input_stream import AudioImagePiped
 from pytgcalls.types.input_stream.quality import MediumQualityAudio
 from pytgcalls.types.input_stream.quality import MediumQualityVideo
+from pytgcalls.exceptions import NoActiveGroupCall
 
 
 @Client.on_message(filters.command("play") & public_filters)
@@ -42,30 +43,36 @@ async def play_video(client, message):
             await msg.edit(f"**Error:** {e}")
             return False
         await msg.edit(f"**Streamed by: {user}**\n**Title:** ```{title}```")
-        await call_py.join_group_call(
-            chat_id,
-            AudioVideoPiped(
-                file,
-                MediumQualityAudio(),
-                MediumQualityVideo()
-            ),
-            stream_type=StreamType().live_stream
-        )
+        try:
+           await call_py.join_group_call(
+               chat_id,
+               AudioVideoPiped(
+                   file,
+                   MediumQualityAudio(),
+                   MediumQualityVideo()
+               ),
+               stream_type=StreamType().live_stream
+           )
+         except NoActiveGroupCall:
+           await msg.edit("**Error:** No active group call, please open group call first")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
         chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         file = await client.download_media(replied)
         await msg.edit(f"**Streamed by: {user}**")
-        await call_py.join_group_call(
-            chat_id,
-            AudioVideoPiped(
-                file,
-                MediumQualityAudio(),
-                MediumQualityVideo()
-            ),
-            stream_type=StreamType().live_stream
-        )
+        try:
+           await call_py.join_group_call(
+               chat_id,
+               AudioVideoPiped(
+                   file,
+                   MediumQualityAudio(),
+                   MediumQualityVideo()
+               ),
+               stream_type=StreamType().live_stream
+           )
+         except NoActiveGroupCall:
+           await msg.edit("**Error:** No active group call, please open group call first")
     elif replied.audio:
         flags = " ".join(message.command[1:])
         if flags == "channel":
@@ -75,15 +82,18 @@ async def play_video(client, message):
         msg = await message.reply("```Downloading from telegram...```")
         input_file = await client.download_media(replied)
         await msg.edit(f"**Streamed by: {user}**")
-        await call_py.join_group_call(
-            chat_id,
-            AudioImagePiped(
-                input_file,
-                './etc/banner.png',
-                video_parameters=MediumQualityVideo(),
-            ),
-            stream_type=StreamType().pulse_stream,
-        )
+        try:
+           await call_py.join_group_call(
+               chat_id,
+               AudioImagePiped(
+                   input_file,
+                   './etc/banner.png',
+                   video_parameters=MediumQualityVideo(),
+               ),
+               stream_type=StreamType().pulse_stream,
+           )
+         except NoActiveGroupCall:
+           await msg.edit("**Error:** No active group call, please open group call first")
     else:
         await message.reply("```Please reply to video or video file to stream```")
 
