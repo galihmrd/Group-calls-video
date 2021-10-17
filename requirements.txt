@@ -7,3 +7,4 @@ yt-dlp
 youtube-dl
 youtube_search
 youtube_search_python
+wget
