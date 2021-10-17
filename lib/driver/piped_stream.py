@@ -53,7 +53,7 @@ async def play_video(client, message):
                ),
                stream_type=StreamType().live_stream
            )
-         except NoActiveGroupCall:
+        except NoActiveGroupCall:
            await msg.edit("**Error:** No active group call, please open group call first")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
@@ -71,7 +71,7 @@ async def play_video(client, message):
                ),
                stream_type=StreamType().live_stream
            )
-         except NoActiveGroupCall:
+        except NoActiveGroupCall:
            await msg.edit("**Error:** No active group call, please open group call first")
     elif replied.audio:
         flags = " ".join(message.command[1:])
@@ -92,7 +92,7 @@ async def play_video(client, message):
                ),
                stream_type=StreamType().pulse_stream,
            )
-         except NoActiveGroupCall:
+        except NoActiveGroupCall:
            await msg.edit("**Error:** No active group call, please open group call first")
     else:
         await message.reply("```Please reply to video or video file to stream```")
