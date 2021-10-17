@@ -75,10 +75,7 @@ async def play_video(client, message):
            await msg.edit("**Error:** No active group call, please open group call first")
     elif replied.audio:
         flags = " ".join(message.command[1:])
-        if flags == "channel":
-            chat_id = message.chat.title
-        else:
-            chat_id = message.chat.id
+        chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         input_file = await client.download_media(replied)
         await msg.edit(f"**Streamed by: {user}**")
@@ -95,7 +92,7 @@ async def play_video(client, message):
         except NoActiveGroupCall:
            await msg.edit("**Error:** No active group call, please open group call first")
     else:
-        await message.reply("```Please reply to video or video file to stream```")
+        await message.reply("Error!")
 
 
 @call_py.on_stream_end()
