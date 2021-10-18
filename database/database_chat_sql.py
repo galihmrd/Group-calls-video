@@ -2,7 +2,10 @@ import threading
 
 from pyrogram.filters import chat
 
-from database import BASE, SESSION
+try:
+    database import BASE, SESSION
+except ImportError:
+    return AttributeError
 from sqlalchemy import Column, String, UnicodeText
 
 
