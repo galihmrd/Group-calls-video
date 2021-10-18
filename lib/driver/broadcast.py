@@ -5,8 +5,8 @@ from pyrogram import Client, filters
 
 from lib.helpers.text_helper import get_arg
 
-from database.database_chat_sql import load_chats_list
-from database.database_chat_sql import remove_chat_from_db
+from lib.database.database_chat_sql import load_chats_list
+from lib.database.database_chat_sql import remove_chat_from_db
 
 
 @Client.on_message(filters.command("broadcast"))
