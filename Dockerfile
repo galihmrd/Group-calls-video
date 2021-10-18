@@ -9,5 +9,7 @@ RUN npm i -g npm
 COPY . /workspace
 WORKDIR /workspace
 RUN pip3 install --upgrade pip
+RUN pip3 install psycopg2
+RUN pip3 install psycopg2-binary
 RUN pip3 install -r requirements.txt
 CMD python3 -m lib
