@@ -8,11 +8,9 @@ from lib.helpers.filters import private_filters, public_filters
 
 from pytgcalls import idle
 from pytgcalls import StreamType
+from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioVideoPiped
 from pytgcalls.types.input_stream import AudioImagePiped
-from pytgcalls.types.input_stream.quality import MediumQualityAudio
-from pytgcalls.types.input_stream.quality import MediumQualityVideo
-from pytgcalls.exceptions import NoActiveGroupCall
 
 
 @Client.on_message(filters.command("play") & public_filters)
@@ -37,7 +35,7 @@ async def play_video(client, message):
         try:
             msg = await message.reply("```Processing...```")
             video = pafy.new(input)
-            file = video.getbest().url
+            file_source = video.getbest().url
             title = video.title
         except Exception as e:
             await msg.edit(f"**Error:** {e}")
@@ -47,9 +45,7 @@ async def play_video(client, message):
            await call_py.join_group_call(
                chat_id,
                AudioVideoPiped(
-                   file,
-                   MediumQualityAudio(),
-                   MediumQualityVideo()
+                   file_source
                ),
                stream_type=StreamType().live_stream
            )
@@ -59,15 +55,13 @@ async def play_video(client, message):
         flags = " ".join(message.command[1:])
         chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
-        file = await client.download_media(replied)
+        file_source = await client.download_media(replied)
         await msg.edit(f"**Streamed by: {user}**")
         try:
            await call_py.join_group_call(
                chat_id,
                AudioVideoPiped(
-                   file,
-                   MediumQualityAudio(),
-                   MediumQualityVideo()
+                   file_source
                ),
                stream_type=StreamType().live_stream
            )
