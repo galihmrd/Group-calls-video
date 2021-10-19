@@ -11,6 +11,7 @@ from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioVideoPiped
 from pytgcalls.types.input_stream import AudioImagePiped
+from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
 
 @Client.on_message(filters.command("play") & public_filters)
