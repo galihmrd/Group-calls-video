@@ -14,10 +14,8 @@ $ python -m lib
 
 
 # Credit
-```
-|🇮🇩 GalihMrd
-```
-- [Laky-64](https://github.com/Laky-64) for [pytgcalls](https://github.com/pytgcalls/pytgcalls)
+- [GalihMrd](https://github.com/galihmrd) Developer
+- [Laky-64](https://github.com/Laky-64) for [py-tgcalls](https://github.com/pytgcalls/pytgcalls)
 - [Dan](https://github.com/delivrance) for [Pyrogram](https://github.com/pyrogram/pyrogram)
 
 
