@@ -57,7 +57,7 @@ async def opengc(client, message):
             random_id=randint(10000, 999999999)
         )
         )
-            await message.reply(f"**Voice chat {type} started!**")
+        await message.reply(f"**Voice chat {type} started!**")
     except Exception:
         await message.reply(
             "**Error:** Add userbot as admin of your group/channel with permission **Can manage voice chat**"
