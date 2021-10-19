@@ -29,4 +29,5 @@ bot = Client(
 bot.start()
 app.start()
 call_py.start()
+print("Bot started successfully!")
 idle()
