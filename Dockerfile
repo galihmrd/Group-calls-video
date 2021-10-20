@@ -1,13 +1,14 @@
-FROM python:3.9.7-slim-buster
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install npm -y
-RUN apt-get install git curl python3-pip ffmpeg -y
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g npm@7.22.0
-RUN npm i -g npm
-COPY . /workspace
-WORKDIR /workspace
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
-CMD python3 -m lib
+FROM python:3.9-slim-buster
+
+COPY . /worker
+WORKDIR /worker
+
+RUN apt update -qqy \
+    && apt install --no-install-recommends git curl ffmpeg -qqy \
+    && curl -sL https://deb.nodesource.com/setup_15.x | bash - \
+    && apt-get install -y nodejs \
+    && npm i -g npm \
+    && pip install -U -r requirements.txt \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD ['python', '-m', 'lib']
