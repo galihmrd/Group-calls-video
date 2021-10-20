@@ -18,6 +18,7 @@ from pyrogram.types import Message
 from pyrogram import Client, filters
 from lib.tg_stream import call_py
 from lib.config import USERNAME_BOT, SUDO_USERS
+from lib.helpers.decorators import sudo_users
 from pytgcalls.exceptions import GroupCallNotFound
 
 
@@ -70,21 +71,18 @@ async def resume(client, message):
 
 
 @Client.on_message(filters.command("stop"))
+@sudo_users
 async def stopped(client, message):
     query = " ".join(message.command[1:])
     user_id = message.from_user.id
-    if user_id != SUDO_USERS:
-        await message.reply("**Warning:** Only sudo user can be stopped stream")
-        return False
+    if query == "channel":
+        chat_id = int(message.chat.title)
+        type = "Channel"
     else:
-        if query == "channel":
-            chat_id = int(message.chat.title)
-            type = "Channel"
-        else:
-            chat_id = message.chat.id
-            type = "Group"
-        try:
-            await call_py.leave_group_call(chat_id)
-            await message.reply(f"**{type} stream stopped!**")
-        except GroupCallNotFound:
-            await message.reply("**Error:** GroupCall not found")
+        chat_id = message.chat.id
+        type = "Group"
+    try:
+        await call_py.leave_group_call(chat_id)
+        await message.reply(f"**{type} stream stopped!**")
+    except GroupCallNotFound:
+        await message.reply("**Error:** GroupCall not found")
