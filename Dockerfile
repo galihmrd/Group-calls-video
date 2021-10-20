@@ -11,4 +11,4 @@ RUN apt update -qqy \
     && pip install -U -r requirements.txt \
     && rm -rf /var/lib/apt/lists/*
 
-CMD ['python', '-m', 'lib']
+CMD python3 -m lib
