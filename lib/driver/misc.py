@@ -91,10 +91,23 @@ async def stopped(client, message):
 @Client.on_message(filters.command("volume"))
 @sudo_users
 async def change_volume(client, message):
-    range = message.command[1]
-    chat_id = message.chat.id
+    text = message.text.split(None, 2)[1:]
+    try:
+        if text[0] == "channel":
+            chat_id = message.chat.title
+            vol_type = "channel stream"
+            try:
+                range = text[1]
+            except Exception:
+                pass
+        else:
+            chat_id = message.chat.id
+            vol_type = "group stream"
+            range = text[0]
+    except Exception:
+        pass
     try:
        await call_py.change_volume_call(chat_id, volume=int(range))
-       await message.reply(f"**Volume changed to:** ```{range}%```")
+       await message.reply(f"**Volume {vol_type} changed to:** ```{range}%```")
     except Exception as e:
        await message.reply(f"**Error:** {e}")
