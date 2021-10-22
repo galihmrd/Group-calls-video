@@ -94,7 +94,7 @@ async def change_volume(client, message):
     range = message.command[1]
     chat_id = message.chat.id
     try:
-       await call_py.change_volume_call(chat_id, range)
-       await message.reply(f"**Volume changed to:** ```{range}```")
+       await call_py.change_volume_call(chat_id, volume=int(range))
+       await message.reply(f"**Volume changed to:** ```{range}%```")
     except Exception as e:
        await message.reply(f"**Error:** {e}")
