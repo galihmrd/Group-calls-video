@@ -91,7 +91,7 @@ async def stopped(client, message):
 @Client.on_message(filters.command("volume"))
 @sudo_users
 async def change_volume(client, message):
-    text = message.text.split(None, 2)[1:]
+    text = message.command.split(None, 2)[1:]
     try:
         if text[0] == "channel":
             chat_id = message.chat.title
