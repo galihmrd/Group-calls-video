@@ -22,11 +22,13 @@ from pyrogram.raw.functions.phone import CreateGroupCall
 
 from lib.config import USERNAME_BOT
 from lib.tg_stream import app as USER
+from lib.helpers.decorators import sudo_users
 from lib.helpers.filters import private_filters, public_filters
 
 
 @Client.on_message(filters.command(["join",
                                     "join@{USERNAME_BOT}"]) & public_filters)
+@sudo_users
 async def join(client, message):
     chat_id = message.chat.id
     try:
@@ -43,6 +45,7 @@ async def join(client, message):
 
 @Client.on_message(filters.command(["opengc",
                                     "opengc@{USERNAME_BOT"]) & public_filters)
+@sudo_users
 async def opengc(client, message):
     flags = " ".join(message.command[1:])
     if flags == "channel":
