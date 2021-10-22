@@ -91,7 +91,7 @@ async def stopped(client, message):
 @Client.on_message(filters.command("volume"))
 @sudo_users
 async def change_volume(client, message):
-    range = " ".join(message.command[1])
+    range = message.command[1]
     chat_id = message.chat.id
     try:
        await call_py.change_volume_call(chat_id, range)
