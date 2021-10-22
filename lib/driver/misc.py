@@ -86,3 +86,15 @@ async def stopped(client, message):
         await message.reply(f"**{type} stream stopped!**")
     except GroupCallNotFound:
         await message.reply("**Error:** GroupCall not found")
+
+
+@Client.on_message(filters.command("volume"))
+@sudo_users
+async def change_volume(client, message):
+    range = message.command[1]
+    chat_id = message.chat.id
+    try:
+       await call_py.change_volume_call(chat_id, volume=int(range))
+       await message.reply(f"**Volume changed to:** ```{range}%```")
+    except Exception as e:
+       await message.reply(f"**Error:** {e}")
