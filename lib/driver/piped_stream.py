@@ -41,60 +41,62 @@ async def play_video(client, message):
         except Exception as e:
             await msg.edit(f"**Error:** {e}")
             return False
-        await msg.edit(f"**Streamed by: {user}**\n**Title:** ```{title}```")
         try:
-            await call_py.join_group_call(
-                chat_id,
-                AudioVideoPiped(
-                    file_source
-                ),
-                stream_type=StreamType().live_stream
-            )
+            await pstream(chat_id, file_source)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
             await opengc(client, message)
+            await pstream(chat_id, file_source)
+        await msg.edit(f"**Streamed by: {user}**\n**Title:** ```{title}```")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
         chat_id = int(
             message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         file_source = await client.download_media(replied)
-        await msg.edit(f"**Streamed by: {user}**")
         try:
             add_chat_to_db(str(chat_id))
-            await call_py.join_group_call(
-                chat_id,
-                AudioVideoPiped(
-                    file_source
-                ),
-                stream_type=StreamType().live_stream
-            )
+            await pstream(chat_id, file_source)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
             await opengc(client, message)
+            await pstream(chat_id, file_source)
+        await msg.edit(f"**Streamed by: {user}**")
     elif replied.audio:
         flags = " ".join(message.command[1:])
         chat_id = int(
             message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("```Downloading from telegram...```")
         input_file = await client.download_media(replied)
-        await msg.edit(f"**Streamed by: {user}**")
         try:
             add_chat_to_db(str(chat_id))
-            await call_py.join_group_call(
-                chat_id,
-                AudioImagePiped(
-                    input_file,
-                    './etc/banner.png',
-                    video_parameters=MediumQualityVideo(),
-                ),
-                stream_type=StreamType().pulse_stream,
-            )
+            await pstream(chat_id, input_file, True)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
             await opengc(client, message)
+            await pstream(chat_id, input_file, True)
+        await msg.edit(f"**Streamed by: {user}**")
     else:
         await message.reply("Error!")
+
+
+async def pstream(chat_id, file, audio=None):
+    if audio:
+        await call_py.join_group_call(
+            chat_id,
+            AudioImagePiped(
+                file,
+                './etc/banner.png',
+                video_parameters=MediumQualityVideo(),
+            ),
+            stream_type=StreamType().pulse_stream,
+        )
+    else:
+        await call_py.join_group_call(
+            chat_id,
+            AudioVideoPiped(file),
+            stream_type=StreamType().live_stream
+        )
 
 
 @call_py.on_stream_end()
