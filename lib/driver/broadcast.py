@@ -1,13 +1,11 @@
 from io import BytesIO
 
-from pyrogram.types import Message
 from pyrogram import Client, filters
+from pyrogram.types import Message
 
-from lib.helpers.text_helper import get_arg
+from database.database_chat_sql import load_chats_list, remove_chat_from_db
 from lib.helpers.decorators import sudo_users
-
-from database.database_chat_sql import load_chats_list
-from database.database_chat_sql import remove_chat_from_db
+from lib.helpers.text_helper import get_arg
 
 
 @Client.on_message(filters.command("broadcast"))
@@ -23,10 +21,9 @@ async def broadcast(client: Client, message: Message):
                 to_send
             )
             success += 1
-        except:
+        except BaseException:
             failed += 1
             remove_chat_from_db(str(chat))
-            pass
     await message.reply(
         f"Message sent to {success} chat(s). {failed} chat(s) failed recieve message"
     )
@@ -45,16 +42,16 @@ async def chatlist(client, message):
     for chat in chats:
         try:
             link = await client.export_chat_invite_link(int(chat))
-        except:
+        except BaseException:
             link = "Null"
         try:
             members = await client.get_chat_members_count(int(chat))
-        except:
+        except BaseException:
             members = "Null"
         try:
             chatfile += "{}. {} | {} | {}\n".format(P, chat, members, link)
             P = P + 1
-        except:
+        except BaseException:
             pass
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"

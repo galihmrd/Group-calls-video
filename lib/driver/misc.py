@@ -14,12 +14,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 from datetime import datetime
-from pyrogram.types import Message
+
 from pyrogram import Client, filters
-from lib.tg_stream import call_py
-from lib.config import USERNAME_BOT, SUDO_USERS
-from lib.helpers.decorators import sudo_users
+from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
+
+from lib.config import USERNAME_BOT
+from lib.helpers.decorators import sudo_users
+from lib.tg_stream import call_py
 
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
@@ -94,7 +96,7 @@ async def change_volume(client, message):
     range = message.command[1]
     chat_id = message.chat.id
     try:
-       await call_py.change_volume_call(chat_id, volume=int(range))
-       await message.reply(f"**Volume changed to:** ```{range}%```")
+        await call_py.change_volume_call(chat_id, volume=int(range))
+        await message.reply(f"**Volume changed to:** ```{range}%```")
     except Exception as e:
-       await message.reply(f"**Error:** {e}")
+        await message.reply(f"**Error:** {e}")

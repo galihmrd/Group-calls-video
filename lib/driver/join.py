@@ -14,16 +14,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 from random import randint
-from pyrogram.types import Message
+
 from pyrogram import Client, filters
-from pyrogram.raw.types import InputGroupCall
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.raw.functions.phone import CreateGroupCall
 
 from lib.config import USERNAME_BOT
-from lib.tg_stream import app as USER
 from lib.helpers.decorators import sudo_users
-from lib.helpers.filters import private_filters, public_filters
+from lib.helpers.filters import public_filters
+from lib.tg_stream import app as USER
 
 
 @Client.on_message(filters.command(["join",
