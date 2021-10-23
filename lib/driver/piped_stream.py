@@ -13,6 +13,8 @@ from pytgcalls.types.input_stream import AudioVideoPiped
 from pytgcalls.types.input_stream import AudioImagePiped
 from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
+from database.database_chat_sql import add_chat_to_db
+
 
 @Client.on_message(filters.command("play") & public_filters)
 async def play_video(client, message):
@@ -34,6 +36,7 @@ async def play_video(client, message):
         pass
     if not replied:
         try:
+            add_chat_to_db(str(chat_id))
             msg = await message.reply("```Processing...```")
             video = pafy.new(input)
             file_source = video.getbest().url
@@ -59,6 +62,7 @@ async def play_video(client, message):
         file_source = await client.download_media(replied)
         await msg.edit(f"**Streamed by: {user}**")
         try:
+           add_chat_to_db(str(chat_id))
            await call_py.join_group_call(
                chat_id,
                AudioVideoPiped(
@@ -75,6 +79,7 @@ async def play_video(client, message):
         input_file = await client.download_media(replied)
         await msg.edit(f"**Streamed by: {user}**")
         try:
+           add_chat_to_db(str(chat_id))
            await call_py.join_group_call(
                chat_id,
                AudioImagePiped(
