@@ -1,6 +1,8 @@
-from pyrogram import Client
 from typing import Callable
+
+from pyrogram import Client
 from pyrogram.types import Message
+
 from lib.config import SUDO_USERS
 
 

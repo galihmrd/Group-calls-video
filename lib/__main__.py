@@ -13,10 +13,10 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
-from lib.tg_stream import app
 from pyrogram import Client, idle
+
 from lib.config import API_HASH, API_ID, BOT_TOKEN
-from lib.tg_stream import call_py
+from lib.tg_stream import app, call_py
 
 bot = Client(
     ":memory:",

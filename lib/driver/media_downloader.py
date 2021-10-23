@@ -1,11 +1,9 @@
 import os
-import math
+
 import wget
-import requests
-from yt_dlp import YoutubeDL
-from pyrogram.types import Message
 from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
+from yt_dlp import YoutubeDL
 
 ydl_opts = {
     'format': 'best',
@@ -37,9 +35,9 @@ async def video(client, message):
     except Exception as e:
         return await msg.edit(f'**Error:** {e}')
     try:
-       preview = wget.download(thumbnail)
+        preview = wget.download(thumbnail)
     except Exception:
-       pass
+        pass
     await msg.edit("```Uploading to telegram server...```")
     await message.reply_video(
         file_name,

@@ -1,14 +1,14 @@
 import os
 import re
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from lib.config import DATABASE_URL as db
 
-
 if db and db.startswith("postgres://"):
-     app = db.replace("postgres://", "postgresql://", 1)
+    app = db.replace("postgres://", "postgresql://", 1)
 
 BASE = declarative_base()
 
