@@ -51,7 +51,8 @@ async def play_video(client, message):
                 stream_type=StreamType().live_stream
             )
         except NoActiveGroupCall:
-            opengc(client, message)
+            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await opengc(client, message)
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
         chat_id = int(
@@ -69,7 +70,8 @@ async def play_video(client, message):
                 stream_type=StreamType().live_stream
             )
         except NoActiveGroupCall:
-            opengc(client, message)
+            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await opengc(client, message)
     elif replied.audio:
         flags = " ".join(message.command[1:])
         chat_id = int(
@@ -89,7 +91,8 @@ async def play_video(client, message):
                 stream_type=StreamType().pulse_stream,
             )
         except NoActiveGroupCall:
-            opengc(client, message)
+            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await opengc(client, message)
     else:
         await message.reply("Error!")
 
