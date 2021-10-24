@@ -20,29 +20,26 @@ async def blacklist(client: Client, message: Message):
            reason = arg[0]
         except:
            reason = "No reason"
-        db.banned_user(int(user_id))
-        await message.reply(f"**User:** [blacklisted](tg://user?id={user_id})\n**Reason:** {reason}")
-    else:
-        if arg[0].startswith("@"):
-            try:
-                user = await client.get_users(arg[0])
-                user_id = user.id
-                try:
-                   reason = arg[1]
-                except:
-                   reason = "No reason"
-            except BadRequest as ex:
-                await message.reply("not a valid user")
-                print(ex)
-                return ""
-        else:
-            user_id = int(arg[0])
+    elif arg[0].startswith("@"):
+        try:
+            user = await client.get_users(arg[0])
+            user_id = user.id
             try:
                reason = arg[1]
             except:
                reason = "No reason"
-        db.banned_user(int(user_id))
-        await message.reply(f"**User:** [blacklisted](tg://user?id={user_id})\n**Reason:** {reason}")
+        except BadRequest as ex:
+            await message.reply("not a valid user")
+            print(ex)
+            return ""
+    else:
+        user_id = int(arg[0])
+        try:
+           reason = arg[1]
+        except:
+           reason = "No reason"
+    db.banned_user(int(user_id))
+    await message.reply(f"**User:** [blacklisted](tg://user?id={user_id})\n**Reason:** {reason}")
 
 
 @Client.on_message(filters.command("ungbl"))
@@ -51,8 +48,6 @@ async def unblacklist(client: Client, message: Message):
     replied = message.reply_to_message
     if replied:
         user_id = replied.from_user.id
-        db.unban_user(int(user_id))
-        await message.reply(f"[unblacklisted](tg://user?id={user_id})")
     else:
         arg = " ".join(message.command[1:])
         if arg.startswith("@"):
@@ -64,5 +59,6 @@ async def unblacklist(client: Client, message: Message):
                 return ""
         else:
             user_id = int(arg)
-        db.unban_user(int(user_id))
-        await message.reply(f"[unblacklisted](tg://user?id={user_id})")
+
+    db.unban_user(int(user_id))
+    await message.reply(f"[unblacklisted](tg://user?id={user_id})")
