@@ -4,6 +4,7 @@ import wget
 from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
+from lib.helpers.decorators import blacklist_users
 
 ydl_opts = {
     'format': 'best',
@@ -16,6 +17,7 @@ ydl_opts = {
 
 
 @Client.on_message(filters.command("video"))
+@blacklist_users
 async def video(client, message):
     query = " ".join(message.command[1:])
     try:
@@ -53,6 +55,7 @@ async def video(client, message):
 
 
 @Client.on_message(filters.command("music"))
+@blacklist_users
 async def music(client, message):
     input = " ".join(message.command[1:])
     msg = await message.reply("```Downloading...```")

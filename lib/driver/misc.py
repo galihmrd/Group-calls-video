@@ -20,11 +20,12 @@ from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import USERNAME_BOT
-from lib.helpers.decorators import sudo_users
+from lib.helpers.decorators import sudo_users, blacklist_users
 from lib.tg_stream import call_py
 
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
+@blacklist_users
 async def ping_(client: Client, message: Message):
     start = datetime.now()
     msg = await message.reply_text('`Latensi`')
@@ -34,6 +35,7 @@ async def ping_(client: Client, message: Message):
 
 
 @Client.on_message(filters.command(["repo", "repo@{USERNAME_BOT}"]))
+@blacklist_users
 async def repo(client, message):
     repo = "https://github.com/galihmrd/Group-calls-video"
     license = "https://github.com/galihmrd/Group-calls-video/blob/stream/beta/LICENSE"
@@ -41,6 +43,7 @@ async def repo(client, message):
 
 
 @Client.on_message(filters.command("pause"))
+@blacklist_users
 async def pause(client, message):
     query = " ".join(message.command[1:])
     if query == "channel":
@@ -57,6 +60,7 @@ async def pause(client, message):
 
 
 @Client.on_message(filters.command("resume"))
+@blacklist_users
 async def resume(client, message):
     query = " ".join(message.command[1:])
     if query == "channel":
@@ -73,7 +77,7 @@ async def resume(client, message):
 
 
 @Client.on_message(filters.command("stop"))
-@sudo_users
+@blacklist_users
 async def stopped(client, message):
     query = " ".join(message.command[1:])
     user_id = message.from_user.id
