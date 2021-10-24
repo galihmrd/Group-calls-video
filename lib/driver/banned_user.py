@@ -15,13 +15,13 @@ async def blacklist(client: Client, message: Message):
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user["id"]
     else:
-        arg = get_arg(message)
+        arg = " ".join(message.command[1:])
         if len(arg) != 1:
             await message.reply(
                 "pass a user id or user name or reply to a user message"
             )
             return ""
-        if arg.startswith("@"):
+        elif arg.startswith("@"):
             try:
                 user = await client.get_users(arg)
                 user_id = user.id
