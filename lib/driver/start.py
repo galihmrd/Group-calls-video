@@ -15,7 +15,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from lib.helpers.decorators import blacklist_users
 from lib.config import USERNAME_BOT
 
 HELP_PLAY = """**[HELP MESSAGE]**
@@ -76,6 +76,7 @@ async def callback(b, cb):
 
 
 @Client.on_message(filters.command("help"))
+@blacklist_users
 async def help(client, message):
     marr = InlineKeyboardMarkup(
         [
@@ -94,5 +95,6 @@ async def help(client, message):
 
 
 @Client.on_message(filters.command("start"))
+@blacklist_users
 async def start(client, message):
     await message.reply(START_MESSAGE)

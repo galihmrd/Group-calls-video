@@ -4,6 +4,7 @@ from pyrogram import Client
 from pyrogram.types import Message
 
 from lib.config import SUDO_USERS
+from database.database_banned_sql import check_banned
 
 
 def sudo_users(func: Callable) -> Callable:
@@ -22,3 +23,14 @@ def errors(func: Callable) -> Callable:
             await message.reply(f"{type(e).__name__}: {e}")
 
     return decorator
+
+
+def blacklist_users(func: Callable) -> Callable:
+    async def decorator(filter, client, message):
+        check = check_banned(message)
+        if check:
+            return False
+        else:
+            return await func(filter, client, message)
+
+        return decorator
