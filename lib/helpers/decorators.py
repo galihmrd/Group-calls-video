@@ -33,4 +33,4 @@ def blacklist_users(func: Callable) -> Callable:
         else:
             return await func(filter, client, message)
 
-        return decorator
+    return decorator
