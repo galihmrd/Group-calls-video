@@ -16,14 +16,17 @@ async def blacklist(client: Client, message: Message):
     replied = message.reply_to_message
     if replied:
         user_id = replied.from_user.id
+        user = await client.get_users(user_id)
+        mention = user.mention
         try:
-           reason = arg[0]
+           reason = " ".join(arg[0:])
         except:
            reason = "No reason"
     elif arg[0].startswith("@"):
         try:
             user = await client.get_users(arg[0])
             user_id = user.id
+            mention = user.mention
             try:
                reason = arg[1]
             except:
@@ -34,12 +37,14 @@ async def blacklist(client: Client, message: Message):
             return ""
     else:
         user_id = int(arg[0])
+        user = await client.get_users(arg[0])
+        mention = user.mention
         try:
            reason = arg[1]
         except:
            reason = "No reason"
     db.banned_user(int(user_id))
-    await message.reply(f"**User:** [blacklisted](tg://user?id={user_id})\n**Reason:** {reason}")
+    await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
 
 
 @Client.on_message(filters.command("ungbl"))
@@ -48,17 +53,22 @@ async def unblacklist(client: Client, message: Message):
     replied = message.reply_to_message
     if replied:
         user_id = replied.from_user.id
+        user = await client.get_users(user_id)
+        mention = user.mention
     else:
         arg = " ".join(message.command[1:])
         if arg.startswith("@"):
             try:
                 user = await client.get_users(arg)
                 user_id = user.id
+                mention = user.mention
             except BadRequest:
                 await message.reply("not a valid user")
                 return ""
         else:
             user_id = int(arg)
+            user = await client.get_users(arg)
+            mention = user.mention
 
     db.unban_user(int(user_id))
-    await message.reply(f"[unblacklisted](tg://user?id={user_id})")
+    await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")
