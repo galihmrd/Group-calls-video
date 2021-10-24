@@ -24,8 +24,9 @@ async def blacklist(client: Client, message: Message):
         try:
             user = await client.get_users(arg[0])
             user_id = user.id
+            mention = user.mention
             try:
-               reason = arg[1]
+               reason = " ".join(arg[1:])
             except:
                reason = "No reason"
         except BadRequest as ex:
@@ -34,12 +35,14 @@ async def blacklist(client: Client, message: Message):
             return ""
     else:
         user_id = int(arg[0])
+        user = await client.get_users(arg[0])
+        mention = user.mention
         try:
            reason = arg[1]
         except:
            reason = "No reason"
     db.banned_user(int(user_id))
-    await message.reply(f"**User:** [blacklisted](tg://user?id={user_id})\n**Reason:** {reason}")
+    await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
 
 
 @Client.on_message(filters.command("ungbl"))
@@ -54,11 +57,14 @@ async def unblacklist(client: Client, message: Message):
             try:
                 user = await client.get_users(arg)
                 user_id = user.id
+                mention = user.mention
             except BadRequest:
                 await message.reply("not a valid user")
                 return ""
         else:
             user_id = int(arg)
+            user = await client.get_users(arg)
+            mention = user.mention
 
     db.unban_user(int(user_id))
-    await message.reply(f"[unblacklisted](tg://user?id={user_id})")
+    await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")
