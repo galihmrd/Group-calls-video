@@ -28,8 +28,7 @@ def banned_user(chat_id: int, reason=None):
 def check_banned(message: Message):
     if message and message.from_user and message.from_user.id:
         try:
-            s__ = SESSION.query(BlackList).get(str(message.from_user.id))
-            return s__
+            return SESSION.query(BlackList).get(str(message.from_user.id))
         finally:
             SESSION.close()
 
