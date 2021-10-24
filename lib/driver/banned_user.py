@@ -16,8 +16,10 @@ async def blacklist(client: Client, message: Message):
     replied = message.reply_to_message
     if replied:
         user_id = replied.from_user.id
+        user = await client.get_users(arg[0])
+        mention = user.mention
         try:
-           reason = arg[0]
+           reason = " ".join(arg[0])
         except:
            reason = "No reason"
     elif arg[0].startswith("@"):
@@ -26,7 +28,7 @@ async def blacklist(client: Client, message: Message):
             user_id = user.id
             mention = user.mention
             try:
-               reason = " ".join(arg[1:])
+               reason = arg[1]
             except:
                reason = "No reason"
         except BadRequest as ex:
