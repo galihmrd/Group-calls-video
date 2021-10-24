@@ -16,7 +16,7 @@ async def blacklist(client: Client, message: Message):
     replied = message.reply_to_message
     if replied:
         user_id = replied.from_user.id
-        user = await client.get_users(arg[0])
+        user = await client.get_users(user_id)
         mention = user.mention
         try:
            reason = " ".join(arg[0])
