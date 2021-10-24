@@ -13,12 +13,15 @@ from lib.helpers.decorators import sudo_users
 @sudo_users
 async def blacklist(client: Client, message: Message):
     arg = message.text.split(None, 2)[1:]
-    if message.reply_to_message:
-        user_id = message.reply_to_message.from_user.id
+    replied = message.reply_to_message
+    if replied:
+        user_id = replied.from_user.id
         try:
            reason = arg[0]
         except:
            reason = "No reason"
+        db.banned_user(int(user_id))
+        await message.reply(f"**User:** [blacklisted](tg://user?id={user_id})\n**Reason:** {reason}")
     else:
         if arg[0].startswith("@"):
             try:
@@ -45,8 +48,11 @@ async def blacklist(client: Client, message: Message):
 @Client.on_message(filters.command("ungbl"))
 @sudo_users
 async def unblacklist(client: Client, message: Message):
-    if message.reply_to_message:
-        user_id = message.reply_to_message.from_user["id"]
+    replied = message.reply_to_message
+    if replied:
+        user_id = replied.from_user.id
+        db.unban_user(int(user_id))
+        await message.reply(f"[unblacklisted](tg://user?id={user_id})")
     else:
         arg = " ".join(message.command[1:])
         if arg.startswith("@"):
