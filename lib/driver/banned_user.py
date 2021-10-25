@@ -43,7 +43,10 @@ async def blacklist(client: Client, message: Message):
            reason = arg[1]
         except:
            reason = "No reason"
-    db.banned_user(int(user_id))
+    try:
+       db.banned_user(int(user_id))
+    except BaseException:
+       pass
     await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
 
 
@@ -69,6 +72,8 @@ async def unblacklist(client: Client, message: Message):
             user_id = int(arg)
             user = await client.get_users(arg)
             mention = user.mention
-
-    db.unban_user(int(user_id))
+    try:
+       db.unban_user(int(user_id))
+    except BaseException:
+       pass
     await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")

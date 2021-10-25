@@ -35,7 +35,10 @@ async def play_video(client, message):
         pass
     if not replied:
         try:
-            add_chat_to_db(str(chat_id))
+           add_chat_to_db(str(chat_id))
+        except BaseException:
+           pass
+        try:
             msg = await message.reply("```Processing...```")
             video = pafy.new(input)
             file_source = video.getbest().url
@@ -58,6 +61,9 @@ async def play_video(client, message):
         file_source = await client.download_media(replied)
         try:
             add_chat_to_db(str(chat_id))
+        except BaseException:
+            pass
+        try:
             await pstream(chat_id, file_source)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
@@ -72,6 +78,9 @@ async def play_video(client, message):
         input_file = await client.download_media(replied)
         try:
             add_chat_to_db(str(chat_id))
+        except BaseException:
+            pass
+        try:
             await pstream(chat_id, input_file, True)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
