@@ -5,7 +5,6 @@ from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
 from pyrogram.types.messages_and_media import message
 
-from lib.helpers.text_helper import get_arg
 from lib.helpers.decorators import sudo_users
 
 
