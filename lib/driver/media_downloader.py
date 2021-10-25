@@ -61,6 +61,7 @@ async def video(client, message):
 @Client.on_message(filters.command("music"))
 @blacklist_users
 async def music(client, message):
+    user_mention = message.from_user.mention
     input = message.text.split(None, 2)[1:]
     msg = await message.reply("```Downloading...```")
     try:
@@ -95,7 +96,7 @@ async def music(client, message):
            await msg.edit("**No active call!**\n```Starting Group call...```")
            await opengc(client, message)
            await pstream(message.chat.id, audio_file, True)
-        await msg.edit(f"**Streamed by: {user_mention**\n**Title:** ```{title}```")
+        await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** ```{title}```")
     else:
         await msg.edit("```Uploading to telegram server...```")
         await message.reply_audio(
