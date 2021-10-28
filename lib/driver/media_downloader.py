@@ -69,7 +69,7 @@ async def music(client, message):
            query = input[1]
        else:
            try:
-              query = input[0]
+              query = " ".join(message.command[1:])
            except BaseException:
               pass
     except BaseException:
