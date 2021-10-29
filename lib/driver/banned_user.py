@@ -14,13 +14,17 @@ async def blacklist(client: Client, message: Message):
     arg = message.text.split(None, 2)[1:]
     replied = message.reply_to_message
     if replied:
-        user_id = replied.from_user.id
-        user = await client.get_users(user_id)
-        mention = user.mention
         try:
-            reason = " ".join(arg[0:])
-        except:
-            reason = "No reason"
+           user_id = replied.from_user.id
+           user = await client.get_users(user_id)
+           mention = user.mention
+           try:
+              reason = " ".join(arg[0:])
+           except:
+              reason = "No reason"
+        except BadRequest:
+              await message.reply("Failed: Invalid id")
+              return ""
     elif arg[0].startswith("@"):
         try:
             user = await client.get_users(arg[0])
@@ -30,18 +34,21 @@ async def blacklist(client: Client, message: Message):
                 reason = arg[1]
             except:
                 reason = "No reason"
-        except BadRequest as ex:
-            await message.reply("not a valid user")
-            print(ex)
+        except BadRequest:
+            await message.reply("Failed: Invalid username")
             return ""
     else:
-        user_id = int(arg[0])
-        user = await client.get_users(arg[0])
-        mention = user.mention
         try:
-            reason = arg[1]
-        except:
-            reason = "No reason"
+           user_id = int(arg[0])
+           user = await client.get_users(arg[0])
+           mention = user.mention
+           try:
+              reason = arg[1]
+           except:
+              reason = "No reason"
+        except BadRequest:
+            await message.reply("Failed: Invalid id")
+            return ""
     bl_check = db.is_bl(int(user_id))
     if bl_check:
         await message.reply(f"{mention} has been blacklisted")
