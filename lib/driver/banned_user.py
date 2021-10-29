@@ -1,4 +1,4 @@
-import database.is_bl
+from database import is_bl
 import database.blacklist as db
 
 from pyrogram.types import Message
