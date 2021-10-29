@@ -3,7 +3,7 @@ from io import BytesIO
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from database.database_chat_sql import load_chats_list, remove_chat_from_db
+from database.chat_sql import chatlists, rm_chat
 from lib.helpers.decorators import sudo_users
 from lib.helpers.text_helper import get_arg
 
@@ -14,7 +14,7 @@ async def broadcast(client: Client, message: Message):
     to_send = get_arg(message)
     success = 0
     failed = 0
-    for chat in load_chats_list():
+    for chat in chatlists():
         try:
             await client.send_message(
                 str(chat),
@@ -23,7 +23,7 @@ async def broadcast(client: Client, message: Message):
             success += 1
         except BaseException:
             failed += 1
-            remove_chat_from_db(str(chat))
+            rm_chat(str(chat))
     await message.reply(
         f"Message sent to {success} chat(s). {failed} chat(s) failed recieve message"
     )
@@ -32,11 +32,8 @@ async def broadcast(client: Client, message: Message):
 @Client.on_message(filters.command("chatlist"))
 @sudo_users
 async def chatlist(client, message):
-    chats = []
-    all_chats = load_chats_list()
-    for i in all_chats:
-        if str(i).startswith("-"):
-            chats.append(i)
+    all_chats = chatlists()
+    chats = [i for i in all_chats if str(i).startswith("-")]
     chatfile = "Daftar chat.\n0. ID grup | Jumlah anggota | tautan undangan\n"
     P = 1
     for chat in chats:
@@ -49,8 +46,8 @@ async def chatlist(client, message):
         except BaseException:
             members = "Null"
         try:
-            chatfile += "{}. {} | {} | {}\n".format(P, chat, members, link)
-            P = P + 1
+            chatfile += f"{P}. {chat} | {members} | {link}\n"
+            P += 1
         except BaseException:
             pass
     with BytesIO(str.encode(chatfile)) as output:

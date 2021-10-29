@@ -1,4 +1,4 @@
-import database.database_banned_sql as db
+import database.blacklist as db
 
 from pyrogram.types import Message
 from pyrogram import Client, filters
@@ -18,18 +18,18 @@ async def blacklist(client: Client, message: Message):
         user = await client.get_users(user_id)
         mention = user.mention
         try:
-           reason = " ".join(arg[0:])
+            reason = " ".join(arg[0:])
         except:
-           reason = "No reason"
+            reason = "No reason"
     elif arg[0].startswith("@"):
         try:
             user = await client.get_users(arg[0])
             user_id = user.id
             mention = user.mention
             try:
-               reason = arg[1]
+                reason = arg[1]
             except:
-               reason = "No reason"
+                reason = "No reason"
         except BadRequest as ex:
             await message.reply("not a valid user")
             print(ex)
@@ -39,13 +39,13 @@ async def blacklist(client: Client, message: Message):
         user = await client.get_users(arg[0])
         mention = user.mention
         try:
-           reason = arg[1]
+            reason = arg[1]
         except:
-           reason = "No reason"
+            reason = "No reason"
     try:
-       db.banned_user(int(user_id))
+        db.blacklist(int(user_id))
     except BaseException:
-       pass
+        pass
     await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
 
 
@@ -72,7 +72,7 @@ async def unblacklist(client: Client, message: Message):
             user = await client.get_users(arg)
             mention = user.mention
     try:
-       db.unban_user(int(user_id))
+        db.unblacklist(int(user_id))
     except BaseException:
-       pass
+        pass
     await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")
