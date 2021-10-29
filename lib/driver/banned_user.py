@@ -1,4 +1,3 @@
-from database import is_bl
 import database.blacklist as db
 
 from pyrogram.types import Message
@@ -43,7 +42,7 @@ async def blacklist(client: Client, message: Message):
             reason = arg[1]
         except:
             reason = "No reason"
-    bl_check = await is_bl(int(user_id))
+    bl_check = await db.is_bl(int(user_id))
     if bl_check:
         await message.reply(f"{mention} already blacklisted")
     else:
