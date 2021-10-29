@@ -6,7 +6,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioImagePiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
-from database.database_chat_sql import add_chat_to_db
+from database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
 from lib.tg_stream import call_py
@@ -35,9 +35,9 @@ async def play_video(client, message):
         pass
     if not replied:
         try:
-           add_chat_to_db(str(chat_id))
+            add_chat(str(chat_id))
         except BaseException:
-           pass
+            pass
         try:
             msg = await message.reply("```Processing...```")
             video = pafy.new(input)
@@ -60,7 +60,7 @@ async def play_video(client, message):
         msg = await message.reply("```Downloading from telegram...```")
         file_source = await client.download_media(replied)
         try:
-            add_chat_to_db(str(chat_id))
+            add_chat(str(chat_id))
         except BaseException:
             pass
         try:
@@ -77,7 +77,7 @@ async def play_video(client, message):
         msg = await message.reply("```Downloading from telegram...```")
         input_file = await client.download_media(replied)
         try:
-            add_chat_to_db(str(chat_id))
+            add_chat(str(chat_id))
         except BaseException:
             pass
         try:
