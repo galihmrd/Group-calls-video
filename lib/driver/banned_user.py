@@ -1,3 +1,4 @@
+import database.is_bl
 import database.blacklist as db
 
 from pyrogram.types import Message
@@ -42,11 +43,12 @@ async def blacklist(client: Client, message: Message):
             reason = arg[1]
         except:
             reason = "No reason"
-    try:
+    bl_check = await is_bl(int(user_id))
+    if bl_check:
+        await message.reply(f"{mention} already blacklisted")
+    else:
         db.blacklist(int(user_id))
-    except BaseException:
-        pass
-    await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
+        await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
 
 
 @Client.on_message(filters.command("ungbl"))
