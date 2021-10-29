@@ -42,11 +42,12 @@ async def blacklist(client: Client, message: Message):
             reason = arg[1]
         except:
             reason = "No reason"
-    try:
+    bl_check = db.is_bl(int(user_id))
+    if bl_check:
+        await message.reply(f"{mention} has been blacklisted")
+    else:
         db.blacklist(int(user_id))
-    except BaseException:
-        pass
-    await message.reply(f"**Blacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
+        await message.reply(f"**NewBlacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
 
 
 @Client.on_message(filters.command("ungbl"))
@@ -71,8 +72,9 @@ async def unblacklist(client: Client, message: Message):
             user_id = int(arg)
             user = await client.get_users(arg)
             mention = user.mention
-    try:
+    check_bl = db.is_bl(int(user_id))
+    if not check_bl:
+        await message.reply(f"{mention} is not blacklisted")
+    else:
         db.unblacklist(int(user_id))
-    except BaseException:
-        pass
-    await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")
+        await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")
