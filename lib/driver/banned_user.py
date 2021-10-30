@@ -3,7 +3,7 @@ from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 import lib.helpers.database.blacklist as db
-from lib.helpers.decorators import sudo_users
+from lib.helpers.decorators import SUDO_USERS, sudo_users
 
 
 @Client.on_message(filters.command("gbl"))
@@ -19,10 +19,9 @@ async def blacklist(client: Client, message: Message):
             try:
                 reason = " ".join(arg[0:])
             except BaseException:
-                reason = None
+                reason = "None"
         except BadRequest:
-            await message.reply("Failed: Invalid id")
-            return ""
+            return await message.reply("Failed: Invalid id")
     elif arg[0].startswith("@"):
         try:
             user = await client.get_users(arg[0])
@@ -31,10 +30,9 @@ async def blacklist(client: Client, message: Message):
             try:
                 reason = arg[1]
             except BaseException:
-                reason = None
+                reason = "None"
         except BadRequest:
-            await message.reply("Failed: Invalid username")
-            return ""
+            return await message.reply("Failed: Invalid username")
     else:
         try:
             user_id = int(arg[0])
@@ -43,12 +41,12 @@ async def blacklist(client: Client, message: Message):
             try:
                 reason = arg[1]
             except BaseException:
-                reason = None
+                reason = "None"
         except BadRequest:
-            await message.reply("Failed: Invalid id")
-            return ""
-    bl_check = db.is_bl(int(user_id))
-    if bl_check:
+            return await message.reply("Failed: Invalid id")
+    if user_id in SUDO_USERS:
+        return message.reply("Can't blacklist my sudo!")
+    if db.is_bl(user_id):
         await message.reply(f"{mention} arleady blacklisted!")
     else:
         db.blacklist(int(user_id))
@@ -71,8 +69,7 @@ async def unblacklist(client: Client, message: Message):
                 user_id = user.id
                 mention = user.mention
             except BadRequest:
-                await message.reply("not a valid user")
-                return ""
+                return await message.reply("not a valid user")
         else:
             user_id = int(arg)
             user = await client.get_users(arg)
