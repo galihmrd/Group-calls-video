@@ -19,7 +19,7 @@ async def blacklist(client: Client, message: Message):
             try:
                 reason = " ".join(arg[0:])
             except BaseException:
-                reason = None
+                reason = "None"
         except BadRequest:
             await message.reply("Failed: Invalid id")
             return ""
@@ -31,7 +31,7 @@ async def blacklist(client: Client, message: Message):
             try:
                 reason = arg[1]
             except BaseException:
-                reason = None
+                reason = "None"
         except BadRequest:
             await message.reply("Failed: Invalid username")
             return ""
@@ -43,7 +43,7 @@ async def blacklist(client: Client, message: Message):
             try:
                 reason = arg[1]
             except BaseException:
-                reason = None
+                reason = "None"
         except BadRequest:
             await message.reply("Failed: Invalid id")
             return ""
