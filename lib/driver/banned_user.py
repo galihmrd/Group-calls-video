@@ -1,10 +1,8 @@
-import database.blacklist as db
-
-from pyrogram.types import Message
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
-from pyrogram.types.messages_and_media import message
+from pyrogram.types import Message
 
+import lib.helpers.database.blacklist as db
 from lib.helpers.decorators import sudo_users
 
 
@@ -15,16 +13,16 @@ async def blacklist(client: Client, message: Message):
     replied = message.reply_to_message
     if replied:
         try:
-           user_id = replied.from_user.id
-           user = await client.get_users(user_id)
-           mention = user.mention
-           try:
-              reason = " ".join(arg[0:])
-           except:
-              reason = "No reason"
+            user_id = replied.from_user.id
+            user = await client.get_users(user_id)
+            mention = user.mention
+            try:
+                reason = " ".join(arg[0:])
+            except BaseException:
+                reason = None
         except BadRequest:
-              await message.reply("Failed: Invalid id")
-              return ""
+            await message.reply("Failed: Invalid id")
+            return ""
     elif arg[0].startswith("@"):
         try:
             user = await client.get_users(arg[0])
@@ -32,29 +30,29 @@ async def blacklist(client: Client, message: Message):
             mention = user.mention
             try:
                 reason = arg[1]
-            except:
-                reason = "No reason"
+            except BaseException:
+                reason = None
         except BadRequest:
             await message.reply("Failed: Invalid username")
             return ""
     else:
         try:
-           user_id = int(arg[0])
-           user = await client.get_users(arg[0])
-           mention = user.mention
-           try:
-              reason = arg[1]
-           except:
-              reason = "No reason"
+            user_id = int(arg[0])
+            user = await client.get_users(arg[0])
+            mention = user.mention
+            try:
+                reason = arg[1]
+            except BaseException:
+                reason = None
         except BadRequest:
             await message.reply("Failed: Invalid id")
             return ""
     bl_check = db.is_bl(int(user_id))
     if bl_check:
-        await message.reply(f"{mention} has been blacklisted")
+        await message.reply(f"{mention} arleady blacklisted!")
     else:
         db.blacklist(int(user_id))
-        await message.reply(f"**NewBlacklist access**\n**User:** {mention} | {user_id}\n**Reason:** {reason}")
+        await message.reply(f"**Blacklisted**\n**User:** {mention} | `{user_id}`\n**Reason:** {reason}")
 
 
 @Client.on_message(filters.command("ungbl"))
@@ -84,4 +82,4 @@ async def unblacklist(client: Client, message: Message):
         await message.reply(f"{mention} is not blacklisted")
     else:
         db.unblacklist(int(user_id))
-        await message.reply(f"**Unblacklist access**\n**User:** {mention} | {user_id}")
+        await message.reply(f"**Unblacklisted** {mention} | `{user_id}`")

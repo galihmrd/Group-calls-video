@@ -20,7 +20,7 @@ from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import USERNAME_BOT
-from lib.helpers.decorators import sudo_users, blacklist_users
+from lib.helpers.decorators import blacklist_users, sudo_users
 from lib.tg_stream import call_py
 
 

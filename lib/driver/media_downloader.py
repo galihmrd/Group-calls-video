@@ -2,10 +2,11 @@ import os
 
 import wget
 from pyrogram import Client, filters
+from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
+
 from lib.helpers.decorators import blacklist_users
-from pytgcalls.exceptions import NoActiveGroupCall
 
 from .join import opengc
 from .piped_stream import pstream
@@ -65,15 +66,15 @@ async def music(client, message):
     input = message.text.split(None, 2)[1:]
     msg = await message.reply("```Downloading...```")
     try:
-       if input[0] == "stream":
-           query = input[1]
-       else:
-           try:
-              query = " ".join(message.command[1:])
-           except BaseException:
-              pass
+        if input[0] == "stream":
+            query = input[1]
+        else:
+            try:
+                query = " ".join(message.command[1:])
+            except BaseException:
+                pass
     except BaseException:
-       pass
+        pass
     try:
         ydl_opts = {"format": "bestaudio[ext=m4a]"}
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -91,11 +92,11 @@ async def music(client, message):
         ydl.process_info(info_dict)
     if input[0] == "stream":
         try:
-           await pstream(message.chat.id, audio_file, True)
+            await pstream(message.chat.id, audio_file, True)
         except NoActiveGroupCall:
-           await msg.edit("**No active call!**\n```Starting Group call...```")
-           await opengc(client, message)
-           await pstream(message.chat.id, audio_file, True)
+            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await opengc(client, message)
+            await pstream(message.chat.id, audio_file, True)
         await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** ```{title}```")
     else:
         await msg.edit("```Uploading to telegram server...```")
