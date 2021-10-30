@@ -1,6 +1,5 @@
-from sqlalchemy import Column, String, UnicodeText
-
 from database import BASE, SESSION
+from sqlalchemy import Column, String, UnicodeText
 
 
 class BlackList(BASE):

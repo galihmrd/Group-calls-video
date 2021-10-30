@@ -1,9 +1,8 @@
-import lib.helpers.database.blacklist as db
-
-from pyrogram.types import Message
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
+from pyrogram.types import Message
 
+import lib.helpers.database.blacklist as db
 from lib.helpers.decorators import sudo_users
 
 
@@ -19,7 +18,7 @@ async def blacklist(client: Client, message: Message):
             mention = user.mention
             try:
                 reason = " ".join(arg[0:])
-            except:
+            except BaseException:
                 reason = None
         except BadRequest:
             await message.reply("Failed: Invalid id")
@@ -31,7 +30,7 @@ async def blacklist(client: Client, message: Message):
             mention = user.mention
             try:
                 reason = arg[1]
-            except:
+            except BaseException:
                 reason = None
         except BadRequest:
             await message.reply("Failed: Invalid username")
@@ -43,7 +42,7 @@ async def blacklist(client: Client, message: Message):
             mention = user.mention
             try:
                 reason = arg[1]
-            except:
+            except BaseException:
                 reason = None
         except BadRequest:
             await message.reply("Failed: Invalid id")
