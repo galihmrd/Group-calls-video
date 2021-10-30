@@ -1,4 +1,4 @@
-from database import BASE, SESSION
+from lib.helpers.database import BASE, SESSION
 from sqlalchemy import Column, String, UnicodeText
 
 
