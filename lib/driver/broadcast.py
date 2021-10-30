@@ -3,7 +3,7 @@ from io import BytesIO
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from database.chat_sql import rm_chat, chatlist as chat_list
+from lib.helpers.database.chat_sql import chatlists, rm_chat
 from lib.helpers.decorators import sudo_users
 from lib.helpers.text_helper import get_arg
 
@@ -14,7 +14,7 @@ async def broadcast(client: Client, message: Message):
     to_send = get_arg(message)
     success = 0
     failed = 0
-    for chat in chat_list():
+    for chat in chatlists()():
         try:
             await client.send_message(
                 str(chat),
@@ -32,7 +32,7 @@ async def broadcast(client: Client, message: Message):
 @Client.on_message(filters.command("chatlist"))
 @sudo_users
 async def chatlist(client, message):
-    all_chats = chat_list()
+    all_chats = chatlists()
     chats = [i for i in all_chats if str(i).startswith("-")]
     chatfile = "Daftar chat.\n0. ID grup | Jumlah anggota | tautan undangan\n"
     P = 1

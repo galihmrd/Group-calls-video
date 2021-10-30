@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, UnicodeText
-from database import SESSION, BASE
+
+from database import BASE, SESSION
 
 
 class BlackList(BASE):
@@ -29,10 +30,9 @@ def is_bl(chat_id: int):
 
 
 def blacklist(chat_id: int, reason=None):
-    if is_bl(chat_id) is None:
-        user = BlackList(str(chat_id), reason)
-        SESSION.add(user)
-        SESSION.commit()
+    user = BlackList(str(chat_id), reason)
+    SESSION.add(user)
+    SESSION.commit()
 
 
 def unblacklist(chat_id: int):
