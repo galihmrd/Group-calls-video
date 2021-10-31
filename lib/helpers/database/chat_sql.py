@@ -1,7 +1,8 @@
 import threading
 
-from lib.helpers.database import BASE, SESSION
 from sqlalchemy import Column, String, UnicodeText
+
+from lib.helpers.database import BASE, SESSION
 
 
 class Chats(BASE):

@@ -104,3 +104,9 @@ async def change_volume(client, message):
         await message.reply(f"**Volume changed to:** ```{range}%```")
     except Exception as e:
         await message.reply(f"**Error:** {e}")
+
+
+@Client.on_message(filters.command("logs"))
+@sudo_users
+async def logfile(client, message):
+    await client.send_document(document="log.txt", chat_id=message.from_user.id)
