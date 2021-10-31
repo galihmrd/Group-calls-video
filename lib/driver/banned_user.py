@@ -45,7 +45,7 @@ async def blacklist(client: Client, message: Message):
         except BadRequest:
             return await message.reply("Failed: Invalid id")
     if user_id in SUDO_USERS:
-        return message.reply("Can't blacklist my sudo!")
+        return await message.reply("Can't blacklist my sudo!")
     if db.is_bl(user_id):
         await message.reply(f"{mention} arleady blacklisted!")
     else:
