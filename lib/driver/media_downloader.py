@@ -7,9 +7,9 @@ from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
 from lib.helpers.decorators import blacklist_users
+from lib.helpers.pstream import pstream
 
 from .join import opengc
-from .piped_stream import pstream
 
 ydl_opts = {
     'format': 'best',
