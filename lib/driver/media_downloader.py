@@ -92,7 +92,7 @@ async def music(client, message):
         ydl.process_info(info_dict)
     if input[0] == "stream":
         try:
-            await pstream(message.chat.id, audio_file, True)
+            await pstream_audio(message.chat.id, audio_file, preview)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
             await opengc(client, message)
