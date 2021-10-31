@@ -7,7 +7,7 @@ from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
 from lib.helpers.decorators import blacklist_users
-from lib.helpers.pstream import pstream
+from lib.helpers.pstream import pstream_audio
 
 from .join import opengc
 
@@ -96,7 +96,7 @@ async def music(client, message):
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
             await opengc(client, message)
-            await pstream(message.chat.id, audio_file, True)
+            await pstream_audio(message.chat.id, audio_file, preview)
         await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** ```{title}```")
     else:
         await msg.edit("```Uploading to telegram server...```")
