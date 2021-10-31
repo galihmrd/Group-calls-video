@@ -29,7 +29,8 @@ def errors(func: Callable) -> Callable:
 
 def blacklist_users(func: Callable) -> Callable:
     async def decorator(client, message):
-        check = is_bl(message)
+        user = message.from_user.id
+        check = is_bl(int(user))
         if check:
             return False
         else:
