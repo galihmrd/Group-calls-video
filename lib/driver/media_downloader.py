@@ -1,4 +1,5 @@
 import os
+import asyncio
 
 import wget
 from pyrogram import Client, filters
@@ -7,6 +8,7 @@ from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
 from lib.helpers.decorators import blacklist_users
+from lib.helpers.time_converter import cvt_time
 from lib.helpers.pstream import pstream_audio
 
 from .join import opengc
@@ -98,6 +100,12 @@ async def music(client, message):
             await opengc(client, message)
             await pstream_audio(message.chat.id, audio_file, preview)
         await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** ```{title}```")
+        await asyncio.sleep(int(cvt_time(duration)))
+        try:
+           os.remove(audio_file)
+           os.remove(preview)
+        except BaseException:
+           pass
     else:
         await msg.edit("```Uploading to telegram server...```")
         await message.reply_audio(
