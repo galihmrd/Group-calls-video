@@ -65,6 +65,7 @@ async def video(client, message):
 @Client.on_message(filters.command("music"))
 @blacklist_users
 async def music(client, message):
+    prequest = message.from_user.first_name
     user_mention = message.from_user.mention
     input = message.text.split(None, 2)[1:]
     msg = await message.reply("```Downloading...```")
@@ -85,9 +86,8 @@ async def music(client, message):
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
         duration = results[0]["duration"]
-        views = results[0].views
+        views = results[0]["views"]
         results[0]["url_suffix"]
-        prequest = message.from_user.first_name
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
     try:
