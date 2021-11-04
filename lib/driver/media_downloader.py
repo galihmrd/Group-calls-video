@@ -92,6 +92,8 @@ async def music(client, message):
         await msg.edit(f"**Error:** ```{e}```")
     try:
        preview = wget.download(thumbnail)
+    except BaseException:
+       pass
     with YoutubeDL(ydl_opts) as ydl:
        info_dict = ydl.extract_info(link, download=False)
        audio_file = ydl.prepare_filename(info_dict)
