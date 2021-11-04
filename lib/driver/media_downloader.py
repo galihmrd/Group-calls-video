@@ -87,7 +87,7 @@ async def music(client, message):
         duration = results[0]["duration"]
         views = results[0].views
         results[0]["url_suffix"]
-        prequest = mesaage.from_user.first_name
+        prequest = message.from_user.first_name
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
     try:
