@@ -36,7 +36,7 @@ async def play_video(client, message):
         except BaseException:
             pass
         try:
-            msg = await message.reply("```Processing...```")
+            msg = await message.reply("`Processing...`")
             video = pafy.new(input)
             file_source = video.getbest().url
             title = video.title
@@ -46,15 +46,15 @@ async def play_video(client, message):
         try:
             await pstream(chat_id, file_source)
         except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream(chat_id, file_source)
-        await msg.edit(f"**Streamed by: {user}**\n**Title:** ```{title}```")
+        await msg.edit(f"**Streamed by: {user}**\n**Title:** `{title}`")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
         chat_id = int(
             message.chat.title) if flags == "channel" else message.chat.id
-        msg = await message.reply("```Downloading from telegram...```")
+        msg = await message.reply("`Downloading from telegram...`")
         file_source = await client.download_media(replied)
         try:
             add_chat(str(chat_id))
@@ -63,7 +63,7 @@ async def play_video(client, message):
         try:
             await pstream(chat_id, file_source)
         except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream(chat_id, file_source)
         await msg.edit(f"**Streamed by: {user}**")
@@ -71,7 +71,7 @@ async def play_video(client, message):
         flags = " ".join(message.command[1:])
         chat_id = int(
             message.chat.title) if flags == "channel" else message.chat.id
-        msg = await message.reply("```Downloading from telegram...```")
+        msg = await message.reply("`Downloading from telegram...`")
         input_file = await client.download_media(replied)
         try:
             add_chat(str(chat_id))
@@ -80,7 +80,7 @@ async def play_video(client, message):
         try:
             await pstream(chat_id, input_file, True)
         except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream(chat_id, input_file, True)
         await msg.edit(f"**Streamed by: {user}**")

@@ -38,7 +38,7 @@ async def video(client, message):
     except Exception as e:
         print(e)
     try:
-        msg = await message.reply("```Downloading...```")
+        msg = await message.reply("`Downloading...`")
         with YoutubeDL(ydl_opts) as ytdl:
             ytdl_data = ytdl.extract_info(link, download=True)
             file_name = ytdl.prepare_filename(ytdl_data)
@@ -48,7 +48,7 @@ async def video(client, message):
         preview = wget.download(thumbnail)
     except Exception:
         pass
-    await msg.edit("```Uploading to telegram server...```")
+    await msg.edit("`Uploading to telegram server...`")
     await message.reply_video(
         file_name,
         duration=int(ytdl_data["duration"]),
@@ -68,7 +68,7 @@ async def music(client, message):
     prequest = message.from_user.first_name
     user_mention = message.from_user.mention
     input = message.text.split(None, 2)[1:]
-    msg = await message.reply("```Downloading...```")
+    msg = await message.reply("`Downloading...`")
     try:
         if input[0] == "stream":
             query = input[1]
@@ -99,15 +99,16 @@ async def music(client, message):
        audio_file = ydl.prepare_filename(info_dict)
        ydl.process_info(info_dict)
     if input[0] == "stream":
+        await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
         photo = "final.png"
         try:
             await pstream_audio(message.chat.id, audio_file, photo)
         except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n```Starting Group call...```")
+            await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream_audio(message.chat.id, audio_file, photo)
-        await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** ```{title}```")
+        await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** `{title}`")
         await asyncio.sleep(int(cvt_time(duration)))
         try:
            os.remove(audio_file)
@@ -115,7 +116,7 @@ async def music(client, message):
         except BaseException:
            pass
     else:
-        await msg.edit("```Uploading to telegram server...```")
+        await msg.edit("`Uploading to telegram server...`")
         await message.reply_audio(
             audio_file,
             duration=int(info_dict["duration"]),

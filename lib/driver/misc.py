@@ -101,7 +101,7 @@ async def change_volume(client, message):
     chat_id = message.chat.id
     try:
         await call_py.change_volume_call(chat_id, volume=int(range))
-        await message.reply(f"**Volume changed to:** ```{range}%```")
+        await message.reply(f"**Volume changed to:** `{range}%`")
     except Exception as e:
         await message.reply(f"**Error:** {e}")
 
@@ -110,3 +110,4 @@ async def change_volume(client, message):
 @sudo_users
 async def logfile(client, message):
     await client.send_document(document="log.txt", chat_id=message.from_user.id)
+    await message.reply("I've send the log on PM's")
