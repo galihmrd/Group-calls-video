@@ -93,9 +93,9 @@ async def music(client, message):
     try:
        preview = wget.download(thumbnail)
     with YoutubeDL(ydl_opts) as ydl:
-        info_dict = ydl.extract_info(link, download=False)
-        audio_file = ydl.prepare_filename(info_dict)
-        ydl.process_info(info_dict)
+       info_dict = ydl.extract_info(link, download=False)
+       audio_file = ydl.prepare_filename(info_dict)
+       ydl.process_info(info_dict)
     if input[0] == "stream":
         await generate_cover(prequest, title, views, duration, preview)
         photo = "final.png"
