@@ -99,7 +99,7 @@ async def music(client, message):
        audio_file = ydl.prepare_filename(info_dict)
        ydl.process_info(info_dict)
     if input[0] == "stream":
-        await generate_cover(prequest, title, views, duration, preview)
+        await generate_cover(prequest, title, views, duration, thumbnail)
         photo = "final.png"
         try:
             await pstream_audio(message.chat.id, audio_file, photo)
