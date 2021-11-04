@@ -7,6 +7,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
+from lib.helpers.cover_generator import generate_cover
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.time_converter import cvt_time
 from lib.helpers.pstream import pstream_audio
@@ -64,6 +65,7 @@ async def video(client, message):
 @Client.on_message(filters.command("music"))
 @blacklist_users
 async def music(client, message):
+    prequest = message.from_user.first_name
     user_mention = message.from_user.mention
     input = message.text.split(None, 2)[1:]
     msg = await message.reply("```Downloading...```")
@@ -84,21 +86,27 @@ async def music(client, message):
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
         duration = results[0]["duration"]
+        views = results[0]["views"]
         results[0]["url_suffix"]
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
-    preview = wget.download(thumbnail)
+    try:
+       preview = wget.download(thumbnail)
+    except BaseException:
+       pass
     with YoutubeDL(ydl_opts) as ydl:
-        info_dict = ydl.extract_info(link, download=False)
-        audio_file = ydl.prepare_filename(info_dict)
-        ydl.process_info(info_dict)
+       info_dict = ydl.extract_info(link, download=False)
+       audio_file = ydl.prepare_filename(info_dict)
+       ydl.process_info(info_dict)
     if input[0] == "stream":
+        await generate_cover(prequest, title, views, duration, thumbnail)
+        photo = "final.png"
         try:
-            await pstream_audio(message.chat.id, audio_file, preview)
+            await pstream_audio(message.chat.id, audio_file, photo)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n```Starting Group call...```")
             await opengc(client, message)
-            await pstream_audio(message.chat.id, audio_file, preview)
+            await pstream_audio(message.chat.id, audio_file, photo)
         await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** ```{title}```")
         await asyncio.sleep(int(cvt_time(duration)))
         try:
