@@ -24,7 +24,7 @@ ydl_opts = {
 }
 
 
-@Client.on_message(filters.command("video"))
+@Client.on_message(filters.command(["video", "vid"]))
 @blacklist_users
 async def video(client, message):
     query = " ".join(message.command[1:])
@@ -62,7 +62,7 @@ async def video(client, message):
         print(e)
 
 
-@Client.on_message(filters.command("music"))
+@Client.on_message(filters.command(["music", "song"]))
 @blacklist_users
 async def music(client, message):
     prequest = message.from_user.first_name

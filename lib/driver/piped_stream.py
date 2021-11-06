@@ -11,7 +11,7 @@ from lib.tg_stream import call_py
 from .join import opengc
 
 
-@Client.on_message(filters.command("play") & public_filters)
+@Client.on_message(filters.command(["play", "stream"]) & public_filters)
 @blacklist_users
 async def play_video(client, message):
     flags = " ".join(message.command[1:])

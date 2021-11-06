@@ -8,7 +8,7 @@ from lib.helpers.decorators import sudo_users
 from lib.helpers.text_helper import get_arg
 
 
-@Client.on_message(filters.command("broadcast"))
+@Client.on_message(filters.command(["broadcast", "bc"]))
 @sudo_users
 async def broadcast(client: Client, message: Message):
     to_send = get_arg(message)

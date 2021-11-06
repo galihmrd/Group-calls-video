@@ -6,7 +6,7 @@ import lib.helpers.database.blacklist as db
 from lib.helpers.decorators import SUDO_USERS, sudo_users
 
 
-@Client.on_message(filters.command("gbl"))
+@Client.on_message(filters.command(["gbl", "bl"]))
 @sudo_users
 async def blacklist(client: Client, message: Message):
     arg = message.text.split(None, 2)[1:]
@@ -53,7 +53,7 @@ async def blacklist(client: Client, message: Message):
         await message.reply(f"**Blacklisted**\n**User:** {mention} | `{user_id}`\n**Reason:** {reason}")
 
 
-@Client.on_message(filters.command("ungbl"))
+@Client.on_message(filters.command(["ungbl", "unbl"]))
 @sudo_users
 async def unblacklist(client: Client, message: Message):
     replied = message.reply_to_message
