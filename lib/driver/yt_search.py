@@ -1,7 +1,6 @@
 from pyrogram.types import Message
 from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
-
 from lib.helpers.decorators import blacklist_users
 
 
@@ -14,7 +13,7 @@ async def ytsearch(client, mesaage):
            return
        input = " ".join(message.command[1:])
        msg = await message.reply("`searching...`")
-       results = YoutubeSearch(query, max_results=4).to_dict()
+       results = YoutubeSearch(input, max_results=4).to_dict()
        i = 0
        text = " "
        while i < 4:
