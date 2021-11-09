@@ -47,7 +47,7 @@ async def blacklist(client: Client, message: Message):
     if user_id in SUDO_USERS:
         return await message.reply("Can't blacklist my sudo!")
     if db.is_bl(user_id):
-        await message.reply(f"{mention} arleady blacklisted!")
+        await message.reply(f"{mention} already blacklisted!")
     else:
         db.blacklist(int(user_id))
         await message.reply(f"**Blacklisted**\n**User:** {mention} | `{user_id}`\n**Reason:** {reason}")
