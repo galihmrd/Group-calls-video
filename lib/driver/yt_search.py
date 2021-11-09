@@ -6,7 +6,7 @@ from lib.helpers.decorators import blacklist_users
 
 @Client.on_message(filters.command("search"))
 @blacklist_users
-async def ytsearch(client, mesaage):
+async def ytsearch(client, message):
     try:
        if len(message.command) <2:
            await message.reply("Give me some title")
