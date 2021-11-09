@@ -21,7 +21,7 @@ async def ytsearch(client, message):
            text += f"**Duration:** {results[i]['duration']}\n"
            text += f"**Views:** {results[i]['views']}\n"
            text += f"**Channel:** {results[i]['channel']}\n"
-           text += f"**Url:** [Klik disini](https://youtube.com{results[i]['url_suffix']})\n\n"
+           text += f"**Url:** [Click Here](https://youtube.com{results[i]['url_suffix']})\n\n"
            i += 1
        await msg.edit(text, disable_web_page_preview=True)
     except BaseException:
