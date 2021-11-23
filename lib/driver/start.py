@@ -1,4 +1,4 @@
-from pyrogram import Message
+from pyrogram.types import Message
 from pyrogram import Client, filters
 from lib.helpers.decorators import blacklist_users
 
