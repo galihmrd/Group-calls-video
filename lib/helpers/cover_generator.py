@@ -1,11 +1,5 @@
-import os
-import aiohttp
-import aiofiles
-
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
-
+import os, aiohttp, aiofiles
+from PIL import Image, ImageFont, ImageDraw
 
 
 def changeImageSize(maxWidth, maxHeight, image):
@@ -13,8 +7,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     heightRatio = maxHeight / image.size[1]
     newWidth = int(widthRatio * image.size[0])
     newHeight = int(heightRatio * image.size[1])
-    newImage = image.resize((newWidth, newHeight))
-    return newImage
+    return image.resize((newWidth, newHeight))
 
 
 async def generate_cover(requested_by, title, views, duration, thumbnail):
@@ -35,10 +28,10 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     img = Image.open("temp.png")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("etc/font.ttf", 32)
-    draw.text((190, 550), f"Title: {title}", (255, 255, 255), font=font)
-    draw.text((190, 590), f"Duration: {duration}", (255, 255, 255), font=font)
-    draw.text((190, 630), f"Views: {views}", (255, 255, 255), font=font)
-    draw.text((190, 670),f"Requested by: @{requested_by}", (255, 255, 255), font=font)
+    draw.text((225, 550), f"Title: {title}", (0, 0, 0), font=font)
+    draw.text((225, 590), f"Duration: {duration}", (0, 0, 0), font=font)
+    draw.text((225, 630), f"Views: {views}", (0, 0, 0), font=font)
+    draw.text((225, 670),f"Requested by: {requested_by}", (0, 0, 0), font=font)
     img.save("final.png")
     os.remove("temp.png")
     os.remove("background.png")
