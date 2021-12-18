@@ -2,7 +2,7 @@ aiofiles
 ffmpeg-python
 pyrogram==1.2.20
 Pillow
--e git+https://github.com/galihmrd/pafy@develop#egg=pafy
+git+https://github.com/galihmrd/pafy@develop
 psycopg2-binary
 py-tgcalls==0.8.2
 sqlalchemy
