@@ -4,7 +4,7 @@ pyrogram==1.2.20
 Pillow
 pafy
 psycopg2-binary
-py-tgcalls==0.8.2
+py-tgcalls==0.8.3
 sqlalchemy
 TgCrypto
 yt-dlp
