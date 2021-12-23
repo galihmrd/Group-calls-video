@@ -21,7 +21,7 @@ from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import USERNAME_BOT
 from lib.helpers.decorators import blacklist_users, sudo_users
-from lib.tg_stream import call_py
+from lib.tg_stream import call_py, app as USER
 
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
@@ -111,3 +111,12 @@ async def change_volume(client, message):
 async def logfile(client, message):
     await client.send_document(document="log.txt", chat_id=message.from_user.id)
     await message.reply("I've send the log on PM's")
+
+
+# PMpermit #
+@USER.on_message(filters.text & filters.private & ~filters.me & ~filters.bot)
+async def pmPermit(client: USER, message: Message):
+    await USER.send_message(
+        message.chat.id,
+        f"Hello {message.from_user.mention} How are you?"
+    )
