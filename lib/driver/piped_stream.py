@@ -45,7 +45,7 @@ async def play_video(client, message):
             return False
         if not group_call.is_connected:
             await pstream(chat_id, file_source)
-        else
+        else:
             await group_call.stop()
             await asyncio.sleep(3)
             await pstream(chat_id, file_source)
