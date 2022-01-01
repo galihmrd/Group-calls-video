@@ -3,7 +3,6 @@ import asyncio
 
 import wget
 from pyrogram import Client, filters
-from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
@@ -11,8 +10,10 @@ from lib.helpers.cover_generator import generate_cover
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.time_converter import cvt_time
 from lib.helpers.pstream import pstream_audio
+from lib.tg_stream import group_call_factory
 
-from .join import opengc
+
+group_call = group_call_factory.get_group_call()
 
 ydl_opts = {
     'format': 'best',
@@ -102,11 +103,11 @@ async def music(client, message):
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
         photo = "final.png"
-        try:
+        if not group_call.is_connected:
             await pstream_audio(message.chat.id, audio_file, photo)
-        except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
+        else:
+            await group_call.stop()
+            await asyncio.sleep(3)
             await pstream_audio(message.chat.id, audio_file, photo)
         await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** `{title}`")
         await asyncio.sleep(int(cvt_time(duration)))

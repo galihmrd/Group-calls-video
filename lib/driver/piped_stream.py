@@ -1,15 +1,15 @@
 import pafy
+import asyncio
 from pyrogram import Client, filters
-from pytgcalls.exceptions import NoActiveGroupCall
 
 from lib.helpers.pstream import pstream
 from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
-from lib.tg_stream import call_py
+from lib.tg_stream import group_call_factory
 
-from .join import opengc
 
+group_call = group_call_factory.get_group_call()
 
 @Client.on_message(filters.command(["play", "stream"]) & public_filters)
 @blacklist_users
@@ -43,11 +43,11 @@ async def play_video(client, message):
         except Exception as e:
             await msg.edit(f"**Error:** {e}")
             return False
-        try:
+        if not group_call.is_connected:
             await pstream(chat_id, file_source)
-        except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
+        else
+            await group_call.stop()
+            await asyncio.sleep(3)
             await pstream(chat_id, file_source)
         await msg.edit(f"**Streamed by: {user}**\n**Title:** `{title}`")
     elif replied.video or replied.document:
@@ -60,11 +60,11 @@ async def play_video(client, message):
             add_chat(str(chat_id))
         except BaseException:
             pass
-        try:
+        if not group_call.is_connected:
             await pstream(chat_id, file_source)
-        except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
+        else:
+            await group_call.stop()
+            await asyncio.sleep(3)
             await pstream(chat_id, file_source)
         await msg.edit(f"**Streamed by: {user}**")
     elif replied.audio:
@@ -77,18 +77,12 @@ async def play_video(client, message):
             add_chat(str(chat_id))
         except BaseException:
             pass
-        try:
+        if not group_call.is_connected:
             await pstream(chat_id, input_file, True)
-        except NoActiveGroupCall:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
+        else:
+            await group_call.stop()
+            await asyncio.sleep(3)
             await pstream(chat_id, input_file, True)
         await msg.edit(f"**Streamed by: {user}**")
     else:
         await message.reply("Error!")
-
-
-@call_py.on_stream_end()
-async def end(cl, update):
-    print("stream ended in " + str(update.chat_id))
-    await call_py.leave_group_call(update.chat_id)

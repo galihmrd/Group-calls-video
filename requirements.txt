@@ -4,7 +4,7 @@ pyrogram==1.2.20
 Pillow
 git+https://github.com/galihmrd/pafy@develop
 psycopg2-binary
-py-tgcalls==0.8.3
+pytgcalls==3.0.0.dev19
 sqlalchemy
 TgCrypto
 yt-dlp

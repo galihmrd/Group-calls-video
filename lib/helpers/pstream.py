@@ -1,35 +1,18 @@
-from lib.tg_stream import call_py
+from lib.tg_stream import group_call_factory
 
-from pytgcalls import StreamType
-from pytgcalls.types.input_stream import AudioImagePiped, AudioVideoPiped
-from pytgcalls.types.input_stream.quality import MediumQualityVideo
 
+group_call = group_call_factory.get_group_call()
 
 async def pstream(chat_id, file, audio=None):
     if audio:
-        await call_py.join_group_call(
-            chat_id,
-            AudioImagePiped(
-                file,
-                './etc/banner.png',
-                video_parameters=MediumQualityVideo(),
-            ),
-            stream_type=StreamType().pulse_stream,
-        )
+        await group_call.join(chat_id)
+        await group_call.start_video('./etc/banner.png', with_audio=False)
+        await group_call.start_audio(file)
     else:
-        await call_py.join_group_call(
-            chat_id,
-            AudioVideoPiped(file),
-            stream_type=StreamType().live_stream
-        )
+        await group_call.join(chat_id)
+        await group_call.start_video(file)
 
 async def pstream_audio(chat_id, file, thumb):
-    await call_py.join_group_call(
-        chat_id,
-        AudioImagePiped(
-            file,
-            thumb,
-            video_parameters=MediumQualityVideo(),
-        ),
-        stream_type=StreamType().live_stream
-    )
+    await grouo_call.join(chat_id)
+    await group_call.start_video(thumb, with_audio=False)
+    await group_call.start_audio(file)

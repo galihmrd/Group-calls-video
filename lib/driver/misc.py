@@ -17,11 +17,10 @@ from datetime import datetime
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import USERNAME_BOT
 from lib.helpers.decorators import blacklist_users, sudo_users
-from lib.tg_stream import call_py, app as USER
+from lib.tg_stream import app as USER
 
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
@@ -40,70 +39,6 @@ async def repo(client, message):
     repo = "https://github.com/galihmrd/Group-calls-video"
     license = "https://github.com/galihmrd/Group-calls-video/blob/stream/beta/LICENSE"
     await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})")
-
-
-@Client.on_message(filters.command("pause"))
-@blacklist_users
-async def pause(client, message):
-    query = " ".join(message.command[1:])
-    if query == "channel":
-        chat_id = int(message.chat.title)
-        type = "Channel"
-    else:
-        chat_id = message.chat.id
-        type = "Group"
-    try:
-        await call_py.pause_stream(chat_id)
-        await message.reply(f"**{type} stream paused!**")
-    except GroupCallNotFound:
-        await message.reply('**Error:** GroupCall not found!')
-
-
-@Client.on_message(filters.command("resume"))
-@blacklist_users
-async def resume(client, message):
-    query = " ".join(message.command[1:])
-    if query == "channel":
-        chat_id = int(message.chat.title)
-        type = "Channel"
-    else:
-        chat_id = message.chat.id
-        type = "Group"
-    try:
-        await call_py.resume_stream(chat_id)
-        await message.reply(f"**{type} stream resumed!**")
-    except GroupCallNotFound:
-        await message.reply("**Error:** GroupCall not found!")
-
-
-@Client.on_message(filters.command("stop"))
-@blacklist_users
-async def stopped(client, message):
-    query = " ".join(message.command[1:])
-    user_id = message.from_user.id
-    if query == "channel":
-        chat_id = int(message.chat.title)
-        type = "Channel"
-    else:
-        chat_id = message.chat.id
-        type = "Group"
-    try:
-        await call_py.leave_group_call(chat_id)
-        await message.reply(f"**{type} stream stopped!**")
-    except GroupCallNotFound:
-        await message.reply("**Error:** GroupCall not found")
-
-
-@Client.on_message(filters.command("volume"))
-@sudo_users
-async def change_volume(client, message):
-    range = message.command[1]
-    chat_id = message.chat.id
-    try:
-        await call_py.change_volume_call(chat_id, volume=int(range))
-        await message.reply(f"**Volume changed to:** `{range}%`")
-    except Exception as e:
-        await message.reply(f"**Error:** {e}")
 
 
 @Client.on_message(filters.command(["logs", "log"]))
