@@ -9,6 +9,7 @@ RUN apt update -qqy \
     && apt-get install -y nodejs \
     && npm i -g npm \
     && pip install -U -r requirements.txt \
+    && git clone https://github.com/galihmrd/addon-vc etc \
     && rm -rf /var/lib/apt/lists/*
 
 CMD python3 -m lib
