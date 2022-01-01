@@ -1,4 +1,7 @@
-import os, aiohttp, aiofiles
+try:
+   import os, aiohttp, aiofiles
+except ModuleNotFoundError:
+   pass
 from PIL import Image, ImageFont, ImageDraw
 
 
