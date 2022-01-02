@@ -21,7 +21,6 @@ async def ytsearch(client, message):
         try:
             toxxt = "**Select the song you want to play**\n\n"
             j = 0
-            useer = user_name
             emojilist = [
                 "1️⃣",
                 "2️⃣",
