@@ -1,4 +1,5 @@
 import os
+import wget
 
 from yt_dlp import YoutubeDL
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
