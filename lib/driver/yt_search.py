@@ -92,7 +92,7 @@ async def youtube_cb(b, cb):
     duration = results[x]["duration"]
     views = results[x]["views"]
     url = f"https://youtube.com{resultss}"
-    ydl_opts = {"format": "bestaudio/best"}
+    ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
        preview = wget.download(thumbnail)
     except BaseException:
