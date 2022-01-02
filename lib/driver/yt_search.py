@@ -19,7 +19,7 @@ async def ytsearch(client, message):
         msg = await message.reply("`searching...`")
         results = YoutubeSearch(query, max_results=5).to_dict()
         try:
-            toxxt = "**Select the song you want to play**\n\n"
+            toxxt = "**Select the song you want to download**\n\n"
             j = 0
             emojilist = [
                 "1️⃣",
@@ -91,6 +91,7 @@ async def youtube_cb(b, cb):
     duration = results[x]["duration"]
     views = results[x]["views"]
     url = f"https://youtube.com{resultss}"
+    ydl_opts = {"format": "bestaudio/best"}
     try:
        preview = wget.download(thumbnail)
     except BaseException:
