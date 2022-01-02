@@ -28,7 +28,7 @@ async def play_video(client, message):
                 pass
         else:
             chat_id = message.chat.id
-            input = text[0]
+            input = " ".join(text[0])
     except Exception:
         pass
     if not replied:
