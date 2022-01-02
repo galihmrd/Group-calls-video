@@ -21,7 +21,6 @@ async def ytsearch(client, message):
         results = YoutubeSearch(query, max_results=5).to_dict()
         try:
             toxxt = "**Select the song you want to download**\n\n"
-            j = 0
             emojilist = [
                 "1️⃣",
                 "2️⃣",
@@ -30,13 +29,12 @@ async def ytsearch(client, message):
                 "5️⃣",
             ]
 
-            while j < 5:
+            for j in range(5):
                 toxxt += f"{emojilist[j]} <b>Title - [{results[j]['title']}](https://youtube.com{results[j]['url_suffix']})</b>\n"
                 toxxt += f" ╚ <b>Duration</b> - {results[j]['duration']}\n"
                 toxxt += f" ╚ <b>Views</b> - {results[j]['views']}\n"
                 toxxt += f" ╚ <b>Channel</b> - {results[j]['channel']}\n\n"
 
-                j += 1
             koyboard = InlineKeyboardMarkup(
                 [
                     [
