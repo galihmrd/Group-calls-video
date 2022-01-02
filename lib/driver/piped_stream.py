@@ -17,7 +17,7 @@ from .join import opengc
 async def play_video(client, message):
     flags = " ".join(message.command[1:])
     replied = message.reply_to_message
-    text = message.text.split(None, 2)[1:]
+    text = " ".join(message.text.split(None, 2)[1:])
     user = message.from_user.mention
     try:
         if text[0] == "channel":
@@ -28,7 +28,7 @@ async def play_video(client, message):
                 pass
         else:
             chat_id = message.chat.id
-            input = " ".join(text[0])
+            input = text[0]
     except Exception:
         pass
     if not replied:
