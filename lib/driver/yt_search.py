@@ -102,7 +102,7 @@ async def youtube_cb(b, cb):
        audio_file = ydl.prepare_filename(info_dict)
        ydl.process_info(info_dict)
     await cb.message.edit("`Uploading to telegram server...`")
-    await b.message.reply_audio(
+    await b.reply_audio(
         audio_file,
         thumb=preview,
         duration=int(info_dict["duration"]),
