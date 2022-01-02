@@ -1,5 +1,6 @@
 import pafy
 from pyrogram import Client, filters
+from youtube_search import YoutubeSearch
 from pytgcalls.exceptions import NoActiveGroupCall
 
 from lib.helpers.pstream import pstream
@@ -27,7 +28,7 @@ async def play_video(client, message):
                 pass
         else:
             chat_id = message.chat.id
-            input = text[0]
+            input = " ".join(message.command[1:])
     except Exception:
         pass
     if not replied:
@@ -36,8 +37,11 @@ async def play_video(client, message):
         except BaseException:
             pass
         try:
-            msg = await message.reply("`Processing...`")
-            video = pafy.new(input)
+            msg = await message.reply("`Searching...`")
+            results = YoutubeSearch(input, max_results=1).to_dict()
+            vUrl = f"https://youtube.com{results[0]['url_suffix']}"
+            await msg.edit("`Processing...`")
+            video = pafy.new(vUrl)
             file_source = video.getbest().url
             title = video.title
         except Exception as e:
