@@ -17,10 +17,7 @@ async def ytsearch(client, message):
         query = " ".join(message.command[1:])
         msg = await message.reply("`searching...`")
         ydl_opts = {"format": "bestaudio/best"}
-        try:
-            results = YoutubeSearch(query, max_results=5).to_dict()
-        except:
-            await msg.edit("Give me something to play")
+        results = YoutubeSearch(query, max_results=5).to_dict()
         try:
             toxxt = "**Select the song you want to play**\n\n"
             j = 0
@@ -65,6 +62,8 @@ async def ytsearch(client, message):
                 ]
             )
             await msg.edit(toxxt, reply_markup=koyboard, disable_web_page_preview=True)
+        except BaseException:
+            pass
     except Exception as e:
         await message.reply(e)
 
