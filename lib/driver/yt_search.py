@@ -107,7 +107,6 @@ async def youtube_cb(b, cb):
         thumb=preview,
         duration=int(info_dict["duration"]),
         caption=info_dict['title'])
-    )
     try:
        os.remove(audio_file)
        os.remove(preview)
