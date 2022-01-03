@@ -5,13 +5,12 @@ from pyrogram.types import Message
 
 from lib.helpers.database.chat_sql import chatlists, rm_chat
 from lib.helpers.decorators import sudo_users
-from lib.helpers.text_helper import get_arg
 
 
 @Client.on_message(filters.command(["broadcast", "bc"]))
 @sudo_users
 async def broadcast(client: Client, message: Message):
-    to_send = get_arg(message)
+    to_send = " ".join(message.command[1:])
     success = 0
     failed = 0
     for chat in chatlists()():
@@ -34,7 +33,7 @@ async def broadcast(client: Client, message: Message):
 async def chatlist(client, message):
     all_chats = chatlists()
     chats = [i for i in all_chats if str(i).startswith("-")]
-    chatfile = "Daftar chat.\n0. ID grup | Jumlah anggota | tautan undangan\n"
+    chatfile = "Chatlist.\n0. GroupID | Member count | group url\n"
     P = 1
     for chat in chats:
         try:

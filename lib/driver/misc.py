@@ -113,10 +113,16 @@ async def logfile(client, message):
     await message.reply("I've send the log on PM's")
 
 
-# PMpermit #
+# PMpermit
 @USER.on_message(filters.text & filters.private & ~filters.me & ~filters.bot)
 async def pmPermit(client: USER, message: Message):
     await USER.send_message(
         message.chat.id,
         f"Hello {message.from_user.mention} How are you?"
     )
+
+# Start message
+@Client.on_message(filters.command("start"))
+@blacklist_users
+async def start(client, message):
+    await message.reply(f"Hello {message.from_user.mention} how are you?")
