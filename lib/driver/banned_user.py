@@ -17,7 +17,7 @@ async def blacklist(client: Client, message: Message):
             user = await client.get_users(user_id)
             mention = user.mention
             try:
-                reason = " ".join(arg[0:])
+                reason = " ".join(arg[:])
             except BaseException:
                 reason = "None"
         except BadRequest:
