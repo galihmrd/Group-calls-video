@@ -43,21 +43,24 @@ async def repo(client, message):
     await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})", disable_web_page_preview=True)
 
 
-@Client.on_message(filters.command("action"))
+@Client.on_message(filters.command(["action", "act"]))
 @blacklist_users
 async def pause(client, message):
     flags = message.text.split(None, 2)[1:]
-    if flags[0] == "channel":
-        chat_id = int(message.chat.title)
-        type = "Channel"
-        try:
-           action = flags[1]
-        except BaseException:
-           pass
-    else:
-        chat_id = message.chat.id
-        action = flags[0]
-        type = "Group"
+    try:
+       if flags[0] == "channel":
+           chat_id = int(message.chat.title)
+           type = "Channel"
+           try:
+              action = flags[1]
+           except BaseException:
+              pass
+       else:
+           chat_id = message.chat.id
+           action = flags[0]
+           type = "Group"
+    except BaseException:
+        pass
     if action == "pause":
         try:
            await call_py.pause_stream(chat_id)
