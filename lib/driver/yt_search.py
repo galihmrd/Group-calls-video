@@ -1,10 +1,11 @@
 import os
-import wget
 
-from yt_dlp import YoutubeDL
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+import wget
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtube_search import YoutubeSearch
+from yt_dlp import YoutubeDL
+
 from lib.helpers.decorators import blacklist_users
 
 
@@ -12,7 +13,7 @@ from lib.helpers.decorators import blacklist_users
 @blacklist_users
 async def ytsearch(client, message):
     try:
-        if len(message.command) <2:
+        if len(message.command) < 2:
             await message.reply("Give me some title")
             return
         user_id = message.from_user.id
@@ -92,22 +93,23 @@ async def youtube_cb(b, cb):
     url = f"https://youtube.com{resultss}"
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
-       preview = wget.download(thumbnail)
+        preview = wget.download(thumbnail)
     except BaseException:
-       pass
+        pass
     with YoutubeDL(ydl_opts) as ydl:
-       info_dict = ydl.extract_info(url, download=False)
-       audio_file = ydl.prepare_filename(info_dict)
-       ydl.process_info(info_dict)
+        info_dict = ydl.extract_info(url, download=False)
+        audio_file = ydl.prepare_filename(info_dict)
+        ydl.process_info(info_dict)
     await cb.message.edit("`Uploading to telegram server...`")
     await cb.message.reply_audio(
         audio_file,
         thumb=preview,
         duration=int(info_dict["duration"]),
-        caption=info_dict['title'])
+        caption=info_dict["title"],
+    )
     try:
-       os.remove(audio_file)
-       os.remove(preview)
-       await cb.message.delete()
+        os.remove(audio_file)
+        os.remove(preview)
+        await cb.message.delete()
     except BaseException:
-       pass
+        pass

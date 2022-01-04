@@ -1,12 +1,12 @@
 import pafy
 from pyrogram import Client, filters
-from youtube_search import YoutubeSearch
 from pytgcalls.exceptions import NoActiveGroupCall
+from youtube_search import YoutubeSearch
 
-from lib.helpers.pstream import pstream
 from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
+from lib.helpers.pstream import pstream
 from lib.tg_stream import call_py
 
 from .join import opengc
@@ -56,8 +56,7 @@ async def play_video(client, message):
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**\n`{title}`")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
-        chat_id = int(
-            message.chat.title) if flags == "channel" else message.chat.id
+        chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("`Downloading from telegram...`")
         file_source = await client.download_media(replied)
         try:
@@ -73,8 +72,7 @@ async def play_video(client, message):
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
     elif replied.audio:
         flags = " ".join(message.command[1:])
-        chat_id = int(
-            message.chat.title) if flags == "channel" else message.chat.id
+        chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
         msg = await message.reply("`Downloading from telegram...`")
         input_file = await client.download_media(replied)
         try:

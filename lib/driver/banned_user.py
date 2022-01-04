@@ -17,7 +17,7 @@ async def blacklist(client: Client, message: Message):
             user = await client.get_users(user_id)
             mention = user.mention
             try:
-                reason = " ".join(arg[0:])
+                reason = " ".join(arg[:])
             except BaseException:
                 reason = "None"
         except BadRequest:
@@ -50,7 +50,9 @@ async def blacklist(client: Client, message: Message):
         await message.reply(f"{mention} already blacklisted!")
     else:
         db.blacklist(int(user_id))
-        await message.reply(f"**Blacklisted**\n**User:** {mention} | `{user_id}`\n**Reason:** {reason}")
+        await message.reply(
+            f"**Blacklisted**\n**User:** {mention} | `{user_id}`\n**Reason:** {reason}"
+        )
 
 
 @Client.on_message(filters.command(["ungbl", "unbl"]))
