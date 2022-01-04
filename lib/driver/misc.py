@@ -43,56 +43,41 @@ async def repo(client, message):
     await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})", disable_web_page_preview=True)
 
 
-@Client.on_message(filters.command("pause"))
+@Client.on_message(filters.command("action"))
 @blacklist_users
 async def pause(client, message):
-    query = " ".join(message.command[1:])
-    if query == "channel":
+    flags = message.text.split(None, 2)[1:]
+    if flags[0] == "channel":
         chat_id = int(message.chat.title)
         type = "Channel"
+        try:
+           action = flags[1]
+        except BaseException:
+           pass
     else:
         chat_id = message.chat.id
+        action = flags[0]
         type = "Group"
-    try:
-        await call_py.pause_stream(chat_id)
-        await message.reply(f"**{type} stream paused!**")
-    except GroupCallNotFound:
-        await message.reply('**Error:** GroupCall not found!')
-
-
-@Client.on_message(filters.command("resume"))
-@blacklist_users
-async def resume(client, message):
-    query = " ".join(message.command[1:])
-    if query == "channel":
-        chat_id = int(message.chat.title)
-        type = "Channel"
+    if action == "pause":
+        try:
+           await call_py.pause_stream(chat_id)
+           await message.reply(f"**{type} stream paused!**")
+        except GroupCallNotFound:
+           await message.reply('**Error:** GroupCall not found!')
+    elif action == "resume":
+        try:
+           await call_py.resume_stream(chat_id)
+           await message.reply(f"**{type} stream resumed!**")
+        except GroupCallNotFound:
+           await message.reply('**Error:** GroupCall not found!')
+    elif action == "stop":
+        try:
+           await call_py.leave_group_call(chat_id)
+           await message.reply(f"**{type} stream stopped!**")
+        except GroupCallNotFound:
+           await message.reply("**Error:** GroupCall not found")
     else:
-        chat_id = message.chat.id
-        type = "Group"
-    try:
-        await call_py.resume_stream(chat_id)
-        await message.reply(f"**{type} stream resumed!**")
-    except GroupCallNotFound:
-        await message.reply("**Error:** GroupCall not found!")
-
-
-@Client.on_message(filters.command("stop"))
-@blacklist_users
-async def stopped(client, message):
-    query = " ".join(message.command[1:])
-    user_id = message.from_user.id
-    if query == "channel":
-        chat_id = int(message.chat.title)
-        type = "Channel"
-    else:
-        chat_id = message.chat.id
-        type = "Group"
-    try:
-        await call_py.leave_group_call(chat_id)
-        await message.reply(f"**{type} stream stopped!**")
-    except GroupCallNotFound:
-        await message.reply("**Error:** GroupCall not found")
+        await message.reply('Input flags `pause` `resume` or `stop` into command')
 
 
 @Client.on_message(filters.command("volume"))
