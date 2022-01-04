@@ -3,8 +3,9 @@
 ![logo](https://telegra.ph/file/824cba85b5b820fcd7dcd.jpg)
 ## Deploy
 ```
-$ git https://github.com/galihmrd/Group-calls-video
+$ git clone https://github.com/galihmrd/Group-calls-video
 $ cd Group-calls-video
+$ git clone https://github.com/galihmrd/addon-vc etc
 $ pip install -r requirements.txt
 $ python -m lib
 ```

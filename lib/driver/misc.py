@@ -13,6 +13,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
+import psutil
 from datetime import datetime
 
 from pyrogram import Client, filters
@@ -39,7 +40,7 @@ async def ping_(client: Client, message: Message):
 async def repo(client, message):
     repo = "https://github.com/galihmrd/Group-calls-video"
     license = "https://github.com/galihmrd/Group-calls-video/blob/stream/beta/LICENSE"
-    await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})")
+    await message.reply(f"**Source code:** [Here]({repo})\n**License:** [GPL-3.0 License]({license})", disable_web_page_preview=True)
 
 
 @Client.on_message(filters.command("pause"))
@@ -126,3 +127,12 @@ async def pmPermit(client: USER, message: Message):
 @blacklist_users
 async def start(client, message):
     await message.reply(f"Hello {message.from_user.mention} how are you?")
+
+# System info
+@Client.on_message(filters.command("sysd"))
+@sudo_users
+async def sysinfo(client, message):
+    cpuUsage = psutil.cpu_percent(interval=0.5)
+    diskUsage = psutil.disk_usage('/').percent
+    msg = await message.reply("`Processing...`")
+    await msg.edit(f"**System Information**\n **CPU:** {cpuUsage}\n**Disk:** {diskUsage}")
