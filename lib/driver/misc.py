@@ -85,7 +85,6 @@ async def resume(client, message):
 @blacklist_users
 async def stopped(client, message):
     query = " ".join(message.command[1:])
-    user_id = message.from_user.id
     if query == "channel":
         chat_id = int(message.chat.title)
         type = "Channel"
@@ -141,5 +140,5 @@ async def sysinfo(client, message):
     diskUsage = psutil.disk_usage("/").percent
     msg = await message.reply("`Processing...`")
     await msg.edit(
-        f"**System Information**\n **CPU:** {cpuUsage}\n**Disk:** {diskUsage}"
+        f"**System Information**\n**CPU:** {cpuUsage}%\n**Disk:** {diskUsage}%"
     )

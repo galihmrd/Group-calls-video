@@ -33,7 +33,6 @@ async def video(client, message):
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
-        duration = results[0]["duration"]
         results[0]["url_suffix"]
     except Exception as e:
         print(e)

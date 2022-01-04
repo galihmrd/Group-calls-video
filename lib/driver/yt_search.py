@@ -22,14 +22,7 @@ async def ytsearch(client, message):
         results = YoutubeSearch(query, max_results=5).to_dict()
         try:
             toxxt = "**Select the song you want to download**\n\n"
-            emojilist = [
-                "1️⃣",
-                "2️⃣",
-                "3️⃣",
-                "4️⃣",
-                "5️⃣",
-            ]
-
+            emojilist = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣"]
             for j in range(5):
                 toxxt += f"{emojilist[j]} <b>Title - [{results[j]['title']}](https://youtube.com{results[j]['url_suffix']})</b>\n"
                 toxxt += f" ╚ <b>Duration</b> - {results[j]['duration']}\n"
@@ -69,7 +62,6 @@ async def ytsearch(client, message):
 @Client.on_callback_query(filters.regex(pattern=r"plll"))
 async def youtube_cb(b, cb):
     cbd = cb.data.strip()
-    chat_id = cb.message.chat.id
     typed_ = cbd.split(None, 1)[1]
     try:
         x, query, useer_id = typed_.split("|")
@@ -88,8 +80,6 @@ async def youtube_cb(b, cb):
     resultss = results[x]["url_suffix"]
     title = results[x]["title"][:40]
     thumbnail = results[x]["thumbnails"][0]
-    duration = results[x]["duration"]
-    views = results[x]["views"]
     url = f"https://youtube.com{resultss}"
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
