@@ -1,4 +1,4 @@
-'''
+"""
 tg-stream-video, An Telegram Bot Project
 Copyright (c) 2021 GalihMrd <https://github.com/Imszy17>
 This program is free software: you can redistribute it and/or modify
@@ -11,7 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
-'''
+"""
 
 from typing import List, Union
 
@@ -24,7 +24,7 @@ def command(commands: Union[str, List[str]]):
     return filters.command(commands, COMMAND_PREFIXES)
 
 
-private_filters = filters.private & ~ filters.edited \
-    & ~ filters.via_bot & ~ filters.forwarded
-public_filters = filters.group & ~ filters.edited & \
-    ~ filters.via_bot & ~ filters.forwarded
+private_filters = (
+    filters.private & ~filters.edited & ~filters.via_bot & ~filters.forwarded
+)
+public_filters = filters.group & ~filters.edited & ~filters.via_bot & ~filters.forwarded

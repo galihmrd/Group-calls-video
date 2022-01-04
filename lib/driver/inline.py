@@ -1,4 +1,4 @@
-'''
+"""
 tg-stream-video, An Telegram Bot Project
 Copyright (c) 2021 GalihMrd <https://github.com/Imszy17>
 This program is free software: you can redistribute it and/or modify
@@ -11,11 +11,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
-'''
+"""
 
 from pyrogram import Client, errors
-from pyrogram.types import (InlineQuery, InlineQueryResultArticle,
-                            InputTextMessageContent)
+from pyrogram.types import (
+    InlineQuery,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+)
 from youtubesearchpython import VideosSearch
 
 
@@ -43,8 +46,7 @@ async def inline(client: Client, query: InlineQuery):
                         result["duration"], result["viewCount"]["short"]
                     ),
                     input_message_content=InputTextMessageContent(
-                        "https://www.youtube.com/watch?v={}".format(
-                            result["id"])
+                        "https://www.youtube.com/watch?v={}".format(result["id"])
                     ),
                     thumb_url=result["thumbnails"][0]["url"],
                 )

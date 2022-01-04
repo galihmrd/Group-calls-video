@@ -1,5 +1,5 @@
-import os
 import asyncio
+import os
 
 import wget
 from pyrogram import Client, filters
@@ -9,18 +9,18 @@ from yt_dlp import YoutubeDL
 
 from lib.helpers.cover_generator import generate_cover
 from lib.helpers.decorators import blacklist_users
-from lib.helpers.time_converter import cvt_time
 from lib.helpers.pstream import pstream_audio
+from lib.helpers.time_converter import cvt_time
 
 from .join import opengc
 
 ydl_opts = {
-    'format': 'best',
-    'keepvideo': True,
-    'prefer_ffmpeg': False,
-    'geo_bypass': True,
-    'outtmpl': '%(title)s.%(ext)s',
-    'quite': True
+    "format": "best",
+    "keepvideo": True,
+    "prefer_ffmpeg": False,
+    "geo_bypass": True,
+    "outtmpl": "%(title)s.%(ext)s",
+    "quite": True,
 }
 
 
@@ -43,7 +43,7 @@ async def video(client, message):
             ytdl_data = ytdl.extract_info(link, download=True)
             file_name = ytdl.prepare_filename(ytdl_data)
     except Exception as e:
-        return await msg.edit(f'**Error:** {e}')
+        return await msg.edit(f"**Error:** {e}")
     try:
         preview = wget.download(thumbnail)
     except Exception:
@@ -53,7 +53,8 @@ async def video(client, message):
         file_name,
         duration=int(ytdl_data["duration"]),
         thumb=preview,
-        caption=ytdl_data['title'])
+        caption=ytdl_data["title"],
+    )
     try:
         os.remove(file_name)
         os.remove(preview)
@@ -91,13 +92,13 @@ async def music(client, message):
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
     try:
-       preview = wget.download(thumbnail)
+        preview = wget.download(thumbnail)
     except BaseException:
-       pass
+        pass
     with YoutubeDL(ydl_opts) as ydl:
-       info_dict = ydl.extract_info(link, download=False)
-       audio_file = ydl.prepare_filename(info_dict)
-       ydl.process_info(info_dict)
+        info_dict = ydl.extract_info(link, download=False)
+        audio_file = ydl.prepare_filename(info_dict)
+        ydl.process_info(info_dict)
     if input[0] == "stream":
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
@@ -111,17 +112,18 @@ async def music(client, message):
         await msg.edit(f"**Streamed by: {user_mention}**\n**Title:** `{title}`")
         await asyncio.sleep(int(cvt_time(duration)))
         try:
-           os.remove(audio_file)
-           os.remove(preview)
+            os.remove(audio_file)
+            os.remove(preview)
         except BaseException:
-           pass
+            pass
     else:
         await msg.edit("`Uploading to telegram server...`")
         await message.reply_audio(
             audio_file,
             duration=int(info_dict["duration"]),
             thumb=preview,
-            caption=info_dict['title'])
+            caption=info_dict["title"],
+        )
         try:
             os.remove(audio_file)
             os.remove(preview)

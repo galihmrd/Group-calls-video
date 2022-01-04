@@ -1,4 +1,4 @@
-'''
+"""
 tg-stream-video, An Telegram Bot Project
 Copyright (c) 2021 GalihMrd <https://github.com/Imszy17>
 This program is free software: you can redistribute it and/or modify
@@ -11,7 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
-'''
+"""
 
 import logging
 import os
@@ -21,17 +21,16 @@ from pyrogram import Client, idle
 from lib.config import API_HASH, API_ID, BOT_TOKEN
 from lib.tg_stream import app, call_py
 
-if os.path.exists('log.txt'):
-    with open('log.txt', 'r+') as f:
+if os.path.exists("log.txt"):
+    with open("log.txt", "r+") as f:
         f.truncate(0)
 
 logging.basicConfig(
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     datefmt="[%X]",
-    handlers=[
-        logging.FileHandler('log.txt'),
-        logging.StreamHandler()],
-    level=logging.INFO)
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
+)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)

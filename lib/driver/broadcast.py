@@ -15,10 +15,7 @@ async def broadcast(client: Client, message: Message):
     failed = 0
     for chat in chatlists()():
         try:
-            await client.send_message(
-                str(chat),
-                to_send
-            )
+            await client.send_message(str(chat), to_send)
             success += 1
         except BaseException:
             failed += 1
