@@ -19,7 +19,7 @@ from pyrogram.types import (
     InlineQueryResultArticle,
     InputTextMessageContent,
 )
-from youtubesearchpython import VideosSearch
+from youtube_search import YoutubeSearch
 
 
 @Client.on_inline_query()
@@ -36,7 +36,7 @@ async def inline(client: Client, query: InlineQuery):
             cache_time=0,
         )
     else:
-        search = VideosSearch(search_query, limit=50)
+        search = YoutubeSearch(search_query, limit=50)
 
         for result in search.result()["result"]:
             answers.append(
