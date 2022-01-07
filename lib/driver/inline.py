@@ -36,8 +36,7 @@ async def inline(client: Client, query: InlineQuery):
             cache_time=0,
         )
     else:
-        search = YoutubeSearch(search_query, limit=50)
-
+        search = YoutubeSearch(search_query, max_results=50)
         for result in search.result()["result"]:
             answers.append(
                 InlineQueryResultArticle(

@@ -33,23 +33,19 @@ async def ytsearch(client, message):
                 [
                     [
                         InlineKeyboardButton(
-                            "1️⃣", callback_data=f"plll 0|{query}|{user_id}"
-                        ),
+                            "1️⃣", callback_data=f"plll 0|{query}|{user_id}"),
                         InlineKeyboardButton(
-                            "2️⃣", callback_data=f"plll 1|{query}|{user_id}"
-                        ),
+                            "2️⃣", callback_data=f"plll 1|{query}|{user_id}"),
                         InlineKeyboardButton(
-                            "3️⃣", callback_data=f"plll 2|{query}|{user_id}"
-                        ),
+                            "3️⃣", callback_data=f"plll 2|{query}|{user_id}"),
                     ],
                     [
                         InlineKeyboardButton(
-                            "4️⃣", callback_data=f"plll 3|{query}|{user_id}"
-                        ),
+                            "4️⃣", callback_data=f"plll 3|{query}|{user_id}"),
                         InlineKeyboardButton(
-                            "5️⃣", callback_data=f"plll 4|{query}|{user_id}"
-                        ),
+                            "5️⃣", callback_data=f"plll 4|{query}|{user_id}"),
                     ],
+                    [InlineKeyboardButton(text="Close", callback_data="close")]
                 ]
             )
             await msg.edit(toxxt, reply_markup=koyboard, disable_web_page_preview=True)
@@ -103,3 +99,9 @@ async def youtube_cb(b, cb):
         await cb.message.delete()
     except BaseException:
         pass
+
+
+@Client.on_callback_query(filters.regex(pattern=r"close"))
+async def close(b, cb):
+    await cb.answer("Closed!")
+    await cb.message.delete()

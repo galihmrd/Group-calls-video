@@ -13,7 +13,7 @@ async def broadcast(client: Client, message: Message):
     to_send = " ".join(message.command[1:])
     success = 0
     failed = 0
-    for chat in chatlists()():
+    for chat in chatlists():
         try:
             await client.send_message(str(chat), to_send)
             success += 1
