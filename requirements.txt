@@ -9,5 +9,4 @@ sqlalchemy==1.4.29
 TgCrypto==1.2.2
 yt-dlp==2021.12.27
 youtube_search
-youtube_search_python
 wget
