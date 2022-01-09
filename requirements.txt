@@ -6,7 +6,7 @@ git+https://github.com/galihmrd/pafy@develop
 psycopg2-binary
 py-tgcalls==0.8.4
 sqlalchemy==1.4.29
-TgCrypto==1.2.2
+TgCrypto==1.2.3
 yt-dlp==2021.12.27
 youtube_search
 wget
