@@ -19,13 +19,12 @@ from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.raw.functions.phone import CreateGroupCall
 
-from lib.config import USERNAME_BOT
 from lib.helpers.decorators import sudo_users
 from lib.helpers.filters import public_filters
 from lib.tg_stream import app as USER
 
 
-@Client.on_message(filters.command(["join", "join@{USERNAME_BOT}"]) & public_filters)
+@Client.on_message(filters.command("join") & public_filters)
 @sudo_users
 async def join(client, message):
     chat_id = message.chat.id
@@ -41,7 +40,7 @@ async def join(client, message):
         await message.reply("**Userbot Already Participant**")
 
 
-@Client.on_message(filters.command(["opengc", "opengc@{USERNAME_BOT"]) & public_filters)
+@Client.on_message(filters.command("opengc") & public_filters)
 @sudo_users
 async def opengc(client, message):
     flags = " ".join(message.command[1:])

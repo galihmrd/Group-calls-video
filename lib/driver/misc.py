@@ -20,13 +20,12 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 
-from lib.config import USERNAME_BOT
 from lib.helpers.decorators import blacklist_users, sudo_users
 from lib.tg_stream import app as USER
 from lib.tg_stream import call_py
 
 
-@Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
+@Client.on_message(filters.command("ping"))
 @blacklist_users
 async def ping_(client: Client, message: Message):
     start = datetime.now()
@@ -36,7 +35,7 @@ async def ping_(client: Client, message: Message):
     await msg.edit(f"**Latency:** `{latency} ms`")
 
 
-@Client.on_message(filters.command(["repo", "repo@{USERNAME_BOT}"]))
+@Client.on_message(filters.command("repo"))
 @blacklist_users
 async def repo(client, message):
     repo = "https://github.com/galihmrd/Group-calls-video"
