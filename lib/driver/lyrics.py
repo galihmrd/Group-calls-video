@@ -24,8 +24,8 @@ from tswift import Song
 
 @Client.on_message(filters.command(["lyric", "lyrics"]))
 async def lyric(client, message):
-    lel = await message.reply("Searching For Lyrics.....")
-    query = message.text
+    lel = await message.reply("`Searching For Lyrics.....`")
+    query = " ".join(message.command[1:])
     if not query:
         await lel.edit("`What I am Supposed to find `")
         return
@@ -36,9 +36,9 @@ async def lyric(client, message):
         if song.lyrics:
             reply = song.format()
         else:
-            reply = "Couldn't find any lyrics for that song! try with artist name along with song if still doesnt work try `.glyrics`"
+            reply = "Couldn't find any lyrics for that song! try with artist name"
     else:
-        reply = "lyrics not found! try with artist name along with song if still doesnt work try `.glyrics`"
+        reply = "lyrics not found! try with artist name"
 
     if len(reply) > 4095:
         with io.BytesIO(str.encode(reply)) as out_file:
