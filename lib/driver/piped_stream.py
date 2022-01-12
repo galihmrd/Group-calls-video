@@ -1,7 +1,6 @@
 import pafy
 from pyrogram import Client, filters
-from pytgcalls.exceptions import NoActiveGroupCall
-from pytgcalls.exceptions import NotInGroupCallError
+from pytgcalls.exceptions import NoActiveGroupCall, NotInGroupCallError
 from youtube_search import YoutubeSearch
 
 from lib.helpers.database.chat_sql import add_chat
