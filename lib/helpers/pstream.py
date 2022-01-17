@@ -23,7 +23,7 @@ async def pstream(chat_id, file, audio=None):
                 file,
                 video_parameters=MediumQualityVideo(),
             ),
-            stream_type=StreamType().live_stream
+            stream_type=StreamType().live_stream,
         )
 
 
