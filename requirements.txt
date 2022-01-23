@@ -5,7 +5,7 @@ Pillow==9.0.0
 git+https://github.com/galihmrd/pafy@develop
 psycopg2-binary
 py-tgcalls==0.8.4
-sqlalchemy==1.4.30
+sqlalchemy==1.4.31
 TgCrypto==1.2.3
 yt-dlp==2021.12.27
 youtube_search
