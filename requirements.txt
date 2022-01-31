@@ -1,6 +1,6 @@
 aiofiles
 ffmpeg-python
-pyrogram==1.3.6
+pyrogram==1.3.7
 Pillow==9.0.0
 git+https://github.com/galihmrd/pafy@develop
 psycopg2-binary
