@@ -40,7 +40,7 @@ async def video(client, message):
         msg = await message.reply("`Downloading...`")
         with YoutubeDL(ydl_opts) as ytdl:
             ytdl_data = ytdl.extract_info(link, download=True)
-            file_name = ytdl.prepare_filename(ytdl_data)
+            video_file = ytdl.prepare_filename(ytdl_data)
     except Exception as e:
         return await msg.edit(f"**Error:** {e}")
     try:
@@ -49,7 +49,7 @@ async def video(client, message):
         pass
     await msg.edit("`Uploading to telegram server...`")
     await message.reply_video(
-        file_name,
+        video_file,
         duration=int(ytdl_data["duration"]),
         thumb=preview,
         caption=ytdl_data["title"],
@@ -119,8 +119,9 @@ async def music(client, message):
         await msg.edit("`Uploading to telegram server...`")
         await message.reply_audio(
             audio_file,
-            duration=int(info_dict["duration"]),
             thumb=preview,
+            duration=int(info_dict["duration"]),
+            file_name=info_dict["title"],
             caption=info_dict["title"],
         )
         try:
