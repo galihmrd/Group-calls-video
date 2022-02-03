@@ -7,6 +7,6 @@ psycopg2-binary
 py-tgcalls==0.8.5
 sqlalchemy==1.4.31
 TgCrypto==1.2.3
-yt-dlp==2022.1.21
+yt-dlp==2022.2.3
 youtube_search
 wget
