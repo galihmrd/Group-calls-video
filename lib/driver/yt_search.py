@@ -2,7 +2,7 @@ import os
 
 import wget
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
