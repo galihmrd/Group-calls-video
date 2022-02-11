@@ -50,8 +50,8 @@ async def video(client, message):
     await msg.edit("`Uploading to telegram server...`")
     await message.reply_video(
         video_file,
-        duration=int(ytdl_data["duration"]),
         thumb=preview,
+        duration=int(ytdl_data["duration"]),
         caption=ytdl_data["title"],
     )
     try:
@@ -121,7 +121,7 @@ async def music(client, message):
             audio_file,
             thumb=preview,
             duration=int(info_dict["duration"]),
-            file_name=info_dict["title"],
+            file_name=str(info_dict["title"]),
             caption=info_dict["title"],
         )
         try:
