@@ -50,10 +50,9 @@ async def video(client, message):
         pass
     try:
         await msg.edit("`Uploading to telegram server...`")
-        await client.send_video(
+        await message.reply_video(
             video_file,
             thumb=preview,
-            supports_streaming=True,
             duration=int(ytdl_data["duration"]),
             caption=f"**Title:** {title}\n**Duration:** {duration}\n**Source:** [YouTube]({link})\n**Requested by:** {message.from_user.mention}",
         )
