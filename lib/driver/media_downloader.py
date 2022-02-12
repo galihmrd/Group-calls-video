@@ -24,8 +24,8 @@ ydl_opts = {
 }
 
 
-CAPTION = f"""**Title:** {info_dict["title"]}
-**Duration:** {int(ytdl_data["duration"])}
+CAPTION = f"""**Title:** {title}
+**Duration:** {duration}
 **Source:** [YouTube](link)
 **Requested by:** {message.from_user.mention}
 """
@@ -39,6 +39,7 @@ async def video(client, message):
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
+        duration = results[0]["duration"]
         thumbnail = results[0]["thumbnails"][0]
         results[0]["url_suffix"]
     except Exception as e:
