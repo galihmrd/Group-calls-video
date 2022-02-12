@@ -24,6 +24,13 @@ ydl_opts = {
 }
 
 
+CAPTION = f"""**Title:** {info_dict["title"]}
+**Duration:** {int(ytdl_data["duration"])}
+**Source:** [YouTube](link)
+**Requested by:** {message.from_user.mention}
+"""
+
+
 @Client.on_message(filters.command(["video", "vid"]))
 @blacklist_users
 async def video(client, message):
@@ -45,17 +52,21 @@ async def video(client, message):
         return await msg.edit(f"**Error:** {e}")
     try:
         preview = wget.download(thumbnail)
-    except Exception:
+    except BaseException:
         pass
-    await msg.edit("`Uploading to telegram server...`")
-    await message.reply_video(
-        video_file,
-        thumb=preview,
-        duration=int(ytdl_data["duration"]),
-        caption=ytdl_data["title"],
-    )
     try:
-        os.remove(file_name)
+        await msg.edit("`Uploading to telegram server...`")
+        await client.send_video(
+            video_file,
+            thumb=preview,
+            supports_streaming=True,
+            duration=int(ytdl_data["duration"]),
+            caption=CAPTION,
+        )
+    except Exception as e:
+        await msg.edit(f"**Error:** {e})
+    try:
+        os.remove(video_file)
         os.remove(preview)
         await msg.delete()
     except Exception as e:
@@ -121,8 +132,8 @@ async def music(client, message):
             audio_file,
             thumb=preview,
             duration=int(info_dict["duration"]),
-            file_name=str(info_dict["title"]),
-            caption=info_dict["title"],
+            title=str(info_dict["title"]),
+            caption=CAPTION,
         )
         try:
             os.remove(audio_file)
