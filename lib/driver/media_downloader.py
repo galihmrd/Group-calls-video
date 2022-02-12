@@ -55,7 +55,7 @@ async def video(client, message):
             thumb=preview,
             supports_streaming=True,
             duration=int(ytdl_data["duration"]),
-            caption=f"**Title:** {title}\n**Duration:** {duration}\n**Source:** [YouTube](link)\n**Requested by:** {message.from_user.mention}"
+            caption=f"**Title:** {title}\n**Duration:** {duration}\n**Source:** [YouTube]({link})\n**Requested by:** {message.from_user.mention}",
         )
     except Exception as e:
         await msg.edit(f"**Error:** {e}")
@@ -127,7 +127,7 @@ async def music(client, message):
             thumb=preview,
             duration=int(info_dict["duration"]),
             title=str(info_dict["title"]),
-            caption=f"**Title:** {title}\n**Duration:** {duration}\n**Source:** [YouTube](link)\n**Requested by:** {message.from_user.mention",
+            caption=f"**Title:** {title}\n**Duration:** {duration}\n**Source:** [YouTube]({link})\n**Requested by:** {message.from_user.mention}",
         )
         try:
             os.remove(audio_file)
