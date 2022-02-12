@@ -64,7 +64,7 @@ async def video(client, message):
             caption=CAPTION,
         )
     except Exception as e:
-        await msg.edit(f"**Error:** {e})
+        await msg.edit(f"**Error:** {e}")
     try:
         os.remove(video_file)
         os.remove(preview)
