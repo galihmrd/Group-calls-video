@@ -86,6 +86,24 @@ async def play_video(client, message):
             await opengc(client, message)
             await pstream(chat_id, input_file, True)
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
+    elif input.startswith("https://"):
+        chat_id = message.chat.id
+        try:
+            await pstream(chat_id, input)
+        except NoActiveGroupCall:
+            await msg.edit("**No active call!**\n`Starting Group Call...`")
+            await opengc(client, message)
+            await pstream(chat_id, input)
+    elif input.startswith("https://youtube.com"):
+        chat_id = message.chat.id
+        try:
+            inputVideo = pafy.new(input)
+            file_source = inputVideo.getbest().url
+            await pstream(chat_id, file_source)
+        except NoActiveGroupCall:
+            await msg.edit("**No active call!**\n`Starting Group Call...`")
+            await opengc(client, message)
+            await pstream(chat_id, input)
     else:
         await message.reply("Error!")
 
