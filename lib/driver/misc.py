@@ -20,10 +20,10 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 
+from lib.config import BOTLOG_CHATID
 from lib.helpers.decorators import blacklist_users, sudo_users
 from lib.tg_stream import app as USER
 from lib.tg_stream import call_py
-from lib.config import BOTLOG_CHATID
 
 
 @Client.on_message(filters.command("ping"))
@@ -114,10 +114,11 @@ async def change_volume(client, message):
 @sudo_users
 async def logfile(client, message):
     try:
-       await client.send_document(document="log.txt", chat_id=int(BOTLOG_CHATID))
-       await message.reply("I've send the log on Bot Log's")
+        await client.send_document(document="log.txt", chat_id=int(BOTLOG_CHATID))
+        await message.reply("I've send the log on Bot Log's")
     except BaseException:
-       await message.reply("**Oops!!**\nsomething is wrong")
+        await message.reply("**Oops!!**\nsomething is wrong")
+
 
 # PMpermit
 @USER.on_message(filters.text & filters.private & ~filters.me & ~filters.bot)
