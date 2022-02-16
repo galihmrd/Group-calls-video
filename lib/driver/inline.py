@@ -13,13 +13,14 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 """
 
+
 from pyrogram import Client, errors
 from pyrogram.types import (
     InlineQuery,
     InlineQueryResultArticle,
     InputTextMessageContent,
 )
-from youtube_search import YoutubeSearch
+from youtubesearchpython import VideosSearch
 
 
 @Client.on_inline_query()
@@ -36,7 +37,8 @@ async def inline(client: Client, query: InlineQuery):
             cache_time=0,
         )
     else:
-        search = YoutubeSearch(search_query, max_results=50)
+        search = VideosSearch(search_query, limit=50)
+
         for result in search.result()["result"]:
             answers.append(
                 InlineQueryResultArticle(

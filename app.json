@@ -24,6 +24,10 @@
         "SUDO_USERS": {
             "description": "Your telegram User ID",
             "required": true
+        },
+        "BOTLOG_CHATID": {
+            "description": "ID logs group or channel",
+            "required": true
         }
     },
     "buildpacks": [
