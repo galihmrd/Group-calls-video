@@ -18,7 +18,7 @@ import os
 
 from pyrogram import Client, idle
 
-from lib.config import API_HASH, API_ID, BOT_TOKEN
+from lib.config import API_HASH, API_ID, BOT_TOKEN, BOTLOG_CHATID
 from lib.tg_stream import app, call_py
 
 if os.path.exists("log.txt"):
@@ -49,11 +49,11 @@ bot.start()
 
 async def logstart(chat_id, client, message):
     try:
-        await client.send_message(chat_id, "Starting bot...")
+        await client.send_message(int(BOTLOG_CHATID), "Starting bot...")
         await app.start()
-        await client.send_message(chat_id, "Userbot started!")
+        await client.send_message(int(BOTLOG_CHATID), "Userbot started!")
         await call_py.start()
-        await client.send_message(chat_id, "Pytgcalls started!")
+        await client.send_message(int(BOTLOG_CHATID), "Pytgcalls started!")
         await LOGGER.info("Bot has been started!")
         await idle()
     except Exception as e:
