@@ -21,6 +21,7 @@ from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import BOTLOG_CHATID
+from lib.helpers.ffmpeg_audio import get_audio
 from lib.helpers.decorators import blacklist_users, sudo_users
 from lib.tg_stream import app as USER
 from lib.tg_stream import call_py
@@ -145,3 +146,24 @@ async def sysinfo(client, message):
     await msg.edit(
         f"**System Information**\n**CPU:** {cpuUsage}%\n**Disk:** {diskUsage}%"
     )
+
+# Converter
+@Client.on_message(filters.command("video2audio"))
+async def video2audio(client, message):
+    replied = message.reply_to_message
+    outName = f"{message.from_user.id}.mp3"
+    if replied.video:
+        try:
+           msgDialog = await message.reply("`Downloading...`")
+           inputName = await client.download_media(replied)
+           await msgDialog.edit("`Converting...`")
+           getAudio = get_audio(inputName, outName)
+           await msgDialog.edit("`Uploading to telegram server`")
+           await message.reply_audio(
+               getAudio,
+               title=outName,
+           )
+        except Exception as e:
+           await msgDialog.edit(f"Error: {e}")
+    else:
+        await message.reply("Reply command to video file!")
