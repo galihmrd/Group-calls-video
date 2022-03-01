@@ -15,6 +15,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 from datetime import datetime
 
+import os
 import psutil
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -158,12 +159,17 @@ async def video2audio(client, message):
             msgDialog = await message.reply("`Downloading...`")
             inputName = await client.download_media(replied)
             await msgDialog.edit("`Converting...`")
-            getAudio = get_audio(inputName, outName)
+            get_audio(inputName, outName)
             await msgDialog.edit("`Uploading to telegram server`")
             await message.reply_audio(
-                getAudio,
+                outName,
                 title=outName,
             )
+            try:
+                await msgDialog.delete()
+                os.remove(outName)
+            except BaseException:
+                pass
         except Exception as e:
             await msgDialog.edit(f"Error: {e}")
     else:
