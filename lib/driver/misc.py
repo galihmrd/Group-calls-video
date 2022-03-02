@@ -173,4 +173,6 @@ async def video2audio(client, message):
             except BaseException:
                 pass
     except Exception as e:
-        await message.reply(f"**Input not found:** Reply command to video file!\n**Logs:** `{e}`")
+        await message.reply(
+            f"**Input not found:** Reply command to video file!\n**Logs:** `{e}`"
+        )
