@@ -154,7 +154,7 @@ async def sysinfo(client, message):
 @blacklist_users
 async def video2audio(client, message):
     replied = message.reply_to_message
-    outName = f"{message.from_user.id}_{message.from_user.first_name}.mp3"
+    outName = f"{message.from_user.first_name}_{replied.video.file_id}.mp3"
     try:
         if replied.video:
             msgDialog = await message.reply("`Downloading from telegram server...`")
