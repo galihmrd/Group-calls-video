@@ -172,7 +172,5 @@ async def video2audio(client, message):
                 os.remove(outName)
             except BaseException:
                 pass
-        except Exception as e:
-            await msgDialog.edit(f"Error: {e}")
     except Exception as e:
         await message.reply(f"**Input not found:** Reply command to video file!\n**Logs:** `{e}`")
