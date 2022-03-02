@@ -153,9 +153,9 @@ async def sysinfo(client, message):
 @Client.on_message(filters.command("video2audio"))
 @blacklist_users
 async def video2audio(client, message):
-    replied = message.reply_to_message
-    outName = f"{message.from_user.first_name}_{replied.video.file_id}.mp3"
     try:
+        replied = message.reply_to_message
+        outName = f"{message.from_user.first_name}_{replied.video.file_id}.mp3"
         if replied.video:
             msgDialog = await message.reply("`Downloading from telegram server...`")
             inputName = await client.download_media(replied)
