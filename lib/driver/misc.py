@@ -153,18 +153,19 @@ async def sysinfo(client, message):
 @Client.on_message(filters.command("video2audio"))
 async def video2audio(client, message):
     replied = message.reply_to_message
-    outName = f"{message.from_user.id}.mp3"
+    outName = f"{message.from_user.id}_{message.from_user.first_name}.mp3"
     if replied.video:
         try:
             msgDialog = await message.reply("`Downloading from telegram server...`")
             inputName = await client.download_media(replied)
             await msgDialog.edit("`Converting via Ffmpeg...`")
             get_audio(inputName, outName)
-            await msgDialog.edit("`Uploading to telegram server`")
+            await msgDialog.edit("`Uploading to telegram server...`")
             await message.reply_audio(
                 outName,
                 title=outName,
-                caption=f"**Requested by: {message.from_user.mention}",
+                artist="@Seodalmibot",
+                caption=f"**Requested by:** {message.from_user.mention}",
             )
             try:
                 await msgDialog.delete()
@@ -173,5 +174,5 @@ async def video2audio(client, message):
                 pass
         except Exception as e:
             await msgDialog.edit(f"Error: {e}")
-    else:
-        await message.reply("Reply command to video file!")
+    elif not replied:
+        await message.reply("**Input not found:** Reply command to video file!")
