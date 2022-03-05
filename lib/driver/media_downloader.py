@@ -9,7 +9,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
-from lib.config import TIKTOK_API
+from lib.config import REST_API
 from lib.helpers.cover_generator import generate_cover
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.pstream import pstream_audio
@@ -142,14 +142,15 @@ async def music(client, message):
 @Client.on_message(filters.command(["tiktok", "ttdl"]))
 @blacklist_users
 async def tiktokdl(client, message):
+    nameFile = f"tiktok_{message.from_user.id}"
     tiktokUrl = message.command[1]
-    tiktokApi = f"{TIKTOK_API}={tiktokUrl}"
+    tiktokApi = f"{REST_API}/tiktok_nowm?url={tiktokUrl}"
     try:
         msg = await message.reply("`Processing...`")
         response = request.urlopen(tiktokApi)
         data = json.loads(response.read())
         await msg.edit("`Downloading to local server...`")
-        videoFile = wget.download(data["download"])
+        videoFile = wget.download(data["download"], nameFile)
         await msg.edit("`Uploading to telegram server...`")
         await message.reply_video(
             videoFile,
@@ -160,5 +161,30 @@ async def tiktokdl(client, message):
             await msg.delete()
         except BaseException:
             pass
-    except Exception as e:
-        await msg.edit(e)
+    except BaseException:
+        await msg.edit("Api Error!")
+
+
+@Client.on_message(filters.command(["fb", "facebook"]))
+async def fb_download(client, message):
+    nameFile = f"{fb_{message.from_user.id}"
+    postUrl = message.command[1]
+    fbApi = f"{REST_API}/fb?url={postUrl}"
+    try:
+        msg = await message.reply("`Processing...`")
+        response = request.urlopen(fbApi)
+        data = json.loads(response.read())
+        await msg.edit("`Downloading to local server...`")
+        videoFile = wget.download(data["result"][0]["download"], nameFile)
+        await msg.edit("`Uploading to telegram server...`")
+        await message.reply_video(
+            videoFile,
+            caption=f"**Url:** {postUrl}",
+        )
+        try:
+            os.remove(videoFile)
+            await msg.delete()
+        except BaseException:
+            pass
+    except BaseException:
+        await msg.edit(f"Api error!")

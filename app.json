@@ -29,7 +29,7 @@
             "description": "ID logs group or channel",
             "required": true
         },
-        "TIKTOK_API": {
+        "REST_API": {
             "description": "Tiktok api (now owner only)",
             "required": false
         }
