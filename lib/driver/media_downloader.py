@@ -143,7 +143,7 @@ async def music(client, message):
 @blacklist_users
 async def tiktokdl(client, message):
     tiktokUrl = message.command[1]
-    tiktokApi = f"{TIKTOK_API}={tiktokUrl}"
+    tiktokApi = f"{TIKTOK_API}{tiktokUrl}"
     try:
         msg = await message.reply("`Processing...`")
         response = request.urlopen(tiktokApi)
