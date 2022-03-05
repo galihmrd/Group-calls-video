@@ -167,7 +167,7 @@ async def tiktokdl(client, message):
 
 @Client.on_message(filters.command(["fb", "facebook"]))
 async def fb_download(client, message):
-    nameFile = f"{fb_{message.from_user.id}"
+    nameFile = f"fb_{message.from_user.id}"
     postUrl = message.command[1]
     fbApi = f"{REST_API}/fb?url={postUrl}"
     try:
