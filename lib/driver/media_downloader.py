@@ -1,5 +1,7 @@
 import asyncio
+import json
 import os
+from urllib import request
 
 import wget
 from pyrogram import Client, filters
@@ -7,6 +9,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
+from lib.config import TIKTOK_API
 from lib.helpers.cover_generator import generate_cover
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.pstream import pstream_audio
@@ -134,3 +137,28 @@ async def music(client, message):
             await msg.delete()
         except Exception as e:
             print(e)
+
+
+@Client.on_message(filters.command(["tiktok", "ttdl"]))
+@blacklist_users
+async def tiktokdl(client, message):
+    tiktokUrl = message.command[1]
+    tiktokApi = f"{TIKTOK_API}={tiktokUrl}"
+    try:
+        msg = await message.reply("`Processing...`")
+        response = request.urlopen(tiktokApi)
+        data = json.loads(response.read())
+        await msg.edit("`Downloading to local server...`")
+        videoFile = wget.download(data["download"])
+        await msg.edit("`Uploading to telegram server...`")
+        await message.reply_video(
+            videoFile,
+            caption=f"**Video by:** {data['from']}\n\n {data['caption']}",
+        )
+        try:
+            os.remove(videoFile)
+            await msg.delete()
+        except BaseException:
+            pass
+    except Exception as e:
+        await msg.edit(e)
