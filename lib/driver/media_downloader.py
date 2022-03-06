@@ -5,7 +5,7 @@ from urllib import request
 
 import wget
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
@@ -182,7 +182,8 @@ async def fb_download(client, message):
                 [
                     [
                         InlineKeyboardButton(
-                            'Download', url=f'{high}',
+                            "Download",
+                            url=f"{high}",
                         ),
                     ],
                 ],
