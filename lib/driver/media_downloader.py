@@ -167,24 +167,16 @@ async def tiktokdl(client, message):
 
 @Client.on_message(filters.command(["fb", "facebook"]))
 async def fb_download(client, message):
-    nameFile = f"fb_{message.from_user.id}"
     postUrl = message.command[1]
     fbApi = f"{REST_API}/fb?url={postUrl}"
     try:
         msg = await message.reply("`Processing...`")
         response = request.urlopen(fbApi)
         data = json.loads(response.read())
-        await msg.edit("`Downloading to local server...`")
-        videoFile = wget.download(data["result"][0]["download"], nameFile)
-        await msg.edit("`Uploading to telegram server...`")
-        await message.reply_video(
-            videoFile,
-            caption=f"**Url:** {postUrl}",
-        )
-        try:
-            os.remove(videoFile)
-            await msg.delete()
-        except BaseException:
-            pass
+        await msg.edit("`Generate direct link...`")
+        high = data["result"][0]["download"]
+        medium = data["result"][2]["download"]
+        worst = data["result"][1]["download"]
+        await msg.edit(f"**Posts:** {postUrl}\n**Download Url:**\n\n[720p]({high})\n[540p]({medium})\n[360p]({worst})")
     except BaseException:
         await msg.edit(f"Api error!")
