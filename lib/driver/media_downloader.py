@@ -177,6 +177,8 @@ async def fb_download(client, message):
         high = data["result"][0]["download"]
         medium = data["result"][2]["download"]
         worst = data["result"][1]["download"]
-        await msg.edit(f"**Posts:** {postUrl}\n**Download Url:**\n\n[720p]({high})\n[540p]({medium})\n[360p]({worst})")
+        await msg.edit(
+            f"**Posts:** {postUrl}\n**Download Url:**\n\n[720p]({high})\n[540p]({medium})\n[360p]({worst})"
+        )
     except BaseException:
         await msg.edit(f"Api error!")
