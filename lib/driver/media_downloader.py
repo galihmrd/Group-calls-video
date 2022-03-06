@@ -5,6 +5,7 @@ from urllib import request
 
 import wget
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
@@ -175,10 +176,18 @@ async def fb_download(client, message):
         data = json.loads(response.read())
         await msg.edit("`Generate direct link...`")
         high = data["result"][0]["download"]
-        medium = data["result"][2]["download"]
-        worst = data["result"][1]["download"]
-        await msg.edit(
-            f"**Posts:** {postUrl}\n**Download Url:**\n\n[720p]({high})\n[540p]({medium})\n[360p]({worst})"
+        await message.reply(
+            "**Here is a direct link to download:**",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            'Download', url=f'{high}',
+                        ),
+                    ],
+                ],
+            ),
         )
+        await msg.delete()
     except BaseException:
         await msg.edit(f"Api error!")
