@@ -156,7 +156,7 @@ async def video2audio(client, message):
     try:
         replied = message.reply_to_message
         outName = f"{message.from_user.first_name}_{replied.video.file_id}.mp3"
-        if replied.video:
+        if replied.video or replied.document:
             msgDialog = await message.reply("`Downloading from telegram server...`")
             inputName = await client.download_media(replied)
             await msgDialog.edit("`Converting via Ffmpeg...`")
