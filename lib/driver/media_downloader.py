@@ -19,7 +19,7 @@ from lib.helpers.time_converter import cvt_time
 from .join import opengc
 
 ydl_opts = {
-    "format": "best[height=480]+bestaudio",
+    "format": "bestvideo[height<=480]+bestaudio/best[height<=480]",
     "keepvideo": True,
     "prefer_ffmpeg": False,
     "geo_bypass": True,
