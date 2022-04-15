@@ -5,9 +5,10 @@ from pyrogram.types import Message
 
 from lib.helpers.database.chat_sql import chatlists, rm_chat
 from lib.helpers.decorators import sudo_users
+from lib.helpers.filters import command
 
 
-@Client.on_message(filters.command(["broadcast", "bc"]))
+@Client.on_message(command(["broadcast", "bc"]))
 @sudo_users
 async def broadcast(client: Client, message: Message):
     to_send = " ".join(message.command[1:])
@@ -25,7 +26,7 @@ async def broadcast(client: Client, message: Message):
     )
 
 
-@Client.on_message(filters.command("chatlist"))
+@Client.on_message(command("chatlist"))
 @sudo_users
 async def chatlist(client, message):
     all_chats = chatlists()

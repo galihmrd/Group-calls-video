@@ -13,6 +13,7 @@ from yt_dlp import YoutubeDL
 from lib.config import REST_API
 from lib.helpers.cover_generator import generate_cover
 from lib.helpers.decorators import blacklist_users
+from lib.helpers.filters import command
 from lib.helpers.pstream import pstream_audio
 from lib.helpers.time_converter import cvt_time
 
@@ -28,7 +29,7 @@ ydl_opts = {
 }
 
 
-@Client.on_message(filters.command(["video", "vid"]))
+@Client.on_message(command(["video", "vid"]))
 @blacklist_users
 async def video(client, message):
     query = " ".join(message.command[1:])
@@ -70,7 +71,7 @@ async def video(client, message):
         print(e)
 
 
-@Client.on_message(filters.command(["music", "song"]))
+@Client.on_message(command(["music", "song"]))
 @blacklist_users
 async def music(client, message):
     prequest = message.from_user.first_name
@@ -140,7 +141,7 @@ async def music(client, message):
             print(e)
 
 
-@Client.on_message(filters.command(["tiktok", "ttdl"]))
+@Client.on_message(command(["tiktok", "ttdl"]))
 @blacklist_users
 async def tiktokdl(client, message):
     nameFile = f"tiktok_{message.from_user.id}"
@@ -166,7 +167,7 @@ async def tiktokdl(client, message):
         await msg.edit("Api Error!")
 
 
-@Client.on_message(filters.command(["fb", "facebook"]))
+@Client.on_message(command(["fb", "facebook"]))
 async def fb_download(client, message):
     postUrl = message.command[1]
     fbApi = f"{REST_API}/fb?url={postUrl}"

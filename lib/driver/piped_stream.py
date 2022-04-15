@@ -5,14 +5,14 @@ from youtube_search import YoutubeSearch
 
 from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
-from lib.helpers.filters import public_filters
+from lib.helpers.filters import public_filters, command
 from lib.helpers.pstream import pstream
 from lib.tg_stream import call_py
 
 from .join import opengc
 
 
-@Client.on_message(filters.command(["play", "stream"]) & public_filters)
+@Client.on_message(command(["play", "stream"]) & public_filters)
 @blacklist_users
 async def play_video(client, message):
     flags = " ".join(message.command[1:])

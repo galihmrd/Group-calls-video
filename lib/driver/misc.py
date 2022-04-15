@@ -24,11 +24,12 @@ from pytgcalls.exceptions import GroupCallNotFound
 from lib.config import BOTLOG_CHATID
 from lib.helpers.decorators import blacklist_users, sudo_users
 from lib.helpers.ffmpeg_audio import get_audio
+from lib.helpers.filters import command
 from lib.tg_stream import app as USER
 from lib.tg_stream import call_py
 
 
-@Client.on_message(filters.command("ping"))
+@Client.on_message(command("ping"))
 @blacklist_users
 async def ping_(client: Client, message: Message):
     start = datetime.now()
@@ -38,7 +39,7 @@ async def ping_(client: Client, message: Message):
     await msg.edit(f"**Latency:** `{latency} ms`")
 
 
-@Client.on_message(filters.command("repo"))
+@Client.on_message(command("repo"))
 @blacklist_users
 async def repo(client, message):
     repo = "https://github.com/galihmrd/Group-calls-video"
@@ -49,7 +50,7 @@ async def repo(client, message):
     )
 
 
-@Client.on_message(filters.command("pause"))
+@Client.on_message(command("pause"))
 @blacklist_users
 async def pause(client, message):
     query = " ".join(message.command[1:])
@@ -66,7 +67,7 @@ async def pause(client, message):
         await message.reply("**Error:** GroupCall not found!")
 
 
-@Client.on_message(filters.command("resume"))
+@Client.on_message(command("resume"))
 @blacklist_users
 async def resume(client, message):
     query = " ".join(message.command[1:])
@@ -83,7 +84,7 @@ async def resume(client, message):
         await message.reply("**Error:** GroupCall not found!")
 
 
-@Client.on_message(filters.command("stop"))
+@Client.on_message(command("stop"))
 @blacklist_users
 async def stopped(client, message):
     query = " ".join(message.command[1:])
@@ -100,7 +101,7 @@ async def stopped(client, message):
         await message.reply("**Error:** GroupCall not found")
 
 
-@Client.on_message(filters.command("volume"))
+@Client.on_message(command("volume"))
 @sudo_users
 async def change_volume(client, message):
     range = message.command[1]
@@ -112,7 +113,7 @@ async def change_volume(client, message):
         await message.reply(f"**Error:** {e}")
 
 
-@Client.on_message(filters.command(["logs", "log"]))
+@Client.on_message(command(["logs", "log"]))
 @sudo_users
 async def logfile(client, message):
     try:
@@ -131,14 +132,14 @@ async def pmPermit(client: USER, message: Message):
 
 
 # Start message
-@Client.on_message(filters.command("start"))
+@Client.on_message(command("start"))
 @blacklist_users
 async def start(client, message):
     await message.reply(f"Hello {message.from_user.mention} how are you?")
 
 
 # System info
-@Client.on_message(filters.command("sysd"))
+@Client.on_message(command("sysd"))
 @sudo_users
 async def sysinfo(client, message):
     cpuUsage = psutil.cpu_percent(interval=0.5)
@@ -150,7 +151,7 @@ async def sysinfo(client, message):
 
 
 # Converter
-@Client.on_message(filters.command("video2audio"))
+@Client.on_message(command("video2audio"))
 @blacklist_users
 async def video2audio(client, message):
     try:
