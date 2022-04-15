@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.types import Message
 
 from lib.helpers.database.chat_sql import chatlists, rm_chat

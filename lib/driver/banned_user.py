@@ -1,10 +1,10 @@
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 import lib.helpers.database.blacklist as db
-from lib.helpers.filters import command
 from lib.helpers.decorators import SUDO_USERS, sudo_users
+from lib.helpers.filters import command
 
 
 @Client.on_message(command(["gbl", "bl"]))

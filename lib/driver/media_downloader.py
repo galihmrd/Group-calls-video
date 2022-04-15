@@ -4,7 +4,7 @@ import os
 from urllib import request
 
 import wget
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
