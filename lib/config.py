@@ -8,7 +8,10 @@ COMMAND_PREFIXES = os.getenv("COMMAND_PREFIXES", "!")
 BOTLOG_CHATID = os.getenv("BOTLOG_CHATID")
 DATABASE_URL = os.getenv("DATABASE_URL")
 REST_API = os.getenv("REST_API")
-MODEL_URL = os.getenv("MODEL_DOWNLOAD_URL", "https://alphacephei.com/vosk/models/vosk-model-en-us-0.22-lgraph.zip")
+MODEL_URL = os.getenv(
+    "MODEL_DOWNLOAD_URL",
+    "https://alphacephei.com/vosk/models/vosk-model-en-us-0.22-lgraph.zip",
+)
 LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", "en-us")
 TRANSCRIPT_FORMAT = os.getenv("SEND_AS", "TXT")
 SUDO_USERS = list(map(int, os.getenv("SUDO_USERS").split()))
