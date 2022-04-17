@@ -28,10 +28,6 @@
         "BOTLOG_CHATID": {
             "description": "ID logs group or channel",
             "required": true
-        },
-        "REST_API": {
-            "description": "Tiktok api (now owner only)",
-            "required": false
         }
     },
     "buildpacks": [
