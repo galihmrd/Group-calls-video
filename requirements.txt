@@ -10,4 +10,8 @@ TgCrypto==1.2.3
 yt-dlp==2022.4.8
 youtube_search
 youtube_search_python
+fpdf
+tqdm
+vosk
+requests
 wget
