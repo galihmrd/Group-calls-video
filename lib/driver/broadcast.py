@@ -1,3 +1,4 @@
+import os
 from io import BytesIO
 
 from pyrogram import Client, filters
@@ -49,3 +50,4 @@ async def chatlist(client, message):
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"
         await message.reply_document(document=output, disable_notification=True)
+        os.remove("chatlist.txt")
