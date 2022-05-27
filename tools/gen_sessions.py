@@ -8,12 +8,12 @@
 #
 # All rights reserved.
 
-import os
 import asyncio
 
 from pyrogram import Client
 from pyrogram.errors import UserIsBot
-from lib.config import API_ID, API_HASH
+
+from lib.config import API_HASH, API_ID
 
 
 async def genStrSession() -> None:  # pylint: disable=missing-function-docstring
