@@ -19,7 +19,7 @@ from lib.config import API_ID, API_HASH
 async def genStrSession() -> None:  # pylint: disable=missing-function-docstring
     async with Client(
         "Userge",
-        api_id=int(API_ID) or input("Enter Telegram APP ID: ")),
+        api_id=int(API_ID) or input("Enter Telegram APP ID: "),
         api_hash=API_HASH or input("Enter Telegram API HASH: "),
     ) as userge:
         print("\nprocessing...")
