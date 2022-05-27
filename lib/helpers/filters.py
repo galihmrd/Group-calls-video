@@ -25,6 +25,6 @@ def command(commands: Union[str, List[str]]):
 
 
 private_filters = (
-    filters.private & ~filters.edited & ~filters.via_bot & ~filters.forwarded
+    filters.private & ~filters.via_bot & ~filters.forwarded
 )
-public_filters = filters.group & ~filters.edited & ~filters.via_bot & ~filters.forwarded
+public_filters = filters.group & ~filters.via_bot & ~filters.forwarded
