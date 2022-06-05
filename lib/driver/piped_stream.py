@@ -92,7 +92,7 @@ async def play_video(client, message):
 
 @call_py.on_stream_end()
 async def end(cl, update):
-    print("stream ended in " + str(update.chat_id))
+    print(f"stream ended in {str(update.chat_id)}")
     try:
         await call_py.leave_group_call(update.chat_id)
     except NotInGroupCallError:
