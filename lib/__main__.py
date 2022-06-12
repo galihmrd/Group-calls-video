@@ -19,7 +19,6 @@ import os
 from pyrogram import Client, idle
 
 from lib.config import API_HASH, API_ID, BOT_TOKEN
-from lib.helpers.database.sudo_sql import add_sudo
 from lib.tg_stream import app, call_py
 
 if os.path.exists("log.txt"):
