@@ -3,7 +3,7 @@ from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 import lib.helpers.database.blacklist as db
-from lib.helpers.decorators import SUDO_USERS, sudo_users
+from lib.helpers.database.sudo_sql import is_sudo
 
 
 @Client.on_message(filters.command(["gbl", "bl"]))
@@ -44,7 +44,8 @@ async def blacklist(client: Client, message: Message):
                 reason = "None"
         except BadRequest:
             return await message.reply("Failed: Invalid id")
-    if user_id in SUDO_USERS:
+    check_sudo = is_sudo(int(user_id))
+    if check_sudo:
         return await message.reply("Can't blacklist my sudo!")
     if db.is_bl(user_id):
         await message.reply(f"{mention} already blacklisted!")
