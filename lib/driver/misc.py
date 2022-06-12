@@ -22,8 +22,8 @@ from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import BOTLOG_CHATID
+from lib.helpers.database.sudo_sql import add_sudo, is_sudo
 from lib.helpers.decorators import blacklist_users, sudo_users
-from lib.helpers.database.sudo_sql import add_sudo, is_sudo, del_sudo
 from lib.helpers.ffmpeg_audio import get_audio
 from lib.tg_stream import app as USER
 from lib.tg_stream import call_py
