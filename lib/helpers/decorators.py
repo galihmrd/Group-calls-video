@@ -3,7 +3,6 @@ from typing import Callable
 from pyrogram import Client
 from pyrogram.types import Message
 
-from lib.config import SUDO_USERS
 from lib.helpers.database.blacklist import is_bl
 from lib.helpers.database.sudo_sql import is_sudo
 
