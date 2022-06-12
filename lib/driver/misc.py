@@ -23,6 +23,7 @@ from pytgcalls.exceptions import GroupCallNotFound
 
 from lib.config import BOTLOG_CHATID
 from lib.helpers.decorators import blacklist_users, sudo_users
+from lib.helpers.database.sudo_sql import add_sudo, is_sudo, del_sudo
 from lib.helpers.ffmpeg_audio import get_audio
 from lib.tg_stream import app as USER
 from lib.tg_stream import call_py
@@ -176,3 +177,36 @@ async def video2audio(client, message):
         await message.reply(
             f"**Input not found:** Reply command to video file!\n**Logs:** `{e}`"
         )
+
+
+@Client.on_message(filters.command("add_sudo"))
+@sudo_users
+async def add_sudo(client, message):
+    arg = message.text.split(None, 2)[1:]
+    replied = message.reply_to_message
+    if replied:
+        try:
+            user_id = replied.from_user.id
+            user = await client.get_users(user_id)
+            mention = user.mention
+        except BadRequest:
+            return await message.reply("Failed: Invalid target")
+    elif arg[0].startswith("@"):
+        try:
+            user = await client.get_users(arg[0])
+            user_id = user.id
+            mention = user.mention
+        except BadRequest:
+            return await message.reply("Failed: Invalid username")
+    else:
+        try:
+            user_id = int(arg[0])
+            user = await client.get_users(arg[0])
+            mention = user.mention
+        except BadRequest:
+            return await message.reply("Failed: Invalid target")
+    if is_sudo(user_id):
+        await message.reply(f"{mention} Is SUDO user")
+    else:
+        add_sudo(user_id)
+        await message.reply("{mention} Added to sudo!")
