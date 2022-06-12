@@ -14,9 +14,7 @@ def sudo_users(func: Callable) -> Callable:
     async def decorator(client, message):
         user = message.from_user.id
         check = is_sudo(int(user))
-        if check:
-            return await func(client, message)
-        elif user in SUDO_USERS:
+        if check and user in SUDO_USERS:
             return await func(client, message)
         else:
             return False
