@@ -3,15 +3,15 @@ from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 import lib.helpers.database.blacklist as db
-from lib.helpers.decorators import SUDO_USERS, sudo_users
+from lib.helpers.database.sudo_sql import is_sudo
+from lib.helpers.decorators import sudo_users
 
 
 @Client.on_message(filters.command(["gbl", "bl"]))
 @sudo_users
 async def blacklist(client: Client, message: Message):
     arg = message.text.split(None, 2)[1:]
-    replied = message.reply_to_message
-    if replied:
+    if replied := message.reply_to_message:
         try:
             user_id = replied.from_user.id
             user = await client.get_users(user_id)
@@ -44,7 +44,7 @@ async def blacklist(client: Client, message: Message):
                 reason = "None"
         except BadRequest:
             return await message.reply("Failed: Invalid id")
-    if user_id in SUDO_USERS:
+    if check_sudo := is_sudo(int(user_id)):
         return await message.reply("Can't blacklist my sudo!")
     if db.is_bl(user_id):
         await message.reply(f"{mention} already blacklisted!")
@@ -58,8 +58,7 @@ async def blacklist(client: Client, message: Message):
 @Client.on_message(filters.command(["ungbl", "unbl"]))
 @sudo_users
 async def unblacklist(client: Client, message: Message):
-    replied = message.reply_to_message
-    if replied:
+    if replied := message.reply_to_message:
         user_id = replied.from_user.id
         user = await client.get_users(user_id)
         mention = user.mention
@@ -76,9 +75,8 @@ async def unblacklist(client: Client, message: Message):
             user_id = int(arg)
             user = await client.get_users(arg)
             mention = user.mention
-    check_bl = db.is_bl(int(user_id))
-    if not check_bl:
-        await message.reply(f"{mention} is not blacklisted")
-    else:
+    if check_bl := db.is_bl(int(user_id)):
         db.unblacklist(int(user_id))
         await message.reply(f"**Unblacklisted** {mention} | `{user_id}`")
+    else:
+        await message.reply(f"{mention} is not blacklisted")
