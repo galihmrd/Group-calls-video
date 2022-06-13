@@ -2,7 +2,7 @@ aiofiles
 ffmpeg-python
 pyrogram==1.4.16
 Pillow==9.1.1
-git+https://github.com/galihmrd/pafy-mod@develop
+git+https://github.com/galihmrd/pafy-mod@fixed
 psycopg2-binary
 py-tgcalls==0.9.1
 sqlalchemy==1.4.37
