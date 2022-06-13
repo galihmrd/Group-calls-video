@@ -14,10 +14,7 @@ def sudo_users(func: Callable) -> Callable:
     async def decorator(client, message):
         user = message.from_user.id
         check = is_sudo(int(user))
-        if check and user in SUDO_USERS:
-            return await func(client, message)
-        else:
-            return False
+        return await func(client, message) if check and user in SUDO_USERS else False
 
     return decorator
 
@@ -35,10 +32,6 @@ def errors(func: Callable) -> Callable:
 def blacklist_users(func: Callable) -> Callable:
     async def decorator(client, message):
         user = message.from_user.id
-        check = is_bl(int(user))
-        if check:
-            return False
-        else:
-            return await func(client, message)
+        return False if (check := is_bl(int(user))) else await func(client, message)
 
     return decorator

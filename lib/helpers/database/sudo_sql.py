@@ -13,7 +13,7 @@ class Sudo(BASE):
         self.reason = reason
 
     def __repr__(self):
-        return "<BL %s>" % self.chat_id
+        return f"<BL {self.chat_id}>"
 
 
 Sudo.__table__.create(checkfirst=True)
@@ -21,10 +21,7 @@ Sudo.__table__.create(checkfirst=True)
 
 def is_sudo(chat_id: int):
     try:
-        sudo = SESSION.query(Sudo).get(str(chat_id))
-        if sudo:
-            return sudo
-        return None
+        return sudo if (sudo := SESSION.query(Sudo).get(str(chat_id))) else None
     finally:
         SESSION.close()
 
@@ -36,7 +33,6 @@ def add_sudo(chat_id: int, reason=None):
 
 
 def del_sudo(chat_id: int):
-    user = is_sudo(chat_id)
-    if user:
+    if user := is_sudo(chat_id):
         SESSION.delete(user)
         SESSION.commit()
