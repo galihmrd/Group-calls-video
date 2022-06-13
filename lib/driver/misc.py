@@ -184,8 +184,7 @@ async def video2audio(client, message):
 @sudo_users
 async def add_sudo(client, message):
     arg = message.text.split(None, 2)[1:]
-    replied = message.reply_to_message
-    if replied:
+    if replied := message.reply_to_message:
         try:
             user_id = replied.from_user.id
             user = await client.get_users(user_id)
