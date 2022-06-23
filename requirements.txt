@@ -4,7 +4,7 @@ pyrogram==1.4.16
 Pillow==9.1.1
 git+https://github.com/galihmrd/pafy-mod@fixed
 psycopg2-binary
-py-tgcalls==0.9.1
+pytgcalls==3.0.0.dev22
 sqlalchemy==1.4.37
 TgCrypto==1.2.3
 yt-dlp==2022.6.22.1

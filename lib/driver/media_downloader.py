@@ -3,7 +3,6 @@ import os
 
 import wget
 from pyrogram import Client, filters
-from pytgcalls.exceptions import NoActiveGroupCall
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
@@ -108,7 +107,7 @@ async def music(client, message):
         photo = "final.png"
         try:
             await pstream_audio(message.chat.id, audio_file, photo)
-        except NoActiveGroupCall:
+        except BaseException:
             await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream_audio(message.chat.id, audio_file, photo)
