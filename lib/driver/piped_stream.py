@@ -1,13 +1,11 @@
 import pafy
 from pyrogram import Client, filters
-from pytgcalls.exceptions import NoActiveGroupCall, NotInGroupCallError
 from youtube_search import YoutubeSearch
 
 from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
 from lib.helpers.pstream import pstream
-from lib.tg_stream import call_py
 
 from .join import opengc
 
@@ -49,7 +47,7 @@ async def play_video(client, message):
             return False
         try:
             await pstream(chat_id, file_source)
-        except NoActiveGroupCall:
+        except BaseException:
             await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream(chat_id, file_source)
@@ -65,7 +63,7 @@ async def play_video(client, message):
             pass
         try:
             await pstream(chat_id, file_source)
-        except NoActiveGroupCall:
+        except BaseException:
             await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream(chat_id, file_source)
@@ -81,19 +79,10 @@ async def play_video(client, message):
             pass
         try:
             await pstream(chat_id, input_file, True)
-        except NoActiveGroupCall:
+        except BaseException:
             await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
             await pstream(chat_id, input_file, True)
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
     else:
         await message.reply("Error!")
-
-
-@call_py.on_stream_end()
-async def end(cl, update):
-    print("stream ended in " + str(update.chat_id))
-    try:
-        await call_py.leave_group_call(update.chat_id)
-    except NotInGroupCallError:
-        pass
