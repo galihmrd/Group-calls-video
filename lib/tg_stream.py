@@ -20,4 +20,5 @@ from lib.config import API_HASH, API_ID, SESSION_NAME
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call_factory = GroupCallFactory(
-    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM
+)

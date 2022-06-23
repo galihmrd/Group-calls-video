@@ -6,7 +6,6 @@ from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
 from lib.helpers.pstream import pstream
-from lib.tg_stream import call_py
 
 from .join import opengc
 
