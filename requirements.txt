@@ -1,4 +1,5 @@
 aiofiles
+aiohttp
 ffmpeg-python
 pyrogram==1.4.16
 Pillow==9.1.1
