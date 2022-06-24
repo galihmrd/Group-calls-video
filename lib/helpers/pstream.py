@@ -24,7 +24,9 @@ async def pstream(chat_id, file, audio=None):
             await group_call.stop()
             await asyncio.sleep(2)
             await group_call.join(chat_id)
-        await group_call.start_video(file, enable_experimental_lip_sync=True, repeat=False)
+        await group_call.start_video(
+            file, enable_experimental_lip_sync=True, repeat=False
+        )
     STOP[chat_id] = group_call
     PAUSE[chat_id] = group_call
     RESUME[chat_id] = group_call
