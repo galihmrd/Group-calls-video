@@ -6,8 +6,13 @@ from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
 from lib.helpers.pstream import pstream
+from lib.helpers import queues
+from lib.tg_stream import group_call_factory
 
 from .join import opengc
+
+
+group_call = group_call_factory.get_group_call()
 
 
 @Client.on_message(filters.command(["play", "stream"]) & public_filters)
@@ -45,13 +50,17 @@ async def play_video(client, message):
         except Exception as e:
             await msg.edit(f"**Error:** {e}")
             return False
-        try:
-            await pstream(chat_id, file_source)
-        except BaseException:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
-            await pstream(chat_id, file_source)
-        await msg.edit(f"**Played by {user}**\n**Target {chat_id}**\n`{title}`")
+        if group_call.is_connected:
+            position = await queues.put(chat_id, file=file_source)
+            await message.reply(f"Queued at position {position}")
+        else:
+            try:
+                await pstream(chat_id, file_source)
+            except BaseException:
+                await msg.edit("**No active call!**\n`Starting Group call...`")
+                await opengc(client, message)
+                await pstream(chat_id, file_source)
+            await msg.edit(f"**Played by {user}**\n**Target {chat_id}**\n`{title}`")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
         chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
@@ -61,13 +70,17 @@ async def play_video(client, message):
             add_chat(str(chat_id))
         except BaseException:
             pass
-        try:
-            await pstream(chat_id, file_source)
-        except BaseException:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
-            await pstream(chat_id, file_source)
-        await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
+        if group_call.is_connected:
+            position = await queues.put(chat_id, file=file_source)
+            await message.reply(f"Queued at position {position}")
+        else:
+            try:
+                await pstream(chat_id, file_source)
+            except BaseException:
+                await msg.edit("**No active call!**\n`Starting Group call...`")
+                await opengc(client, message)
+                await pstream(chat_id, file_source)
+            await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
     elif replied.audio:
         flags = " ".join(message.command[1:])
         chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
@@ -77,12 +90,16 @@ async def play_video(client, message):
             add_chat(str(chat_id))
         except BaseException:
             pass
-        try:
-            await pstream(chat_id, input_file, True)
-        except BaseException:
-            await msg.edit("**No active call!**\n`Starting Group call...`")
-            await opengc(client, message)
-            await pstream(chat_id, input_file, True)
-        await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
+        if group_call.is_connected:
+            position = await queues.put(chat_id, file=input_source)
+            await message.reply(f"Queued at position {position}")
+        else:
+            try:
+                await pstream(chat_id, input_file, True)
+            except BaseException:
+                await msg.edit("**No active call!**\n`Starting Group call...`")
+                await opengc(client, message)
+                await pstream(chat_id, input_file, True)
+            await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
     else:
         await message.reply("Error!")
