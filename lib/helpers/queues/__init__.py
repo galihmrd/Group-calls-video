@@ -1,4 +1,4 @@
-from lib.helpers.queue.queues import (
+from lib.helpers.queues.queues import (
     clear,
     get,
     is_empty,
