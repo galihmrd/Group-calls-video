@@ -73,7 +73,7 @@ async def music(client, message):
     input = message.text.split(None, 2)[1:]
     msg = await message.reply("`Downloading...`")
     try:
-        if input[0] == "stream":
+        if input[0] == "-stream":
             query = input[1]
         else:
             try:
@@ -101,7 +101,7 @@ async def music(client, message):
         info_dict = ydl.extract_info(link, download=False)
         audio_file = ydl.prepare_filename(info_dict)
         ydl.process_info(info_dict)
-    if input[0] == "stream":
+    if input[0] == "-stream":
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
         photo = "final.png"

@@ -18,7 +18,7 @@ async def play_video(client, message):
     text = message.text.split(None, 2)[1:]
     user = message.from_user.mention
     try:
-        if text[0] == "channel":
+        if text[0] == "-channel":
             chat_id = int(message.chat.title)
             try:
                 input = " ".join(text[1:])
@@ -54,7 +54,7 @@ async def play_video(client, message):
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**\n`{title}`")
     elif replied.video or replied.document:
         flags = " ".join(message.command[1:])
-        chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
+        chat_id = int(message.chat.title) if flags == "-channel" else message.chat.id
         msg = await message.reply("`Downloading from telegram...`")
         file_source = await client.download_media(replied)
         try:
@@ -70,7 +70,7 @@ async def play_video(client, message):
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
     elif replied.audio:
         flags = " ".join(message.command[1:])
-        chat_id = int(message.chat.title) if flags == "channel" else message.chat.id
+        chat_id = int(message.chat.title) if flags == "-channel" else message.chat.id
         msg = await message.reply("`Downloading from telegram...`")
         input_file = await client.download_media(replied)
         try:

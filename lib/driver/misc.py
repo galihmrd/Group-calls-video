@@ -57,7 +57,7 @@ async def repo(client, message):
 @blacklist_users
 async def pause(client, message):
     query = " ".join(message.command[1:])
-    if query == "channel":
+    if query == "-channel":
         chat_id = int(message.chat.title)
         type = "Channel"
     else:
@@ -71,7 +71,7 @@ async def pause(client, message):
 @blacklist_users
 async def resume(client, message):
     query = " ".join(message.command[1:])
-    if query == "channel":
+    if query == "-channel":
         chat_id = int(message.chat.title)
         type = "Channel"
     else:
@@ -85,7 +85,7 @@ async def resume(client, message):
 @blacklist_users
 async def stopped(client, message):
     query = " ".join(message.command[1:])
-    if query == "channel":
+    if query == "-channel":
         chat_id = int(message.chat.title)
         type = "Channel"
     else:
@@ -138,7 +138,7 @@ async def sysinfo(client, message):
 async def video2audio(client, message):
     try:
         replied = message.reply_to_message
-        outName = f"{message.from_user.first_name}_{replied.video.file_id}.mp3"
+        outName = f"Converted_{replied.video.file_id}.mp3"
         if replied.video or replied.document:
             msgDialog = await message.reply("`Downloading from telegram server...`")
             inputName = await client.download_media(replied)
