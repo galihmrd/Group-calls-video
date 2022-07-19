@@ -10,6 +10,6 @@ pytgcalls==3.0.0.dev22
 sqlalchemy==1.4.39
 TgCrypto==1.2.3
 yt-dlp==2022.7.18
-youtube_search==2.1.0
+youtube_search==2.1.1
 youtube_search_python==1.6.6
 wget==3.2
