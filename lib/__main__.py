@@ -20,6 +20,7 @@ from pyrogram import Client, idle
 
 from lib.config import API_HASH, API_ID, BOT_TOKEN
 from lib.tg_stream import app
+from lib.driver.misc import started_msg
 
 if os.path.exists("log.txt"):
     with open("log.txt", "r+") as f:
@@ -46,5 +47,6 @@ bot = Client(
 LOGGER.info("Starting bot...")
 bot.start()
 app.start()
+started_msg()
 LOGGER.info("Bot has been started!")
 idle()

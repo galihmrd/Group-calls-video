@@ -191,3 +191,9 @@ async def add_sudo(client, message):
     else:
         add_sudo(user_id)
         await message.reply("{mention} Added to sudo!")
+
+
+def started_msg():
+    async def msgstrt(client, message):
+        chatid = int(BOTLOG_CHATID)
+        await message.reply_text(chatid, "Bot started...!")
