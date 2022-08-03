@@ -19,8 +19,8 @@ import os
 from pyrogram import Client, idle
 
 from lib.config import API_HASH, API_ID, BOT_TOKEN
-from lib.tg_stream import app
 from lib.driver.misc import started_msg
+from lib.tg_stream import app
 
 if os.path.exists("log.txt"):
     with open("log.txt", "r+") as f:
