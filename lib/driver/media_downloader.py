@@ -29,7 +29,10 @@ async def video(client, message):
     query = " ".join(message.command[1:])
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
+        if not query.startswith("https://"):
+            link = f"https://youtube.com{results[0]['url_suffix']}"
+        else:
+            link = " ".join(message.command[1:])
         title = results[0]["title"][:40]
         duration = results[0]["duration"]
         thumbnail = results[0]["thumbnails"][0]
@@ -85,7 +88,10 @@ async def music(client, message):
     try:
         ydl_opts = {"format": "bestaudio[ext=m4a]"}
         results = YoutubeSearch(query, max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
+        if not query.startswith("https://"):
+            link = f"https://youtube.com{results[0]['url_suffix']}"
+        else:
+            link = " ".join(message.command[1:])
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
         duration = results[0]["duration"]
