@@ -44,9 +44,12 @@ bot = Client(
     plugins=dict(root="lib.driver"),
 )
 
-LOGGER.info("Starting bot...")
-bot.start()
-app.start()
-started_msg()
-LOGGER.info("Bot has been started!")
-idle()
+try:
+    LOGGER.info("Starting bot...")
+    bot.start()
+    started_msg()
+    app.start()
+    LOGGER.info("Bot has been started!")
+    idle()
+except Exception as e:
+    LOGGER.info(e)
