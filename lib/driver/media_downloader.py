@@ -42,7 +42,7 @@ async def video(client, message):
             video_file = ytdl.prepare_filename(ytdl_data)
             title = ytdl_data["title"]
             duration = ytdl_data["duration"]
-            thumbnail = ytdl_data["thumbnails"]
+            thumbnail = ytdl_data["thumbnails"][0]
     except Exception as e:
         return await msg.edit(f"**Error:** {e}")
     try:
@@ -99,7 +99,7 @@ async def music(client, message):
         ydl.process_info(info_dict)
         title = info_dict["title"]
         duration = info_dict["duration"]
-        thumbnail = info_dict["thumbnails"]
+        thumbnail = info_dict["thumbnails"][0]
     try:
         preview = wget.download(thumbnail)
     except BaseException:
