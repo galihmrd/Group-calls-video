@@ -93,10 +93,6 @@ async def music(client, message):
             link = " ".join(message.command[1:])
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
-    try:
-        preview = wget.download(thumbnail)
-    except BaseException:
-        pass
     with YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(link, download=False)
         audio_file = ydl.prepare_filename(info_dict)
@@ -104,6 +100,10 @@ async def music(client, message):
         title = info_dict["title"]
         duration = info_dict["duration"]
         thumbnail = info_dict["thumbnails"]
+    try:
+        preview = wget.download(thumbnail)
+    except BaseException:
+        pass
     if input[0] == "-stream":
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
