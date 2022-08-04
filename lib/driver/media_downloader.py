@@ -31,15 +31,8 @@ async def video(client, message):
         results = YoutubeSearch(query, max_results=1).to_dict()
         if not query.startswith("https://"):
             link = f"https://youtube.com{results[0]['url_suffix']}"
-            title = results[0]["title"][:60]
-            duration = results[0]["duration"]
-            thumbnail = results[0]["thumbnails"][0]
-            results[0]["url_suffix"]
         else:
             link = " ".join(message.command[1:])
-            title = "null"
-            duration = "null"
-            thumbnail = "null"
     except Exception as e:
         print(e)
     try:
@@ -47,6 +40,9 @@ async def video(client, message):
         with YoutubeDL(ydl_opts) as ytdl:
             ytdl_data = ytdl.extract_info(link, download=True)
             video_file = ytdl.prepare_filename(ytdl_data)
+            title = ytdl_data["title"]
+            duration = ytdl_data["duration"]
+            thumbnail = ytdl_data["thumbnails"]
     except Exception as e:
         return await msg.edit(f"**Error:** {e}")
     try:
@@ -58,7 +54,7 @@ async def video(client, message):
         await message.reply_video(
             video_file,
             thumb=preview,
-            duration=int(ytdl_data["duration"]),
+            duration=int(duration),
             caption=f"**Title:** {title}\n**Duration:** {duration}\n**Source:** [YouTube]({link})\n**Requested by:** {message.from_user.mention}",
         )
     except Exception as e:
@@ -93,16 +89,8 @@ async def music(client, message):
         results = YoutubeSearch(query, max_results=1).to_dict()
         if not query.startswith("https://"):
             link = f"https://youtube.com{results[0]['url_suffix']}"
-            title = results[0]["title"][:60]
-            duration = results[0]["duration"]
-            thumbnail = results[0]["thumbnails"][0]
-            results[0]["url_suffix"]
         else:
             link = " ".join(message.command[1:])
-            title = "null"
-            thumbnail = "null"
-            duration = "null"
-            views = "null"
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
     try:
@@ -113,6 +101,9 @@ async def music(client, message):
         info_dict = ydl.extract_info(link, download=False)
         audio_file = ydl.prepare_filename(info_dict)
         ydl.process_info(info_dict)
+        title = info_dict["title"]
+        duration = info_dict["duration"]
+        thumbnail = info_dict["thumbnails"]
     if input[0] == "-stream":
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
