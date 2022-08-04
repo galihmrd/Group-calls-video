@@ -196,6 +196,6 @@ async def add_sudo(client, message):
 def started_msg():
     chatid = int(BOTLOG_CHATID)
     try:
-        await USER.send_message(chatid, "Plugin started!")
+        USER.send_message(chatid, "Plugin started!")
     except:
         pass
