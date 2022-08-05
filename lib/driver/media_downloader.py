@@ -31,6 +31,7 @@ async def video(client, message):
         results = YoutubeSearch(query, max_results=1).to_dict()
         if not query.startswith("https://"):
             link = f"https://youtube.com{results[0]['url_suffix']}"
+            thumbnail = results[0]["thumbnails"][0]
         else:
             link = " ".join(message.command[1:])
     except Exception as e:
@@ -42,13 +43,12 @@ async def video(client, message):
             video_file = ytdl.prepare_filename(ytdl_data)
             title = ytdl_data["title"]
             duration = ytdl_data["duration"]
-            thumbnail = ytdl_data["thumbnails"][0]
     except Exception as e:
         return await msg.edit(f"**Error:** {e}")
     try:
         preview = wget.download(thumbnail)
     except BaseException:
-        pass
+        preview = "./etc/banner.png"
     try:
         await msg.edit("`Uploading to telegram server...`")
         await message.reply_video(
@@ -89,6 +89,7 @@ async def music(client, message):
         results = YoutubeSearch(query, max_results=1).to_dict()
         if not query.startswith("https://"):
             link = f"https://youtube.com{results[0]['url_suffix']}"
+            thumbnail = results[0]["thumbnails"][0]
         else:
             link = " ".join(message.command[1:])
     except Exception as e:
@@ -99,11 +100,10 @@ async def music(client, message):
         ydl.process_info(info_dict)
         title = info_dict["title"]
         duration = info_dict["duration"]
-        thumbnail = info_dict["thumbnails"][0]
     try:
         preview = wget.download(thumbnail)
     except BaseException:
-        pass
+        preview = "./etc/banner.png"
     if input[0] == "-stream":
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
