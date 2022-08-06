@@ -34,6 +34,7 @@ async def video(client, message):
             thumbnail = results[0]["thumbnails"][0]
         else:
             link = " ".join(message.command[1:])
+            thumbnail = results[0]["thumbnails"][0]
     except Exception as e:
         print(e)
     try:
@@ -48,7 +49,7 @@ async def video(client, message):
     try:
         preview = wget.download(thumbnail)
     except BaseException:
-        preview = "./etc/banner.png"
+        pass
     try:
         await msg.edit("`Uploading to telegram server...`")
         await message.reply_video(
@@ -92,6 +93,7 @@ async def music(client, message):
             thumbnail = results[0]["thumbnails"][0]
         else:
             link = " ".join(message.command[1:])
+            thumbnail = results[0]["thumbnails"][0]
     except Exception as e:
         await msg.edit(f"**Error:** ```{e}```")
     with YoutubeDL(ydl_opts) as ydl:
@@ -103,7 +105,7 @@ async def music(client, message):
     try:
         preview = wget.download(thumbnail)
     except BaseException:
-        preview = "./etc/banner.png"
+        pass
     if input[0] == "-stream":
         await msg.edit("`Generating cover...`")
         await generate_cover(prequest, title, views, duration, thumbnail)
