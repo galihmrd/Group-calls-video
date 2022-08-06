@@ -1,6 +1,5 @@
 import pafy
 import requests
-import wget
 from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
 
@@ -39,7 +38,7 @@ async def play_video(client, message):
         try:
             if not input.startswith("https://youtu"):
                 msg = await message.reply("`Downloading File...`")
-                file_source = requests.get(input, headers={'User-agent': 'Mozilla/5.0'})
+                file_source = requests.get(input, headers={"User-agent": "Mozilla/5.0"})
                 title = "Direct link"
             else:
                 msg = await message.reply("`Searching...`")
