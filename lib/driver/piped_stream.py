@@ -1,4 +1,5 @@
 import pafy
+import wget
 from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
 
@@ -35,13 +36,18 @@ async def play_video(client, message):
         except BaseException:
             pass
         try:
-            msg = await message.reply("`Searching...`")
-            results = YoutubeSearch(input, max_results=1).to_dict()
-            vUrl = f"https://youtube.com{results[0]['url_suffix']}"
-            await msg.edit("`Processing...`")
-            video = pafy.new(vUrl)
-            file_source = video.getbest().url
-            title = video.title
+            if not input.startswith("https://youtu"):
+                msg = await message.reply("`Downloading File...`")
+                file_source = wget.download(input)
+                title = "Direct link"
+            else:
+                msg = await message.reply("`Searching...`")
+                results = YoutubeSearch(input, max_results=1).to_dict()
+                vUrl = f"https://youtube.com{results[0]['url_suffix']}"
+                await msg.edit("`Processing...`")
+                video = pafy.new(vUrl)
+                file_source = video.getbest().url
+                title = video.title
         except Exception as e:
             await msg.edit(f"**Error:** {e}")
             return False
