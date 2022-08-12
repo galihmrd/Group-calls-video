@@ -12,13 +12,13 @@ async def antispam(client, message):
     if status == True:
         try:
             result = req.json()["result"]
-            reason = result["messages"][0]
+            reason = f"https://cas.chat/query?u={id}"
             offenses = result["offenses"]
             time_added = result["time_added"]
             await message.reply(
-                f"**User:** `{id}`\n**Is banned:** {offenses}\n**Reason:** `{reason}`\n**Time added:** {time_added}"
+                f"**COMBOT ANTI SPAM**\n\n**User:** `{id}`\n**Is banned:** {offenses}\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
             )
         except Exception as e:
             await message.reply(e)
     else:
-        await message.reply("This user is safe!")
+        await message.reply("Combot: This user is safe!")
