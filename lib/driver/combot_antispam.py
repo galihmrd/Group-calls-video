@@ -25,5 +25,5 @@ async def antispam(client, message):
             await message.reply(e)
     else:
         msg = await message.reply(f"**Combot:** {mention} This user is safe!")
-        asyncio.sleep(30)
+        await asyncio.sleep(30)
         await msg.delete()
