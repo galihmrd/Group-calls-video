@@ -1,10 +1,12 @@
+import asyncio
 import requests
 from pyrogram import Client, filters
 
 
-@Client.on_message(filters.command("check_spam"))
+@Client.on_message(filters.new_chat_members)
 async def antispam(client, message):
-    id = " ".join(message.command[1:])
+    id = message.from_user.id
+    mention = message.from_user.mention
     api = f"https://api.cas.chat/check?user_id={id}"
     session = requests.Session()
     req = session.request("get", api)
@@ -16,9 +18,11 @@ async def antispam(client, message):
             offenses = result["offenses"]
             time_added = result["time_added"]
             await message.reply(
-                f"**COMBOT ANTI SPAM**\n\n**User:** `{id}`\n**Is banned:** {offenses}\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
+                f"**COMBOT ANTI SPAM**\n\n**User:** {mention}\n**ID:** `{id}`\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
             )
         except Exception as e:
             await message.reply(e)
     else:
-        await message.reply("Combot: This user is safe!")
+        msg = await message.reply(f"**Combot:** {mention} This user is safe!")
+        asyncio.sleep(30)
+        await msg.delete()
