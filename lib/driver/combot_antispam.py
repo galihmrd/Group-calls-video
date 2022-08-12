@@ -1,6 +1,5 @@
-import asyncio
-
 import requests
+import lib.helpers.database.blacklist as db
 from pyrogram import Client, filters
 
 
@@ -8,6 +7,7 @@ from pyrogram import Client, filters
 async def antispam(client, message):
     id = message.from_user.id
     mention = message.from_user.mention
+    chid = message.chat.id
     api = f"https://api.cas.chat/check?user_id={id}"
     session = requests.Session()
     req = session.request("get", api)
@@ -21,9 +21,15 @@ async def antispam(client, message):
             await message.reply(
                 f"**COMBOT ANTI SPAM**\n\n**User:** {mention}\n**ID:** `{id}`\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
             )
+            try:
+                await client.ban_chat_member(chid, id)
+                if db.is_bl(id):
+                    return None
+                else:
+                    db.blacklist(int(id))
+            except BaseException:
+                pass
         except Exception as e:
             await message.reply(e)
     else:
-        msg = await message.reply(f"**Combot:** {mention} This user is safe!")
-        await asyncio.sleep(30)
-        await msg.delete()
+        await message.reply(f"**Combot Check:** {mention} This user is safe!")
