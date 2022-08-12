@@ -9,10 +9,10 @@ async def antispam(client, message):
     session = requests.Session()
     req = session.request("get", api)
     status = req.json()["ok"]
-    if status == "True":
+    if status == True:
         try:
             result = req.json()["result"]
-            reason = result["messages"]
+            reason = result["messages"][0]
             offenses = result["offenses"]
             time_added = result["time_added"]
             await message.reply(
