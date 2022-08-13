@@ -1,6 +1,7 @@
 import requests
-import lib.helpers.database.blacklist as db
 from pyrogram import Client, filters
+
+import lib.helpers.database.blacklist as db
 
 
 @Client.on_message(filters.new_chat_members)
