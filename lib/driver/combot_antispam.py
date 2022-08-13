@@ -12,6 +12,7 @@ async def antispam(client, message):
     session = requests.Session()
     req = session.request("get", api)
     status = req.json()["ok"]
+    await message.delete()
     if status == True:
         try:
             result = req.json()["result"]
