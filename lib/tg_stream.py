@@ -18,7 +18,13 @@ from pytgcalls import GroupCallFactory
 
 from lib.config import API_HASH, API_ID, SESSION_NAME
 
-app = Client(SESSION_NAME, API_ID, API_HASH)
+app = Client(
+         API_HASH,
+         API_ID,
+         session_string=SESSION_NAME
+)
+
+
 group_call_factory = GroupCallFactory(
     app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM
 )

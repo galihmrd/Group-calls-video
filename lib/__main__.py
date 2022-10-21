@@ -19,7 +19,6 @@ import os
 from pyrogram import Client, idle
 
 from lib.config import API_HASH, API_ID, BOT_TOKEN
-from lib.driver.misc import started_msg
 from lib.tg_stream import app
 
 if os.path.exists("log.txt"):
@@ -44,12 +43,9 @@ bot = Client(
     plugins=dict(root="lib.driver"),
 )
 
-try:
-    LOGGER.info("Starting bot...")
-    bot.start()
-    started_msg()
-    app.start()
-    LOGGER.info("Bot has been started!")
-    idle()
-except Exception as e:
-    LOGGER.info(e)
+LOGGER.info("Starting bot...")
+bot.start()
+app.start()
+LOGGER.info("Bot has been started!")
+idle()
+
