@@ -48,4 +48,3 @@ bot.start()
 app.start()
 LOGGER.info("Bot has been started!")
 idle()
-
