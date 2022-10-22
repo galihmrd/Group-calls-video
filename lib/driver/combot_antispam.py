@@ -18,12 +18,14 @@ async def checker(client, message):
     username = get.username
     mention = get.mention
     if username == None:
-        msg = await message.reply(f"{mention} multed!\nReason: no username!",
+        msg = await message.reply(
+            f"{mention} multed!\nReason: no username!",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            '>> Tap to Unmute <<', callback_data="unmute",
+                            ">> Tap to Unmute <<",
+                            callback_data="unmute",
                         ),
                     ],
                 ],
@@ -67,7 +69,6 @@ async def checker(client, message):
             await message.reply(f"{mention} Joined!\nCombot & username check passed")
 
 
-
 @Client.on_callback_query(filters.regex(pattern=r"^(unmute)$"))
 async def inline_unmute(client, callback):
     ids = callback.message.from_user.id
@@ -77,4 +78,12 @@ async def inline_unmute(client, callback):
     if username == None:
         await callback.answer("Set your username first!")
     else:
-        await client.restrict_chat_member(chats, ids, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True))
+        await client.restrict_chat_member(
+            chats,
+            ids,
+            ChatPermissions(
+                can_send_messages=True,
+                can_send_media_messages=True,
+                can_send_other_messages=True,
+            ),
+        )
