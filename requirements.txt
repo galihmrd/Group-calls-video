@@ -5,7 +5,7 @@ psutil==5.9.3
 pyrogram==2.0.59
 Pillow==9.2.0
 git+https://github.com/galihmrd/pafy-mod@fixed
-psycopg2-binary==2.9.4
+psycopg2-binary==2.9.5
 pytgcalls==3.0.0.dev22
 sqlalchemy==1.4.42
 TgCrypto==1.2.4
