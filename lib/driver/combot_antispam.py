@@ -4,7 +4,7 @@ import requests
 from pyrogram import Client, filters
 
 
-@Client.on_message(filters.all)
+@Client.on_message(filters.new_chat_members)
 async def checker(client, message):
     id_ = message.from_user.id
     chat_ = message.chat.id
@@ -25,32 +25,14 @@ async def checker(client, message):
             await client.unban_chat_member(chat_, id_)
         except:
             await msg.edit(f"{mention} user without username")
-        if status == True:
-            try:
-                result = req.json()["result"]
-                reason = f"https://cas.chat/query?u={id_}"
-                offenses = result["offenses"]
-                time_added = result["time_added"]
-                await msg.edit(
-                    f"**COMBOT ANTI SPAM**\n\n**User:** {mention} Kicked!\n**ID:** `{id_}`\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
-                )
-            except Exception as e:
-                await message.reply(e)
-    else:
-        print(username)
-        if status == True:
-            try:
-                result = req.json()["result"]
-                reason = f"https://cas.chat/query?u={id_}"
-                offenses = result["offenses"]
-                time_added = result["time_added"]
-                await message.reply(
-                    f"**COMBOT ANTI SPAM**\n\n**User:** {mention} kicked!\n**ID:** `{id_}`\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
-                )
-                await client.ban_chat_member(chat_, id_)
-                await asyncio.sleep(35)
-                await client.unban_chat_member(chat_, id_)
-            except:
-                pass
-        else:
-            await message.reply(f"{mention} Joined!\nCombot & username check passed")
+    if status == True:
+        try:
+            result = req.json()["result"]
+            reason = f"https://cas.chat/query?u={id_}"
+            offenses = result["offenses"]
+            time_added = result["time_added"]
+            await msg.edit(
+                f"**COMBOT ANTI SPAM**\n\n**User:** {mention} Kicked!\n**ID:** `{id_}`\n**Reason:** [Link]({reason})\n**Time added:** {time_added}"
+            )
+        except Exception as e:
+            await message.reply(e)
