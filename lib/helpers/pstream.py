@@ -1,4 +1,3 @@
-import asyncio
 import os
 
 from lib.driver.misc import PAUSE, RESUME, STOP
@@ -9,21 +8,11 @@ group_call = group_call_factory.get_group_call()
 
 async def pstream(chat_id, file, audio=None):
     if audio:
-        if not group_call.is_connected:
-            await group_call.join(chat_id)
-        else:
-            await group_call.stop()
-            await asyncio.sleep(2)
-            await group_call.join(chat_id)
+        await group_call.join(chat_id)
         await group_call.start_video("./etc/banner.png", with_audio=False)
         await group_call.start_audio(file)
     else:
-        if not group_call.is_connected:
-            await group_call.join(chat_id)
-        else:
-            await group_call.stop()
-            await asyncio.sleep(2)
-            await group_call.join(chat_id)
+        await group_call.join(chat_id)
         await group_call.start_video(file)
     STOP[chat_id] = group_call
     PAUSE[chat_id] = group_call
@@ -31,12 +20,7 @@ async def pstream(chat_id, file, audio=None):
 
 
 async def pstream_audio(chat_id, file, thumb):
-    if not group_call.is_connected:
-        await group_call.join(chat_id)
-    else:
-        await group_call.stop()
-        await asyncio.sleep(2)
-        await group_call.join(chat_id)
+    await group_call.join(chat_id)
     await group_call.start_video(thumb, with_audio=False)
     await group_call.start_audio(file)
     STOP[chat_id] = group_call
