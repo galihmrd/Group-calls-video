@@ -18,6 +18,5 @@ from pytgcalls import PyTgCalls
 
 from lib.config import API_HASH, API_ID, SESSION_NAME
 
-
 app = Client(API_HASH, API_ID, session_string=SESSION_NAME)
 call_py = PyTgCalls(app)
