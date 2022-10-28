@@ -25,7 +25,7 @@ async def checker(client, message):
             await client.unban_chat_member(chat_, id_)
         except:
             await msg.edit(f"{mention} user without username")
-    if status == True:
+    elif status == True:
         try:
             result = req.json()["result"]
             reason = f"https://cas.chat/query?u={id_}"
