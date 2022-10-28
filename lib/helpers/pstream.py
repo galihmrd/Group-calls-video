@@ -1,38 +1,39 @@
-import os
+from pytgcalls import StreamType
+from pytgcalls.types.input_stream import AudioImagePiped, AudioVideoPiped
+from pytgcalls.types.input_stream.quality import HighQualityVideo
 
-from lib.driver.misc import PAUSE, RESUME, STOP
-from lib.tg_stream import group_call_factory
-
-group_call = group_call_factory.get_group_call()
+from lib.tg_stream import call_py
 
 
 async def pstream(chat_id, file, audio=None):
     if audio:
-        await group_call.join(chat_id)
-        await group_call.start_video("./etc/banner.png", with_audio=False)
-        await group_call.start_audio(file)
+        await call_py.join_group_call(
+            chat_id,
+            AudioImagePiped(
+                file,
+                "./etc/banner.png",
+                video_parameters=HighQualityVideo(),
+            ),
+            stream_type=StreamType().local_stream,
+        )
     else:
-        await group_call.join(chat_id)
-        await group_call.start_video(file)
-    STOP[chat_id] = group_call
-    PAUSE[chat_id] = group_call
-    RESUME[chat_id] = group_call
+        await call_py.join_group_call(
+            chat_id,
+            AudioVideoPiped(
+                file,
+                video_parameters=HighQualityVideo(),
+            ),
+            stream_type=StreamType().live_stream,
+        )
 
 
 async def pstream_audio(chat_id, file, thumb):
-    await group_call.join(chat_id)
-    await group_call.start_video(thumb, with_audio=False)
-    await group_call.start_audio(file)
-    STOP[chat_id] = group_call
-    PAUSE[chat_id] = group_call
-    RESUME[chat_id] = group_call
-
-
-@group_call.on_playout_ended
-async def media_ended(gc, source, media_type):
-    print(f"{media_type} ended: {source}")
-    try:
-        await group_call.stop()
-        os.remove(source)
-    except Exception:
-        pass
+    await call_py.join_group_call(
+        chat_id,
+        AudioImagePiped(
+            file,
+            thumb,
+            video_parameters=HighQualityVideo(),
+        ),
+        stream_type=StreamType().local_stream,
+    )

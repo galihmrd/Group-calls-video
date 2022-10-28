@@ -14,13 +14,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 """
 
 from pyrogram import Client
-from pytgcalls import GroupCallFactory
+from pytgcalls import PyTgCalls
 
 from lib.config import API_HASH, API_ID, SESSION_NAME
 
+
 app = Client(API_HASH, API_ID, session_string=SESSION_NAME)
-
-
-group_call_factory = GroupCallFactory(
-    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM
-)
+call_py = PyTgCalls(app)

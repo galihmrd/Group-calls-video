@@ -17,7 +17,7 @@ $ python -m lib
 # Credit
 - [GalihMrd](https://github.com/galihmrd) Developer
 - [rzlamrr](https://github.com/rzlamrr) Developer
-- [MarshalX](https://github.com/MarshalX) for [pytgcalls](https://github.com/MarshalX/tgcalls)
+- [Laky-64](https://github.com/Laky-64) for [py-tgcalls](https://github.com/pytgcalls/pytgcalls)
 - [Dan](https://github.com/delivrance) for [Pyrogram](https://github.com/pyrogram/pyrogram)
 
 
