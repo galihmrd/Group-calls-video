@@ -25,7 +25,7 @@ def time_stamp(inputName, outName):
             "-pix_fmt",
             "yuv420p",
             "-vf",
-            "fps=1,drawtext=fontfile='/font.ttf':fontcolor=yellow:fontsize=25:x=w-tw-10:y=10+50:text='Timer\: %{pts\:gmtime\:0\:%H\\\\\:%M\\\\\:%S}'",
+            "fps=1,drawtext=fontfile='./etc/font.ttf':fontcolor=yellow:fontsize=25:x=w-tw-10:y=10+50:text='Timer\: %{pts\:gmtime\:0\:%H\\\\\:%M\\\\\:%S}'",
             f"{outName}",
         ]
     )
