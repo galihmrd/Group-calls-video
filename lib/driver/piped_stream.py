@@ -7,6 +7,7 @@ from lib.helpers.database.chat_sql import add_chat
 from lib.helpers.decorators import blacklist_users
 from lib.helpers.filters import public_filters
 from lib.helpers.pstream import pstream
+from lib.helpers.ffmpeg_audio import time_stamp
 from lib.tg_stream import call_py
 
 from .join import opengc
@@ -55,20 +56,23 @@ async def play_video(client, message):
             await pstream(chat_id, file_source)
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**\n`{title}`")
     elif replied.video or replied.document:
+        outName = f"{message.from_user.id}_video.mp4}"
         flags = " ".join(message.command[1:])
         chat_id = int(message.chat.title) if flags == "-channel" else message.chat.id
         msg = await message.reply("`Downloading from telegram...`")
         file_source = await client.download_media(replied)
+        await msg.edit("Ffmpeg process...")
+        time_stamp(file_source, outName)
         try:
             add_chat(str(chat_id))
         except BaseException:
             pass
         try:
-            await pstream(chat_id, file_source)
+            await pstream(chat_id, outName)
         except NoActiveGroupCall:
             await msg.edit("**No active call!**\n`Starting Group call...`")
             await opengc(client, message)
-            await pstream(chat_id, file_source)
+            await pstream(chat_id, outName)
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**")
     elif replied.audio:
         flags = " ".join(message.command[1:])
