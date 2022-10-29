@@ -56,7 +56,7 @@ async def play_video(client, message):
             await pstream(chat_id, file_source)
         await msg.edit(f"**Played by {user}**\n**Target {chat_id}**\n`{title}`")
     elif replied.video or replied.document:
-        outName = f"{message.from_user.id}_video.mp4}"
+        outName = f"{message.from_user.id}_video.mp4"
         flags = " ".join(message.command[1:])
         chat_id = int(message.chat.title) if flags == "-channel" else message.chat.id
         msg = await message.reply("`Downloading from telegram...`")
@@ -98,6 +98,7 @@ async def play_video(client, message):
 async def end(cl, update):
     print("stream ended in " + str(update.chat_id))
     try:
+        os.remove(f"./{message.from_user.id}_video.mp4")
         await call_py.leave_group_call(update.chat_id)
     except NotInGroupCallError:
         pass

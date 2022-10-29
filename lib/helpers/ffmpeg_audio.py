@@ -17,15 +17,13 @@ def time_stamp(inputName, outName):
             "-i",
             f"{inputName}",
             "-c:v",
-            "libx264",
+            "libx265",
             "-r",
             "24",
-            "-t",
-            "10800",
             "-pix_fmt",
             "yuv420p",
             "-vf",
-            "fps=1,drawtext=fontfile='./etc/font.ttf':fontcolor=yellow:fontsize=25:x=w-tw-10:y=10+50:text='Timer\: %{pts\:gmtime\:0\:%H\\\\\:%M\\\\\:%S}'",
+            "fps=24,mpdecimate,drawtext=fontfile='./etc/font.ttf':fontcolor=yellow:fontsize=20:x=w-tw-10:y=10+50:text='%{pts\:gmtime\:0\:%H\\\\\:%M\\\\\:%S}'",
             f"{outName}",
         ]
     )
