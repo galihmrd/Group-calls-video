@@ -1,5 +1,3 @@
-import os
-
 API_ID = int(input("API_ID: "))
 API_HASH = input("API_HASH ")
 BOT_TOKEN = input("BOT_TOKEN: ")
