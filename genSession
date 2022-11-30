@@ -1,3 +1,0 @@
-#!/bin/bash
-
-exec python3 lib/gen_sessions.py
