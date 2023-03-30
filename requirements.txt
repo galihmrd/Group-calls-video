@@ -2,7 +2,7 @@ aiofiles==23.1.0
 aiohttp==3.8.4
 ffmpeg-python==0.2.0
 psutil==5.9.4
-pyrogram==2.0.70
+pyrogram==2.0.102
 Pillow==9.4.0
 git+https://github.com/galihmrd/pafy-mod@fixed
 psycopg2-binary==2.9.5
